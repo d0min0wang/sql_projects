@@ -50,16 +50,15 @@ set @Num=0 --赋初始值
 WHILE EXISTS(SELECT FItemID FROM #temp_Material)
  BEGIN
       
-         set @Num= @Num + 1
+      set @Num= @Num + 1
                   
-         -- 取值(把临时表中的值赋值给定义的变量)
-         SELECT top 1 @FItemID=FItemID,@FNumber=FNumber,@FName=FName FROM #temp_Material;
-         --取本期发出数量和期末结存数量
-         SELECT @FWeight=FOutQty,@FRemainWeight=FEndQty 
-          FROM #t_TempInOut WHERE FName=@FName
+      -- 取值(把临时表中的值赋值给定义的变量)
+      SELECT top 1 @FItemID=FItemID,@FNumber=FNumber,@FName=FName FROM #temp_Material;
+      --取本期发出数量和期末结存数量
+      SELECT @FWeight=FOutQty,@FRemainWeight=FEndQty 
+         FROM #t_TempInOut WHERE FName=@FName
          
-         --计算
-
+      --计算
      ;WITH InStock
      AS
      (
@@ -84,81 +83,82 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
      --SELECT * FROM sort_details
      result_of_remain AS
      (
-     SELECT s.FDate
-      ,s.FName
-      ,s.FEntrySelfA0154
-      ,s.FAuxQty
-      ,s.sum_qty_of_remain
-      ,CASE
-         WHEN s.sum_qty_of_remain <= @FRemainWeight THEN
-          0
-         WHEN s.sum_qty_of_remain - @FRemainWeight <= s.FAuxQty THEN
-          s.sum_qty_of_remain - @FRemainWeight
+      SELECT s.FDate,
+         s.FName,
+         s.FEntrySelfA0154,
+         s.FAuxQty,
+         s.sum_qty_of_remain,
+         CASE
+            WHEN s.sum_qty_of_remain <= @FRemainWeight THEN
+            0
+            WHEN s.sum_qty_of_remain - @FRemainWeight <= s.FAuxQty THEN
+            s.sum_qty_of_remain - @FRemainWeight
          ELSE
-          s.FAuxQty
-       END new_qty_of_remain
-       ,CASE
-         WHEN s.sum_qty_of_remain <= @FRemainWeight THEN
-          'Y'
-         WHEN s.sum_qty_of_remain - @FRemainWeight <= s.FAuxQty THEN
-          'Y'
+            s.FAuxQty
+         END new_qty_of_remain,
+         CASE
+            WHEN s.sum_qty_of_remain <= @FRemainWeight THEN
+            'Y'
+            WHEN s.sum_qty_of_remain - @FRemainWeight <= s.FAuxQty THEN
+            'Y'
          ELSE
-          'N'
-       END YN_of_Remain
-     FROM sort_details_of_remain s
+            'N'
+         END YN_of_Remain
+      FROM sort_details_of_remain s
      ),
      sort_details_of_out AS
-     (SELECT d.FDate
-        ,d.FName
-        ,d.FEntrySelfA0154
-        ,d.FAuxQty
-        ,d.new_qty_of_remain
-        ,d.YN_of_Remain
-        ,SUM(d.new_qty_of_remain) over(ORDER BY d.Fdate desc, d.new_qty_of_remain) as sum_qty_of_out
-     FROM result_of_remain d
+     (
+      SELECT d.FDate,
+         d.FName,
+         d.FEntrySelfA0154,
+         d.FAuxQty,
+         d.new_qty_of_remain,
+         d.YN_of_Remain,
+         SUM(d.new_qty_of_remain) over(ORDER BY d.Fdate desc, d.new_qty_of_remain) as sum_qty_of_out
+      FROM result_of_remain d
      ),
      --SELECT * FROM sort_details_remain
      result_of_out AS
      (
-     SELECT s.FDate
-      ,s.FName
-      ,s.FEntrySelfA0154
-      ,s.FAuxQty
-      ,s.new_qty_of_remain
-      ,s.YN_of_Remain
-      ,s.sum_qty_of_out
-      ,CASE
+      SELECT s.FDate,
+         s.FName,
+         s.FEntrySelfA0154,
+         s.FAuxQty,
+         s.new_qty_of_remain,
+         s.YN_of_Remain,
+         s.sum_qty_of_out,
+      CASE
          WHEN s.sum_qty_of_out <= @FWeight THEN
           0
          WHEN s.sum_qty_of_out - @FWeight <= s.new_qty_of_remain THEN
           s.sum_qty_of_out - @FWeight
          ELSE
           s.new_qty_of_remain
-       END new_qty_of_out
-       ,CASE
+      END new_qty_of_out,
+      CASE
          WHEN s.sum_qty_of_out <= @FWeight THEN
           'Y'
          WHEN s.sum_qty_of_out - @FWeight <= s.new_qty_of_remain THEN
           'Y'
          ELSE
           'N'
-       END YN_of_out
-     FROM sort_details_of_out s
+      END YN_of_out
+      FROM sort_details_of_out s
      )
 
-     --SELECT * FROM result_remain --where YN='Y'
-     --SELECT * FROM result1 where remainYN='Y' AND new_qty>0
-     --输出计算结果
-     INSERT into #t_TempOutput(FNumber,FName,FRemainCost,FOutCost)
-     SELECT @FNumber,@FName,
+      --SELECT * FROM result_remain --where YN='Y'
+      --SELECT * FROM result1 where remainYN='Y' AND new_qty>0
+      --输出计算结果
+      INSERT into #t_TempOutput(FNumber,FName,FRemainCost,FOutCost)
+      SELECT @FNumber,@FName,
          --SUM(case when YN='Y' then FEntrySelfA0154*(FAuxQty-new_qty) end),
          SUM(case when YN_of_remain='Y' then FEntrySelfA0154*(FAuxQty-new_qty_of_remain) end)/nullif(@FRemainWeight,0),
          --SUM(case when YN_remain='Y' and new_qty>0 then FEntrySelfA0154*(new_qty-new_qty_remain) end),
          SUM(case when YN_of_out='Y' and new_qty_of_remain>0 then FEntrySelfA0154*(new_qty_of_remain-new_qty_of_out) end)/nullif(@FWeight,0)
-     FROM result_of_out --where YN_remain='Y'-- AND new_qty>0
+      FROM result_of_out --where YN_remain='Y'-- AND new_qty>0
            
-     -- 删除本次操临时表中的数据（避免无限循环）
-         DELETE FROM #temp_Material WHERE FItemID=@FItemID;
+      -- 删除本次操临时表中的数据（避免无限循环）
+      DELETE FROM #temp_Material WHERE FItemID=@FItemID;
  END
  
 SELECT t1.FNumber,
@@ -179,11 +179,6 @@ ORDER BY t1.FName
 DROP TABLE #temp_Material
 DROP TABLE #t_TempInOut
 DROP TABLE #t_TempOutput
-
-
-
-
-
 
   --SELECT t1.FQty FROM ICInventory t1 LEFT JOIN t_ICItem t2 ON t1.FItemID=t2.FItemID
   --WHERE t2.FName='101-A' AND t1.fstockid=356
