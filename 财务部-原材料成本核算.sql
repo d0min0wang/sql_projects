@@ -31,20 +31,7 @@ CREATE TABLE #t_TempInOut
 INSERT into #t_TempInOut
 EXECUTE p_xy_All_0 '2022','03'
 
-
-----SQL SERVER通过临时表遍历数据
--- 判断是否存在（object(‘objectname’,‘type’)）
---IF OBJECT_ID('tempdb.dbo.#temp_Material','U') IS NOT NULL DROP TABLE dbo.#temp_Material;
- 
---GO
--- 声明变量
--- DECLARE
--- @FItemID AS INT,
--- @FNumber AS NVARCHAR(100),
--- @FName AS NVARCHAR(100),
--- @Num AS INT
- 
---数据插入临时表（select * INTO #Temp from 来源表）
+--获取原材料数据插入临时表
 
 SELECT t3.FName AS FTypeName,t1.FItemID,t1.FNumber,t1.fName  
 INTO #temp_Material
