@@ -10,6 +10,7 @@ DECLARE @FName AS NVARCHAR(100)
 DECLARE @Num AS INT
 --SELECT @FWeight=sum(t1.FQty) FROM ICInventory t1 LEFT JOIN t_ICItem t2 ON t1.FItemID=t2.FItemID
 --  WHERE t2.FName='101-A' AND t1.fstockid=356 --结存
+--创建输出表
 CREATE TABLE #t_TempOutput
 (
    FNumber NVARCHAR(100),
@@ -17,6 +18,7 @@ CREATE TABLE #t_TempOutput
    FOutCost Decimal(28,10) Default(0),
    FRemainCost Decimal(28,10) Default(0)
 )
+--创建简化版物料收发汇总表
 CREATE TABLE #t_TempInOut
 (
      FNumber NVARCHAR(100),
