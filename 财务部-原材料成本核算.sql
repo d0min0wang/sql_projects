@@ -67,7 +67,7 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
                   
          -- 取值(把临时表中的值赋值给定义的变量)
          SELECT top 1 @FItemID=FItemID,@FNumber=FNumber,@FName=FName FROM #temp_Material;
-         --取出库数和剩余数量
+         --取本期发出数量和期末结存数量
          SELECT @FWeight=FOutQty,@FRemainWeight=FEndQty 
           FROM #t_TempInOut WHERE FName=@FName
          
@@ -161,6 +161,7 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
 
      --SELECT * FROM result_remain --where YN='Y'
      --SELECT * FROM result1 where remainYN='Y' AND new_qty>0
+     --输出计算结果
      INSERT into #t_TempOutput(FNumber,FName,FRemainCost,FOutCost)
      SELECT @FNumber,@FName,
          --SUM(case when YN='Y' then FEntrySelfA0154*(FAuxQty-new_qty) end),
@@ -168,8 +169,6 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
          --SUM(case when YN_remain='Y' and new_qty>0 then FEntrySelfA0154*(new_qty-new_qty_remain) end),
          SUM(case when YN_of_out='Y' and new_qty_of_remain>0 then FEntrySelfA0154*(new_qty_of_remain-new_qty_of_out) end)/nullif(@FWeight,0)
      FROM result_of_out --where YN_remain='Y'-- AND new_qty>0
-         -- 输出操作（用于查看执行效果）
-         --select @FItemID,@FNumber,@FName
            
      -- 删除本次操临时表中的数据（避免无限循环）
          DELETE FROM #temp_Material WHERE FItemID=@FItemID;
@@ -190,15 +189,7 @@ LEFT JOIN #t_TempInOut t2 ON t1.FNumber=t2.FNumber
 ORDER BY t1.FName
 
 --删除临时表 #temp
-drop table #temp_Material
-
---取数
---SELECT @FWeight=FOutQty,@FRemainWeight=FEndQty 
---FROM #t_TempInOut WHERE FName='101-A'
-
---select @FWeight,@FRemainWeight
-
-
+DROP TABLE #temp_Material
 DROP TABLE #t_TempInOut
 DROP TABLE #t_TempOutput
 
