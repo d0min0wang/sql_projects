@@ -1,0 +1,5 @@
+select * from t_tabledescription where fdescription like '%∫ÀÀ„%'
+
+
+
+select * from Page1$

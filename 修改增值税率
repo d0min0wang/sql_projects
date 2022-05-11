@@ -1,0 +1,13 @@
+SELECT t1.fname,t1.FValueAddRate,t1.Fdepartment,* FROM t_Organization t1
+left join t_Department t2 on t1.Fdepartment=t2.FItemID
+where t2.fname='防尘帽事业部'
+and
+t1.FName like '*%'
+and
+t1.FValueAddRate >0
+
+update t_Organization
+set FValueAddRate =13
+WHERE Fdepartment=90
+and
+FValueAddRate >0
