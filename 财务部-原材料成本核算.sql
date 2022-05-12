@@ -1,3 +1,16 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[p_xy_raw_material_price_calculation]
+	@FDate NVARCHAR(10)
+AS
+SET NOCOUNT ON
+
+--EXEC p_xy_raw_material_price_calculation '2022-04-01'
+
+--原材料单价计算
 IF OBJECT_ID('tempdb.dbo.#t_TempOutput','U') IS NOT NULL DROP TABLE dbo.#t_TempOutput;
 IF OBJECT_ID('tempdb.dbo.#t_TempInOut','U') IS NOT NULL DROP TABLE dbo.#t_TempInOut;
 IF OBJECT_ID('tempdb.dbo.#temp_Material','U') IS NOT NULL DROP TABLE dbo.#temp_Material;
@@ -8,6 +21,17 @@ DECLARE @FItemID AS INT
 DECLARE @FNumber AS NVARCHAR(100)
 DECLARE @FName AS NVARCHAR(100)
 DECLARE @Num AS INT
+DECLARE @FYear AS NVARCHAR(4)
+DECLARE @FMonth AS NVARCHAR(2)
+DECLARE @ThisMonthFirstDay NVARCHAR(10)
+DECLARE @NextMonthFirstDay NVARCHAR(10)
+SET @FYear=YEAR(@FDate)
+SET @FMonth=MONTH(@FDate)
+SET @ThisMonthFirstDay=CONVERT(nvarchar(10),dateadd(month, datediff(month, 0, @FDate), 0),120)
+SET @NextMonthFirstDay=CONVERT(nvarchar(10),DATEADD(MONTH,1,@ThisMonthFirstDay),120)
+--SELECT @FYear,@FMonth,@ThisMonthFirstDay,@NextMonthFirstDay
+--convert(varchar(10),DATEADD(MONTH,1,DATEFROMPARTS ( @FYear, @FMonth, 1 )),120)
+
 --SELECT @FWeight=sum(t1.FQty) FROM ICInventory t1 LEFT JOIN t_ICItem t2 ON t1.FItemID=t2.FItemID
 --  WHERE t2.FName='101-A' AND t1.fstockid=356 --结存
 --创建输出表
@@ -31,7 +55,8 @@ CREATE TABLE #t_TempInOut
      FEndQty Decimal(28,10) Default(0)
 )
 INSERT into #t_TempInOut
-EXECUTE p_xy_All_0 '2022','04'
+--EXECUTE p_xy_All_0 '2022','04'
+EXECUTE p_xy_All_0 @fyear,@FMonth,@ThisMonthFirstDay,@NextMonthFirstDay
 
 --获取原材料数据插入临时表
 
@@ -74,7 +99,7 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
           where t3.FNumber=@FNumber
           AND (t1.FTranType=1 AND (t1.FROB=1 AND  t1.FCancellation = 0))
           AND t2.FAuxQty>0
-          AND t1.FDate<'2022-05-01'
+          AND convert(nvarchar(10),t1.FDate,120)<@NextMonthFirstDay
           --ORDER BY t1.FDate DESC
      ),
      sort_details_of_remain AS
