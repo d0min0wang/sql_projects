@@ -3,12 +3,13 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[p_xy_raw_material_price_calculation]
-	@FDate NVARCHAR(10)
+ALTER PROCEDURE [dbo].[p_xy_raw_material_price_calculation_bak]
+	@FYear int,
+   @FMonth int
 AS
 SET NOCOUNT ON
 
---EXEC p_xy_raw_material_price_calculation '2022-04-01'
+--EXEC p_xy_raw_material_price_calculation_bak '2022','4'
 
 --原材料单价计算
 IF OBJECT_ID('tempdb.dbo.#t_TempOutput','U') IS NOT NULL DROP TABLE dbo.#t_TempOutput;
@@ -21,14 +22,14 @@ DECLARE @FItemID AS INT
 DECLARE @FNumber AS NVARCHAR(100)
 DECLARE @FName AS NVARCHAR(100)
 DECLARE @Num AS INT
-DECLARE @FYear AS NVARCHAR(4)
-DECLARE @FMonth AS NVARCHAR(2)
+--DECLARE @FYear AS NVARCHAR(4)
+--DECLARE @FMonth AS NVARCHAR(2)
 DECLARE @ThisMonthFirstDay NVARCHAR(10)
 DECLARE @NextMonthFirstDay NVARCHAR(10)
-SET @FYear=YEAR(@FDate)
-SET @FMonth=MONTH(@FDate)
-SET @ThisMonthFirstDay=CONVERT(nvarchar(10),dateadd(month, datediff(month, 0, @FDate), 0),120)
-SET @NextMonthFirstDay=CONVERT(nvarchar(10),DATEADD(MONTH,1,@ThisMonthFirstDay),120)
+--SET @FYear=YEAR(@FDate)
+--SET @FMonth=MONTH(@FDate)
+SET @ThisMonthFirstDay=CONVERT(nvarchar(10),cast(@FYear*10000 + @FMonth*100 + 1 as varchar(255)),120)
+SET @NextMonthFirstDay=CONVERT(nvarchar(10),cast(@FYear*10000 + (@FMonth+1)*100 + 1 as varchar(255)),120)
 --SELECT @FYear,@FMonth,@ThisMonthFirstDay,@NextMonthFirstDay
 --convert(varchar(10),DATEADD(MONTH,1,DATEFROMPARTS ( @FYear, @FMonth, 1 )),120)
 
@@ -55,7 +56,7 @@ CREATE TABLE #t_TempInOut
      FEndQty Decimal(28,10) Default(0)
 )
 INSERT into #t_TempInOut
---EXECUTE p_xy_All_0 '2022','04'
+--EXECUTE p_xy_All_0 '2022','04','2022-04-01','2022-05-01'
 EXECUTE p_xy_All_0 @fyear,@FMonth,@ThisMonthFirstDay,@NextMonthFirstDay
 
 --获取原材料数据插入临时表
