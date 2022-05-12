@@ -15,7 +15,9 @@ CREATE TABLE #t_TempOutput
 (
    FNumber NVARCHAR(100),
    FName NVARCHAR(100),
+   FOutQty Decimal(28,10) Default(0),
    FOutCost Decimal(28,10) Default(0),
+   FRemainQty Decimal(28,10) Default(0),
    FRemainCost Decimal(28,10) Default(0)
 )
 --创建简化版物料收发汇总表
@@ -29,7 +31,7 @@ CREATE TABLE #t_TempInOut
      FEndQty Decimal(28,10) Default(0)
 )
 INSERT into #t_TempInOut
-EXECUTE p_xy_All_0 '2022','03'
+EXECUTE p_xy_All_0 '2022','04'
 
 --获取原材料数据插入临时表
 
@@ -38,7 +40,7 @@ INTO #temp_Material
 FROM t_ICItem t1
 LEFT JOIN t_Item t2 ON t1.FParentID=t2.FItemID
 LEFT JOIN t_Item t3 ON t2.FParentID=t3.FItemID
-WHERE t3.FName='主原材料'
+WHERE t3.FName='主原材料' --AND t1.FName='1902-D'
 
  
 --查询临时表中数据
@@ -51,12 +53,15 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
  BEGIN
       
       set @Num= @Num + 1
+      --将变量置零
+      SET @FWeight=0
+      SET @FRemainWeight=0
                   
       -- 取值(把临时表中的值赋值给定义的变量)
       SELECT top 1 @FItemID=FItemID,@FNumber=FNumber,@FName=FName FROM #temp_Material;
       --取本期发出数量和期末结存数量
-      SELECT @FWeight=FOutQty,@FRemainWeight=FEndQty 
-         FROM #t_TempInOut WHERE FName=@FName
+      SELECT @FWeight=ISNULL(FOutQty,0),@FRemainWeight=ISNULL(FEndQty,0) 
+         FROM #t_TempInOut WHERE FNumber=@FNumber
          
       --计算
      ;WITH InStock
@@ -66,10 +71,10 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
           FROM ICStockBill t1
           LEFT join ICStockBillEntry t2 on t1.FInterID=t2.FInterID
           LEFT JOIN t_ICItem t3 ON t2.FItemID=t3.FItemID
-          where t3.fname=@FName
+          where t3.FNumber=@FNumber
           AND (t1.FTranType=1 AND (t1.FROB=1 AND  t1.FCancellation = 0))
           AND t2.FAuxQty>0
-          AND t1.FDate<'2022-04-01'
+          AND t1.FDate<'2022-05-01'
           --ORDER BY t1.FDate DESC
      ),
      sort_details_of_remain AS
@@ -149,11 +154,17 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
       --SELECT * FROM result_remain --where YN='Y'
       --SELECT * FROM result1 where remainYN='Y' AND new_qty>0
       --输出计算结果
-      INSERT into #t_TempOutput(FNumber,FName,FRemainCost,FOutCost)
+      INSERT into #t_TempOutput(FNumber,
+         FName,
+         --FRemainQty,
+         FRemainCost,
+         --FOutQty,
+         FOutCost
+      )
       SELECT @FNumber,@FName,
-         --SUM(case when YN='Y' then FEntrySelfA0154*(FAuxQty-new_qty) end),
+         --SUM(case when YN_of_remain='Y' then FEntrySelfA0154*(FAuxQty-new_qty_of_remain) end),
          SUM(case when YN_of_remain='Y' then FEntrySelfA0154*(FAuxQty-new_qty_of_remain) end)/nullif(@FRemainWeight,0),
-         --SUM(case when YN_remain='Y' and new_qty>0 then FEntrySelfA0154*(new_qty-new_qty_remain) end),
+         --SUM(case when YN_of_out='Y' and new_qty_of_remain>0 then FEntrySelfA0154*(new_qty_of_remain-new_qty_of_out) end),
          SUM(case when YN_of_out='Y' and new_qty_of_remain>0 then FEntrySelfA0154*(new_qty_of_remain-new_qty_of_out) end)/nullif(@FWeight,0)
       FROM result_of_out --where YN_remain='Y'-- AND new_qty>0
            
@@ -161,25 +172,27 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
       DELETE FROM #temp_Material WHERE FItemID=@FItemID;
  END
  
-SELECT t1.FNumber,
-   t1.FName,
-   t2.FBegQty,
-   t2.FInQty,
-   t2.FOutQty,
-   t1.FOutCost,
-   t1.FOutCost*t2.FOutQty,
-   t2.FEndQty,
-   t1.FRemainCost,
-   t1.FRemainCost*t2.FEndQty 
+SELECT t1.FNumber AS 代码,
+   t1.FName 规格型号,
+   t2.FBegQty 起初结存,
+   t2.FInQty 本期收入,
+   t2.FOutQty 本期发出,
+   --t1.FOutQty,
+   t1.FOutCost 本期发出单价,
+   t1.FOutCost*t2.FOutQty 本期发出成本,
+   t2.FEndQty 期末结存,
+   --t1.FRemainQty,
+   t1.FRemainCost 期末结存单价,
+   t1.FRemainCost*t2.FEndQty 期末结存成本
 FROM #t_TempOutput t1
 LEFT JOIN #t_TempInOut t2 ON t1.FNumber=t2.FNumber
-ORDER BY t1.FName
+ORDER BY t1.FNumber
 
 --删除临时表 #temp
 DROP TABLE #temp_Material
 DROP TABLE #t_TempInOut
 DROP TABLE #t_TempOutput
 
-  --SELECT t1.FQty FROM ICInventory t1 LEFT JOIN t_ICItem t2 ON t1.FItemID=t2.FItemID
-  --WHERE t2.FName='101-A' AND t1.fstockid=356
+--SELECT t1.FQty FROM ICInventory t1 LEFT JOIN t_ICItem t2 ON t1.FItemID=t2.FItemID
+--WHERE t2.FName='101-A' AND t1.fstockid=356
 
