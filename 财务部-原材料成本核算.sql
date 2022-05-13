@@ -3,18 +3,24 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[p_xy_raw_material_price_calculation_bak]
-	@FYear int,
-   @FMonth int
+ALTER PROCEDURE [dbo].[p_xy_raw_material_price_calculation]
+	@FYear nvarchar(4),
+    @FMonth nVARCHAR(2)
 AS
 SET NOCOUNT ON
 
---EXEC p_xy_raw_material_price_calculation_bak '2022','4'
+--EXEC p_xy_raw_material_price_calculation '2022','04'
 
 --原材料单价计算
 IF OBJECT_ID('tempdb.dbo.#t_TempOutput','U') IS NOT NULL DROP TABLE dbo.#t_TempOutput;
 IF OBJECT_ID('tempdb.dbo.#t_TempInOut','U') IS NOT NULL DROP TABLE dbo.#t_TempInOut;
 IF OBJECT_ID('tempdb.dbo.#temp_Material','U') IS NOT NULL DROP TABLE dbo.#temp_Material;
+
+--处理存储过程默认值
+IF @FYear=''  SET @FYear=YEAR(GETDATE());
+IF @FMonth='' SET @FMonth=MONTH(GETDATE());
+--SELECT @FYear,@FMonth
+
 
 DECLARE @FWeight decimal(28,10)
 DECLARE @FRemainWeight decimal(18,3)
@@ -22,14 +28,13 @@ DECLARE @FItemID AS INT
 DECLARE @FNumber AS NVARCHAR(100)
 DECLARE @FName AS NVARCHAR(100)
 DECLARE @Num AS INT
---DECLARE @FYear AS NVARCHAR(4)
---DECLARE @FMonth AS NVARCHAR(2)
 DECLARE @ThisMonthFirstDay NVARCHAR(10)
 DECLARE @NextMonthFirstDay NVARCHAR(10)
---SET @FYear=YEAR(@FDate)
---SET @FMonth=MONTH(@FDate)
-SET @ThisMonthFirstDay=CONVERT(nvarchar(10),cast(@FYear*10000 + @FMonth*100 + 1 as varchar(255)),120)
-SET @NextMonthFirstDay=CONVERT(nvarchar(10),cast(@FYear*10000 + (@FMonth+1)*100 + 1 as varchar(255)),120)
+
+SET @ThisMonthFirstDay=DATEFROMPARTS ( @FYear, @FMonth, 1 )
+--SET @ThisMonthFirstDay=cast(CONCAT( @FYear,RIGHT('00' + @FMonth, 2),'01' ) as date)
+SET @NextMonthFirstDay=DATEADD(MONTH,1,cast(@ThisMonthFirstDay as date))
+
 --SELECT @FYear,@FMonth,@ThisMonthFirstDay,@NextMonthFirstDay
 --convert(varchar(10),DATEADD(MONTH,1,DATEFROMPARTS ( @FYear, @FMonth, 1 )),120)
 
@@ -57,7 +62,7 @@ CREATE TABLE #t_TempInOut
 )
 INSERT into #t_TempInOut
 --EXECUTE p_xy_All_0 '2022','04','2022-04-01','2022-05-01'
-EXECUTE p_xy_All_0 @fyear,@FMonth,@ThisMonthFirstDay,@NextMonthFirstDay
+EXECUTE p_xy_All_0 @FYear,@FMonth
 
 --获取原材料数据插入临时表
 
@@ -200,18 +205,19 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
  
 SELECT t1.FNumber AS 代码,
    t1.FName 规格型号,
-   t2.FBegQty 起初结存,
-   t2.FInQty 本期收入,
-   t2.FOutQty 本期发出,
+   ROUND(t2.FBegQty,2) 起初结存,
+   ROUND(t2.FInQty,2) 本期收入,
+   ROUND(t2.FOutQty,2) 本期发出,
    --t1.FOutQty,
-   t1.FOutCost 本期发出单价,
-   t1.FOutCost*t2.FOutQty 本期发出成本,
-   t2.FEndQty 期末结存,
+   ROUND(t1.FOutCost,2) 本期发出单价,
+   ROUND(t1.FOutCost*t2.FOutQty,2) 本期发出成本,
+   ROUND(t2.FEndQty,2) 期末结存,
    --t1.FRemainQty,
-   t1.FRemainCost 期末结存单价,
-   t1.FRemainCost*t2.FEndQty 期末结存成本
+   ROUND(t1.FRemainCost,2) 期末结存单价,
+   ROUND(t1.FRemainCost*t2.FEndQty,2) 期末结存成本
 FROM #t_TempOutput t1
 LEFT JOIN #t_TempInOut t2 ON t1.FNumber=t2.FNumber
+WHERE ISNULL(t2.FOutQty,0)<>0 OR ISNULL(t2.FEndQty,0)<>0
 ORDER BY t1.FNumber
 
 --删除临时表 #temp
@@ -222,3 +228,4 @@ DROP TABLE #t_TempOutput
 --SELECT t1.FQty FROM ICInventory t1 LEFT JOIN t_ICItem t2 ON t1.FItemID=t2.FItemID
 --WHERE t2.FName='101-A' AND t1.fstockid=356
 
+GO
