@@ -1387,7 +1387,11 @@ SELECT --v3.FName,
 		--v5.FName,
 		--v4.FName as FTradeName,
 		--v2.FName AS FName,  
-		t1.FName, 
+		t4.FName,
+		 
+		t3.fname,
+		t1.FName,
+		max(t5.fname),
 		max(t2.FCreateDate) AS 创建日期, 
 --        CONVERT(char(7),v1.FDate,120),
 --		ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),
@@ -1426,9 +1430,12 @@ SELECT --v3.FName,
 	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
 	LEFT JOIN t_ICItem t1 ON u1.FItemID=t1.FItemID
 	LEFT JOIN t_BaseProperty t2 on	 t1.FItemID=t2.FItemID AND t2.FTypeID=3 
-	where year(v1.FDate)IN ('2017') 
-	and year(t2.FCreateDate) in ('2017')
+	LEFT JOIN t_Organization t3 ON v1.FSupplyID=t3.FItemID
+	LEFT JOIN t_Department t4 ON t3.Fdepartment=t4.FItemID
+	left join t_Item t5 ON t3.F_117=t5.FItemID
+	where year(v1.FDate)IN ('2022') 
+	and year(t2.FCreateDate) in ('2022')
 	--and month(v1.FDate)<='6'
 	
 	and v1.FTranType=21 
-	group by t1.FName
+	group by t4.FName,t3.fname,t1.FName
