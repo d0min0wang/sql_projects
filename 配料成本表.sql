@@ -61,7 +61,7 @@ SET @sql = 'SELECT src.name, xy.FOutPrice,' + @modelsPivot + ' INTO ##temp3 FROM
 EXEC( @sql )
 
 SET @modelsCount = STUFF((SELECT  ',' 
-                      + quotename(fModelName) + ',' + quotename(fModelName) + '*FOutPrice AS [' + fModelName + '_amount]'
+                      + quotename(fModelName) + ',' + quotename(fModelName) + '*FOutPrice AS ' + quotename(fModelName + '_amount')
                     from ##temp1 t
             FOR XML PATH(''), TYPE
             ).value('.', 'NVARCHAR(MAX)') 
@@ -71,8 +71,8 @@ SET @modelsCount = STUFF((SELECT  ','
 SET @sql = 'SELECT name AS FName, FOutPrice,'+ @modelsCount + ' INTO ##temp4 FROM ##temp3'
 EXEC( @sql )
 
-SET @modelsUnoin = STUFF((SELECT  ',SUM(' 
-                      + quotename(fModelName) + ') AS '+ quotename(fModelName) + ',SUM([' + fModelName + '_amount]) AS [' + fModelName + '_amount]'
+SET @modelsUnoin = STUFF((SELECT  ',SUM' 
+                      + quotename(quotename(fModelName),'()') + ' AS '+ quotename(fModelName) + ',SUM' + quotename(quotename(fModelName + '_amount'),'()')+' AS ' + quotename(fModelName + '_amount')
                     from ##temp1 t
             FOR XML PATH(''), TYPE
             ).value('.', 'NVARCHAR(MAX)') 
