@@ -1,7 +1,7 @@
 
 
 --EXEC p_xy_raw_material_price_calculation '2022','04'
-TRUNCATE TABLE t_FIN_Raw_Material_Price
+TRUNCATE TABLE t_xy_Raw_Material_Price
 
 --原材料单价计算
 IF OBJECT_ID('tempdb.dbo.#t_TempOutput','U') IS NOT NULL DROP TABLE dbo.#t_TempOutput;
@@ -192,7 +192,7 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
       -- 删除本次操临时表中的数据（避免无限循环）
       DELETE FROM #temp_Material WHERE FItemID=@FItemID;
  END
-insert into [dbo].[t_FIN_Raw_Material_Price](
+insert into [dbo].[t_xy_Raw_Material_Price](
 	FNumber ,--代码,
     FName,-- 规格型号,
     FBegQty, --起初结存,
@@ -228,3 +228,28 @@ DROP TABLE #t_TempOutput
 
 --SELECT t1.FQty FROM ICInventory t1 LEFT JOIN t_ICItem t2 ON t1.FItemID=t2.FItemID
 --WHERE t2.FName='101-A' AND t1.fstockid=356
+
+
+--补充本月没有出库记录的原材料
+;WITH Others
+AS
+(
+SELECT top 1000 t1.FItemID,t1.FNumber FROM t_ICItem t1 
+LEFT JOIN t_Item t2 ON t1.FParentID=t2.FItemID
+left join t_item t3 on t2.FParentID=t3.FItemID
+--LEFT JOIN t_Item t4 ON t3.FParentID=t4.FItemID
+WHERE t3.FName='主原材料' 
+AND t1.FNumber NOT IN (select FNumber from t_xy_Raw_Material_Price)
+ORDER BY t1.FItemID
+)
+
+select  b.FNumber,b.FName,a.*
+	from (
+		select t2.FItemID,t2.FAuxPrice,ROW_NUMBER() over(partition by t2.fitemid order by t1.fdate desc) as rn
+		from ICStockBill t1
+      LEFT JOIN ICStockBillEntry t2 ON t1.FInterID=t2.FInterID
+      WHERE t1.FTranType=1
+      AND t2.FItemID in(select FItemID from others)
+		) a
+   LEFT JOIN t_ICItem b ON a.FItemID=b.FItemID
+	where a.rn <=1;	
