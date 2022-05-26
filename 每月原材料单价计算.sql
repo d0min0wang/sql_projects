@@ -19,10 +19,10 @@ DECLARE @Num AS INT
 DECLARE @ThisMonthFirstDay NVARCHAR(10)
 DECLARE @NextMonthFirstDay NVARCHAR(10)
 
-SET @FYear=YEAR(DATEADD(YEAR,-1,GETDATE()))
-SET @FMonth=MONTH(DATEADD(YEAR,-1,GETDATE()))
-SET @ThisMonthFirstDay=DATEFROMPARTS ( @FYear, @FMonth, 1 )
-SET @ThisMonthFirstDay=DATEADD(month, DATEDIFF(month, 0, DATEADD(YEAR,-1,GETDATE())), 0)
+SET @FYear=YEAR(DATEADD(MONTH,-1,GETDATE()))
+SET @FMonth=MONTH(DATEADD(MONTH,-1,GETDATE()))
+--SET @ThisMonthFirstDay=DATEFROMPARTS ( @FYear, @FMonth, 1 )
+SET @ThisMonthFirstDay=DATEADD(month, DATEDIFF(month, 0, DATEADD(MONTH,-1,GETDATE())), 0)
 SET @NextMonthFirstDay=DATEADD(MONTH,1,cast(@ThisMonthFirstDay as date))
 
 --SELECT @FYear,@FMonth,@ThisMonthFirstDay,@NextMonthFirstDay
@@ -229,6 +229,33 @@ DROP TABLE #t_TempOutput
 --SELECT t1.FQty FROM ICInventory t1 LEFT JOIN t_ICItem t2 ON t1.FItemID=t2.FItemID
 --WHERE t2.FName='101-A' AND t1.fstockid=356
 
+--补充本月没有出库单价为0的原材料
+;WITH Others
+AS
+(
+SELECT top 1000 t1.FItemID,t1.FNumber FROM t_ICItem t1 
+LEFT JOIN t_Item t2 ON t1.FParentID=t2.FItemID
+left join t_item t3 on t2.FParentID=t3.FItemID
+--LEFT JOIN t_Item t4 ON t3.FParentID=t4.FItemID
+WHERE t3.FName='主原材料' 
+AND t1.FNumber IN (select FNumber from t_xy_Raw_Material_Price where ISNULL(FOutPrice,0)=0 )
+ORDER BY t1.FItemID
+)
+update t_xy_Raw_Material_Price SET FOutPrice=t2.FEntrySelfA0154
+FROM t_xy_Raw_Material_Price t1
+LEFT JOIN (
+select  b.FNumber,b.FName,a.FEntrySelfA0154
+	from (
+		select t2.FItemID,t2.FEntrySelfA0154,ROW_NUMBER() over(partition by t2.fitemid order by t1.fdate desc) as rn
+		from ICStockBill t1
+      LEFT JOIN ICStockBillEntry t2 ON t1.FInterID=t2.FInterID
+      WHERE t1.FTranType=1
+      AND t2.FItemID in(select FItemID from others)
+		) a
+   LEFT JOIN t_ICItem b ON a.FItemID=b.FItemID
+	where a.rn <=1
+)t2 ON t1.FNumber=t2.FNumber
+WHERE ISNULL(t1.FOutPrice,0)=0
 
 --补充本月没有出库记录的原材料
 ;WITH Others
@@ -242,10 +269,10 @@ WHERE t3.FName='主原材料'
 AND t1.FNumber NOT IN (select FNumber from t_xy_Raw_Material_Price)
 ORDER BY t1.FItemID
 )
-
-select  b.FNumber,b.FName,a.*
+INSERT into t_xy_Raw_Material_Price(FNumber,FName,FOutPrice)
+select  b.FNumber,b.FName,a.FEntrySelfA0154
 	from (
-		select t2.FItemID,t2.FAuxPrice,ROW_NUMBER() over(partition by t2.fitemid order by t1.fdate desc) as rn
+		select t2.FItemID,t2.FEntrySelfA0154,ROW_NUMBER() over(partition by t2.fitemid order by t1.fdate desc) as rn
 		from ICStockBill t1
       LEFT JOIN ICStockBillEntry t2 ON t1.FInterID=t2.FInterID
       WHERE t1.FTranType=1
@@ -253,3 +280,6 @@ select  b.FNumber,b.FName,a.*
 		) a
    LEFT JOIN t_ICItem b ON a.FItemID=b.FItemID
 	where a.rn <=1;	
+
+
+   select * from t_xy_Raw_Material_Price ORDER BY FName
