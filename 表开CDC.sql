@@ -1,8 +1,18 @@
 SELECT * FROM sys.tables WHERE is_tracked_by_cdc = 1
 
+if exists(select 1 from sys.databases where name='peiliao' and is_cdc_enabled=0)
+begin
+    exec sys.sp_cdc_enable_db
+end
+
+select is_cdc_enabled from sys.databases where name='peiliao';
+
+alter table actual_data add  constraint pk_actual_data primary key(ID)
+
+--表开CDC
 DECLARE @TablaName NVARCHAR(100)
 
-SET @TablaName='HR_Base_Emp'
+SET @TablaName='actual_data'
 
 IF EXISTS(SELECT 1 FROM sys.tables WHERE name=@TablaName AND is_tracked_by_cdc = 0)
 BEGIN
@@ -19,7 +29,7 @@ END
 
 --查询表是否有主键
 SELECT TABLE_NAME,COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE   
-WHERE TABLE_NAME='HR_Base_Emp' 
+WHERE TABLE_NAME='actual_data' 
 
 SELECT top 10 * FROM ICShop_FlowCard
 
