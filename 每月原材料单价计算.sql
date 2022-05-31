@@ -1,12 +1,32 @@
 
 
 --EXEC p_xy_raw_material_price_calculation '2022','04'
-TRUNCATE TABLE t_xy_Raw_Material_Price
+--TRUNCATE TABLE t_xy_Raw_Material_Price
 
 --原材料单价计算
 IF OBJECT_ID('tempdb.dbo.#t_TempOutput','U') IS NOT NULL DROP TABLE dbo.#t_TempOutput;
 IF OBJECT_ID('tempdb.dbo.#t_TempInOut','U') IS NOT NULL DROP TABLE dbo.#t_TempInOut;
 IF OBJECT_ID('tempdb.dbo.#temp_Material','U') IS NOT NULL DROP TABLE dbo.#temp_Material;
+
+IF OBJECT_ID('AIS20140921170539.dbo.t_xy_Raw_Material_Price','U') IS NOT NULL 
+   BEGIN
+      TRUNCATE TABLE dbo.t_xy_Raw_Material_Price;
+   END
+ELSE
+   BEGIN
+      CREATE TABLE [dbo].[t_xy_Raw_Material_Price](
+	      [FNumber] [varchar](255) NULL,
+	      [FName] [varchar](255) NULL,
+	      [FBegQty] [decimal](38, 10) NULL,
+	      [FInQty] [decimal](38, 10) NULL,
+         [FOutQty] [decimal](38, 10) NULL,
+         [FOutPrice] [decimal](38, 10) NULL,
+         [FOutCost] [decimal](38, 10) NULL,
+         [FEndQty] [decimal](38, 10) NULL,
+         [FRemainPrice] [decimal](38, 10) NULL,
+         [FRemainCost] [decimal](38, 10) NULL
+      ) ON [PRIMARY]
+   END
 
 DECLARE @FYear nvarchar(4)
 DECLARE @FMonth nVARCHAR(2)
@@ -282,4 +302,4 @@ select  b.FNumber,b.FName,a.FEntrySelfA0154
 	where a.rn <=1;	
 
 
-   select * from t_xy_Raw_Material_Price ORDER BY FName
+select * from t_xy_Raw_Material_Price ORDER BY FName
