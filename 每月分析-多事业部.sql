@@ -88,7 +88,7 @@ select
     CL_AuxQty_Rate AS 累计出货量同比百分比
 from tongbihuanbi_year t1
 left join t_Item t2 ON t1.FTrade=t2.FItemID
-WHERE t1.FDepartment=@Department
+--WHERE t1.FDepartment=@Department
 order by t1.FDepartment,C_Money desc
 
 --drop table #tongbihuanbi_year
