@@ -36,6 +36,7 @@ SELECT '新增规格数(个)' AS fname,
         THEN 1 else null END) AS lastYear
 FROM t_ICItem t1
 LEFT JOIN t_BaseProperty t2 on	 t1.FItemID=t2.FItemID AND t2.FTypeID=3 
+--LEFT JOIN t_Department t3 on t1.fdept
 WHERE YEAR(t2.FCreateDate) IN (year(@Period+'01') ,year(@Last_Year+'01'))
 union ALL
 --月度新增规格销售额
@@ -118,29 +119,29 @@ SELECT  '累计新增规格销售额(元)' AS fname,
 	
 	and v1.FTranType=21 
 )
-SELECT fname,
-        thisMonth,
-        lastMonth,
-        lastyearmonth,
-        CL=thisMonth-lastMonth,
-        CL_Rate=CASE
+SELECT fname AS 项目,
+        thisMonth AS 本年同期,
+        lastMonth AS 本年上期,
+        lastyearmonth 去年同期,
+        thisMonth-lastMonth AS 环比增长,
+        CASE
                 WHEN lastMonth=0 THEN '----'
                 ELSE SUBSTRING('↓－↑',CAST(SIGN(thisMonth-lastMonth) as int)+2,1)
                     +CAST(CAST(ABS(thisMonth-lastMonth)*100/(CASE WHEN lastMonth =0 THEN 1 ELSE lastMonth END) as decimal(10,2)) as varchar)+'%'
-            END,
-        CP=thisMonth-lastYearMonth,
-        CP_Rate=CASE
+            END AS 环比增长率,
+        thisMonth-lastYearMonth AS 同比增长,
+        CASE
                 WHEN lastYearMonth=0 THEN '----'
                 ELSE SUBSTRING('↓－↑',CAST(SIGN(thisMonth-lastYearMonth) as int)+2,1)
                     +CAST(CAST(ABS(thisMonth-lastYearMonth)*100/lastYearMonth as decimal(10,2)) as varchar)+'%'
-            END,
-        thisYear,
-        lastYear,
-        CL_Year=thisYear-lastYear,
-        CL_Year_Rate=CASE
+            END AS 同比增长率,
+        thisYear AS 本年累计,
+        lastYear AS 去年累计,
+        thisYear-lastYear AS 累计同比增长,
+        CASE
                 WHEN lastYear=0 THEN '----'
                 ELSE SUBSTRING('↓－↑',CAST(SIGN(thisYear-lastYear) as int)+2,1)
                     +CAST(CAST(ABS(thisYear-lastYear)*100/(CASE WHEN lastYear =0 THEN 1 ELSE lastYear END) as decimal(10,2)) as varchar)+'%'
-            END
+            END AS 累计同比增长率
     --into #tongbihuanbi
     FROM basicTable
