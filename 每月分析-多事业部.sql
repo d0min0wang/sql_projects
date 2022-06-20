@@ -21,7 +21,7 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202205' --统计的年月
+SET @Period='202206' --统计的年月
 SET @Department='电气连接国内事业部'
 
 --SELECT MONTH(@Period+'01')
@@ -88,7 +88,7 @@ select
     CL_AuxQty_Rate AS 累计出货量同比百分比
 from tongbihuanbi_year t1
 left join t_Item t2 ON t1.FTrade=t2.FItemID
---WHERE t1.FDepartment=@Department
+WHERE t1.FDepartment=@Department
 order by t1.FDepartment,C_Money desc
 
 --drop table #tongbihuanbi_year
