@@ -34,7 +34,7 @@ SELECT CONVERT(varchar(100), v1.fdate, 23) AS fdate,
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
     FROM ICStockBill v1 
 	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
-	where year(v1.FDate)IN ('2021') 
+	where year(v1.FDate)IN ('2020') 
 	--and month(v1.FDate)<='2'
 	
 	and v1.FTranType=21 
@@ -49,3 +49,36 @@ SELECT
 ORDER BY fdate) AS FAccAmount
 FROM
   Amount
+
+
+--累计订单金额对比
+;WITH Amount
+AS
+(
+SELECT format(v1.fdate, 'MM-dd') AS fdate, 
+    sum(case year(v1.FDate) when '2021' then u1.FConsignAmount else 0 end) AS FConsignAmount2021,
+    sum(case year(v1.FDate) when '2022' then u1.FConsignAmount else 0 end) AS FConsignAmount2022
+    --FROM t_xySaleReporttest
+    --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
+    FROM ICStockBill v1 
+	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
+	where year(v1.FDate)IN ('2021','2022') 
+	--and month(v1.FDate)<='2'
+	
+	and v1.FTranType=21 
+    GROUP BY format(v1.fdate, 'MM-dd')
+)
+SELECT
+  fdate,
+  --FConsignAmount2021,
+  FConsignAmount2022,
+  --SUM(FConsignAmount2021) over () AS FAllAmount2021,
+  --SUM(FConsignAmount2022) over () AS FAllAmount2022,
+  --SUM(FConsignAmount2021) over (PARTITION BY fdate) AS FDateAmount2021,
+  --SUM(FConsignAmount2022) over (PARTITION BY fdate) AS FDateAmount2022,
+  --SUM(FConsignAmount2021) over (ORDER BY fdate) AS FAccAmount2021,
+  SUM(FConsignAmount2022) over (ORDER BY fdate) AS FAccAmount2022
+FROM
+  Amount
+
+  select len(format(GETDATE(),'MM-dd'))
