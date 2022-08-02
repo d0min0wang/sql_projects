@@ -9,7 +9,7 @@ ALTER PROCEDURE [dbo].[p_xy_raw_material_price_calculation]
 AS
 SET NOCOUNT ON
 
---EXEC p_xy_raw_material_price_calculation '2022','04'
+--EXEC p_xy_raw_material_price_calculation '2022','07'
 
 --原材料单价计算
 IF OBJECT_ID('tempdb.dbo.#t_TempOutput','U') IS NOT NULL DROP TABLE dbo.#t_TempOutput;
@@ -98,7 +98,7 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
      ;WITH InStock
      AS
      (
-          SELECT t3.FName,t2.FEntrySelfA0154,t2.FAuxQty,t1.FDate 
+          SELECT t1.FInterID,t3.FName,t2.FEntrySelfA0154,t2.FAuxQty,t1.FDate 
           FROM ICStockBill t1
           LEFT join ICStockBillEntry t2 on t1.FInterID=t2.FInterID
           LEFT JOIN t_ICItem t3 ON t2.FItemID=t3.FItemID
@@ -109,17 +109,19 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
           --ORDER BY t1.FDate DESC
      ),
      sort_details_of_remain AS
-     (SELECT d.FDate
+     (SELECT d.FInterID
+        ,d.FDate
         ,d.FName
         ,d.FEntrySelfA0154
         ,d.FAuxQty
-        ,SUM(d.FAuxQty) over(ORDER BY d.Fdate desc, d.FAuxQty) as sum_qty_of_remain
+        ,SUM(d.FAuxQty) over(ORDER BY d.Fdate desc,d.finterid desc, d.FAuxQty) as sum_qty_of_remain
      FROM InStock d
      ),
      --SELECT * FROM sort_details
      result_of_remain AS
      (
-      SELECT s.FDate,
+      SELECT s.FInterID,
+         s.FDate,
          s.FName,
          s.FEntrySelfA0154,
          s.FAuxQty,
@@ -144,19 +146,21 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
      ),
      sort_details_of_out AS
      (
-      SELECT d.FDate,
+      SELECT d.FInterID,
+         d.FDate,
          d.FName,
          d.FEntrySelfA0154,
          d.FAuxQty,
          d.new_qty_of_remain,
          d.YN_of_Remain,
-         SUM(d.new_qty_of_remain) over(ORDER BY d.Fdate desc, d.new_qty_of_remain) as sum_qty_of_out
+         SUM(d.new_qty_of_remain) over(ORDER BY d.Fdate desc,d.finterid desc, d.new_qty_of_remain) as sum_qty_of_out
       FROM result_of_remain d
      ),
      --SELECT * FROM sort_details_remain
      result_of_out AS
      (
-      SELECT s.FDate,
+      SELECT s.FInterID,
+         s.FDate,
          s.FName,
          s.FEntrySelfA0154,
          s.FAuxQty,
@@ -182,7 +186,7 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
       FROM sort_details_of_out s
      )
 
-      --SELECT * FROM result_remain --where YN='Y'
+      --SELECT * FROM result_of_out --where YN='Y'
       --SELECT * FROM result1 where remainYN='Y' AND new_qty>0
       --输出计算结果
       INSERT into #t_TempOutput(FNumber,
