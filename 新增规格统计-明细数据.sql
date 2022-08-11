@@ -7,27 +7,28 @@ set @sql_sum=(select ',SUM(case when fdepartment='+quotename(FName,'''')+' then 
 
 SET @sql='select fitemname as [产品名称],min(FName) as [新增部门] '+@sql_sum+' FROM #temp1 GROUP by fitemname'
 
-select @sql
+--select @sql
 --SELECT * FROM t_Department WHERE FParentID=75
 
-SELECT  t1.FName AS fitemname,
-        t6.FName,
-        t4.fname AS Fdepartment,
-        t5.fname as Ftrade,
-		u1.FConsignAmount
-    into #temp1
-    FROM ICStockBill v1 
-	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
-	LEFT JOIN t_ICItem t1 ON u1.FItemID=t1.FItemID
-	LEFT JOIN t_BaseProperty t2 on	 t1.FItemID=t2.FItemID AND t2.FTypeID=3 
-	LEFT JOIN t_Organization t3 ON v1.FSupplyID=t3.FItemID
-	LEFT JOIN t_Department t4 ON t3.Fdepartment=t4.FItemID
-	left join t_Item t5 ON t3.F_117=t5.FItemID
-    LEFT JOIN t_Department t6 ON t1.FSource=t6.FItemID
-	WHERE YEAR(v1.FDate) ='2022' and MONTH(v1.FDate)='06'
-    and YEAR(t2.FCreateDate)='2022' AND MONTH(t2.FCreateDate)<='06'
-    --where year(v1.FDate)IN ('2022') 
-	--and year(t2.FCreateDate) in ('2022')
-	--and month(v1.FDate)<='6'
-    and v1.FTranType=21 
+SELECT  
+    t1.FName AS fitemname,
+    t6.FName,
+    t4.fname AS Fdepartment,
+    t5.fname as Ftrade,
+    u1.FConsignAmount
+into #temp1
+FROM ICStockBill v1 
+INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
+LEFT JOIN t_ICItem t1 ON u1.FItemID=t1.FItemID
+LEFT JOIN t_BaseProperty t2 on	 t1.FItemID=t2.FItemID AND t2.FTypeID=3 
+LEFT JOIN t_Organization t3 ON v1.FSupplyID=t3.FItemID
+LEFT JOIN t_Department t4 ON t3.Fdepartment=t4.FItemID
+left join t_Item t5 ON t3.F_117=t5.FItemID
+LEFT JOIN t_Department t6 ON t1.FSource=t6.FItemID
+WHERE YEAR(v1.FDate) ='2022' and MONTH(v1.FDate)='06'
+and YEAR(t2.FCreateDate)='2022' AND MONTH(t2.FCreateDate)<='06'
+--where year(v1.FDate)IN ('2022') 
+--and year(t2.FCreateDate) in ('2022')
+--and month(v1.FDate)<='6'
+and v1.FTranType=21 
 exec (@sql)
