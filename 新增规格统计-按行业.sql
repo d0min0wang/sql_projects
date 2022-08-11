@@ -1,7 +1,7 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202206' --统计的年月
+SET @Period='202207' --统计的年月
 SET @Department='电气连接国内事业部'
 
 --SELECT MONTH(@Period+'01')
@@ -38,7 +38,11 @@ SELECT '新增规格数(个)' AS fname,
         THEN 1 else null END) AS lastYear
 FROM t_ICItem t1
 LEFT JOIN t_BaseProperty t2 on	 t1.FItemID=t2.FItemID AND t2.FTypeID=3 
+left join t_Item t4 ON t1.FParentID=t4.FItemID
+left join t_Item t5 ON t4.FParentID=t5.FItemID
+left join t_Item t6 ON t5.FParentID=t6.FItemID
 WHERE YEAR(t2.FCreateDate) IN (year(@Period+'01') ,year(@Last_Year+'01'))
+AND t6.FNumber IN ('90','91','92','93')
 union ALL
 --月度新增规格销售额
 SELECT  '月度新增规格销售额(元)' AS fname,
