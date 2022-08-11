@@ -1,11 +1,12 @@
 IF OBJECT_ID('tempdb.dbo.#temp1','U') IS NOT NULL DROP TABLE dbo.#temp1;
+IF OBJECT_ID('tempdb.dbo.#temp2','U') IS NOT NULL DROP TABLE dbo.#temp2;
 
 DECLARE @sql_sum AS NVARCHAR(max)
 DECLARE @sql AS NVARCHAR(max)
-set @sql_sum=(select ',SUM(case when fdepartment='+quotename(FName,'''')+' then FConsignAmount end) AS '+quotename(fname)+'' 
-        from t_Department WHERE FParentID=75  for xml path(''))
+--set @sql_sum=(select ',SUM(case when fdepartment='+quotename(FName,'''')+' then FConsignAmount end) AS '+quotename(fname)+'' 
+--        from t_Department WHERE FParentID=75 AND FName NOT in ('物流部') for xml path(''))
 
-SET @sql='select fitemname as [产品名称],min(FName) as [新增部门] '+@sql_sum+' FROM #temp1 GROUP by fitemname'
+--SET @sql='select fitemname as [产品名称],min(FName) as [新增部门] '+@sql_sum+' FROM #temp1 GROUP by fitemname'
 
 --select @sql
 --SELECT * FROM t_Department WHERE FParentID=75
@@ -31,4 +32,17 @@ and YEAR(t2.FCreateDate)='2022' AND MONTH(t2.FCreateDate)<='06'
 --and year(t2.FCreateDate) in ('2022')
 --and month(v1.FDate)<='6'
 and v1.FTranType=21 
+
+SELECT distinct Fdepartment into #temp2 FROM #temp1
+
+set @sql_sum=(select ',SUM(case when fdepartment='+quotename(fdepartment,'''')+' then FConsignAmount end) AS '+quotename(fdepartment)+'' 
+        from #temp2 for xml path(''))
+
+SET @sql='select fitemname as [产品名称],min(FName) as [新增部门] '+@sql_sum+' FROM #temp1 GROUP by fitemname'
+
+--SELECT distinct Fdepartment FROM #temp1
+
 exec (@sql)
+
+DROP TABLE #temp1
+DROP TABLE #temp2
