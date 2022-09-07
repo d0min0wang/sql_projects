@@ -69,4 +69,4 @@ order by t1.internal_objects_alloc_page_count desc
 select p.*,s.text  
 from master.dbo.sysprocesses p  
 cross apply sys.dm_exec_sql_text(p.sql_handle) s  
-where spid = 202
+where spid = 79

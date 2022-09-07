@@ -1,7 +1,7 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202207' --统计的年月
+SET @Period='202208' --统计的年月
 SET @Department='电气连接国内事业部'
 
 --SELECT MONTH(@Period+'01')
@@ -36,12 +36,14 @@ SELECT '新增规格数(个)' AS fname,
             and MONTH(t2.FCreateDate) <=MONTH(@Last_Year+'01') 
         THEN 1 else null END) AS lastYear
 FROM t_ICItem t1
-LEFT JOIN t_BaseProperty t2 on	 t1.FItemID=t2.FItemID AND t2.FTypeID=3 
+LEFT JOIN t_BaseProperty t2 on	 t1.FItemID=t2.FItemID AND t2.FTypeID=3
+LEFT JOIN t_Department t3 on t1.FSource=t3.FItemID 
 left join t_Item t4 ON t1.FParentID=t4.FItemID
 left join t_Item t5 ON t4.FParentID=t5.FItemID
 left join t_Item t6 ON t5.FParentID=t6.FItemID
 WHERE YEAR(t2.FCreateDate) IN (year(@Period+'01') ,year(@Last_Year+'01'))
-AND t6.FNumber='90'
+AND (t6.FNumber in ('90','91','92','93') OR t5.FNumber in ('90','91','92','93') OR t4.FNumber in ('90','91','92','93'))
+AND t3.FName IN ('电气连接国内事业部','电气连接事业部','医疗事业部','食品设备事业部','健康事业部','通信事业部','新能源事业部')
 union ALL
 --部门新增规格个数
 SELECT '部门新增规格数(个)' AS fname,
@@ -73,7 +75,8 @@ left join t_Item t4 ON t1.FParentID=t4.FItemID
 left join t_Item t5 ON t4.FParentID=t5.FItemID
 left join t_Item t6 ON t5.FParentID=t6.FItemID
 WHERE YEAR(t2.FCreateDate) IN (year(@Period+'01') ,year(@Last_Year+'01'))
-and t6.FNumber='90'
+AND (t6.FNumber in ('90','91','92','93') OR t5.FNumber in ('90','91','92','93') OR t4.FNumber in ('90','91','92','93'))
+AND t3.FName IN ('电气连接国内事业部','电气连接事业部','医疗事业部','食品设备事业部','健康事业部','通信事业部','新能源事业部')
 GROUP BY t3.FName
 UNION ALL
 --月度新增规格销售额
@@ -188,38 +191,3 @@ SELECT fname as 项目,
 
 
 
-SELECT '部门新增规格数(个)' AS fname,
-    t3.FName AS fdepartment,
-    t1.*
-FROM t_ICItem t1
-LEFT JOIN t_BaseProperty t2 on	 t1.FItemID=t2.FItemID --AND t2.FTypeID=3 
-LEFT JOIN t_Department t3 ON t1.FSource=t3.FItemID
-left join t_Item t4 ON t1.FParentID=t4.FItemID
-left join t_Item t5 ON t4.FParentID=t5.FItemID
-left join t_Item t6 ON t5.FParentID=t6.FItemID
-WHERE t1.FName='ECD17-33(1.0)/E01'
-WHERE YEAR(t2.FCreateDate)='2022' AND MONTH(t2.FCreateDate)='07'
-AND t6.FNumber in ('90','91','92','93')
-and FHelpCode IS NOT NULL
-
-
-SELECT  '月度新增规格销售额(元)' AS fname,
-        t4.fname AS Fdepartment,
-		t1.FName,
-        t2.FCreateDate
---		sum(u1.FConsignAmount)
-    --FROM t_xySaleReporttest
-    --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
-    FROM ICStockBill v1 
-	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
-	LEFT JOIN t_ICItem t1 ON u1.FItemID=t1.FItemID
-	LEFT JOIN t_BaseProperty t2 on	 t1.FItemID=t2.FItemID AND t2.FTypeID=3 
-	LEFT JOIN t_Organization t3 ON v1.FSupplyID=t3.FItemID
-	LEFT JOIN t_Department t4 ON t3.Fdepartment=t4.FItemID
-	left join t_Item t5 ON t3.F_117=t5.FItemID
-	WHERE YEAR(v1.FDate) IN ('2022')
-    and YEAR(t2.FCreateDate) ='2022' and MONTH(t2.FCreateDate)='07'
-    --where year(v1.FDate)IN ('2022') 
-	--and year(t2.FCreateDate) in ('2022')
-	--and month(v1.FDate)<='6'
-    and v1.FTranType=21 

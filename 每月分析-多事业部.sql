@@ -21,7 +21,7 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202206' --统计的年月
+SET @Period='202208' --统计的年月
 SET @Department='新能源事业部'
 
 --SELECT MONTH(@Period+'01')

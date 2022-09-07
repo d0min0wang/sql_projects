@@ -1,3 +1,5 @@
+use AIS20140921170539
+
 IF OBJECT_ID('tempdb.dbo.#temp1','U') IS NOT NULL DROP TABLE dbo.#temp1;
 IF OBJECT_ID('tempdb.dbo.#temp2','U') IS NOT NULL DROP TABLE dbo.#temp2;
 
@@ -26,8 +28,9 @@ LEFT JOIN t_Organization t3 ON v1.FSupplyID=t3.FItemID
 LEFT JOIN t_Department t4 ON t3.Fdepartment=t4.FItemID
 left join t_Item t5 ON t3.F_117=t5.FItemID
 LEFT JOIN t_Department t6 ON t1.FSource=t6.FItemID
-WHERE YEAR(v1.FDate) ='2022' and MONTH(v1.FDate)='06'
-and YEAR(t2.FCreateDate)='2022' AND MONTH(t2.FCreateDate)<='06'
+WHERE YEAR(v1.FDate) ='2022' AND MONTH(v1.FDate)<='08'
+and 
+YEAR(t2.FCreateDate) in ('2022') AND MONTH(t2.FCreateDate)='08'
 --where year(v1.FDate)IN ('2022') 
 --and year(t2.FCreateDate) in ('2022')
 --and month(v1.FDate)<='6'
@@ -38,7 +41,7 @@ SELECT distinct Fdepartment into #temp2 FROM #temp1
 set @sql_sum=(select ',SUM(case when fdepartment='+quotename(fdepartment,'''')+' then FConsignAmount end) AS '+quotename(fdepartment)+'' 
         from #temp2 for xml path(''))
 
-SET @sql='select fitemname as [产品名称],min(FName) as [新增部门] '+@sql_sum+' FROM #temp1 GROUP by fitemname'
+SET @sql='select fitemname as [产品名称],min(FName) as [新增部门] '+@sql_sum+' FROM #temp1 GROUP by fitemname order  by fitemname'
 
 --SELECT distinct Fdepartment FROM #temp1
 

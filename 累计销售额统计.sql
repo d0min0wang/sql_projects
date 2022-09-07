@@ -65,6 +65,9 @@ SELECT cast(format(v1.fdate, 'MM-dd') AS nvarchar(5)) AS fdate,
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
     FROM ICStockBill v1 
 	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
+  LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
+	LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+  --WHERE v3.FName='电气连接事业部'
 	--where year(v1.FDate)IN ('2020','2021','2022') 
 	--and month(v1.FDate)<='2'
 	

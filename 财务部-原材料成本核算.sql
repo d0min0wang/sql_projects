@@ -9,7 +9,7 @@ ALTER PROCEDURE [dbo].[p_xy_raw_material_price_calculation]
 AS
 SET NOCOUNT ON
 
---EXEC p_xy_raw_material_price_calculation '2022','07'
+--EXEC p_xy_raw_material_price_calculation '2022','08'
 
 --原材料单价计算
 IF OBJECT_ID('tempdb.dbo.#t_TempOutput','U') IS NOT NULL DROP TABLE dbo.#t_TempOutput;

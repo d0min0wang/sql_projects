@@ -9,10 +9,14 @@ select is_cdc_enabled from sys.databases where name='peiliao';
 
 alter table actual_data add  constraint pk_actual_data primary key(ID)
 
+select * from t_itemclass
+
+SELECT * FROM sys.tables WHERE is_tracked_by_cdc = 1 ORDER BY name
+
 --表开CDC
 DECLARE @TablaName NVARCHAR(100)
 
-SET @TablaName='actual_data'
+SET @TablaName='t_itemclass'
 
 IF EXISTS(SELECT 1 FROM sys.tables WHERE name=@TablaName AND is_tracked_by_cdc = 0)
 BEGIN
@@ -31,7 +35,7 @@ END
 SELECT TABLE_NAME,COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE   
 WHERE TABLE_NAME='actual_data' 
 
-SELECT top 10 * FROM ICShop_FlowCard
+SELECT * FROM actual_data ORDER by fStartTime DESC
 
 SELECT * FROM ICMO WHERE FInterID=267398
 

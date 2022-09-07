@@ -801,9 +801,7 @@ select tt3.FName AS 部门,
 from ICStockBill t1 
 INNER JOIN ICStockBillEntry t2 ON t1.FInterID=t2.FInterID
 where 
-year(t1.FDate)='2017'
-and
-month(t1.fdate)='11'
+(convert(varchar(10),t1.FDate,120)>='2021-06-01' and convert(varchar(10),t1.FDate,120)<'2022-07-01')
 and
 t1.FTranType=21 
 And t1.FCheckerID>0 
@@ -813,9 +811,8 @@ LEFT JOIN t_Item tt3 ON tt2.Fdepartment=tt3.FItemID
 LEFT JOIN t_Item tt4 ON tt2.F_122=tt4.FItemID
 LEFT JOIN t_Item tt5 ON tt2.F_117=tt5.FItemID
 where --year(tt1.FMinDate)='2015'
-year(tt2.F_123)='2017'
-and
-month(tt2.F_123)<='11'
+(convert(varchar(10),tt2.F_123,120)>='2021-06-01' and convert(varchar(10),tt2.F_123,120)<'2022-07-01')
+
 order by tt3.FName,tt2.F_101,tt1.FConsignAmount DESC
 
 --客户来源：FCombobox
@@ -1439,3 +1436,19 @@ SELECT --v3.FName,
 	
 	and v1.FTranType=21 
 	group by t4.FName,t3.fname,t1.FName
+
+
+
+SELECT t1.FNumber,t1.FName,t4.FName,t3.FName FROM t_Organization t1
+LEFT JOIN t_Department t2 ON t1.Fdepartment=t2.FItemID
+LEFT JOIN t_Emp t3 ON t1.Femployee=t3.FItemID
+LEFT JOIN t_Item t4 ON t1.F_117=t4.FItemID
+WHERE t2.FName='健康事业部'
+and t1.FItemID not IN
+(select distinct t1.FSupplyID
+from ICStockBill t1 
+where year(t1.FDate) in ('2021','2022')
+and t1.FTranType=21 )
+
+
+select convert(varchar(7),getdate(),120)
