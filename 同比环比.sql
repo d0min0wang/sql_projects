@@ -20,7 +20,7 @@
 --select * from t_xySaleReporttest
 
 DECLARE @Period char(6)
-SET @Period='202101' --统计的年月
+SET @Period='202209' --统计的年月
 
 
 --统计处理
