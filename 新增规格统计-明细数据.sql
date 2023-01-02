@@ -28,9 +28,9 @@ LEFT JOIN t_Organization t3 ON v1.FSupplyID=t3.FItemID
 LEFT JOIN t_Department t4 ON t3.Fdepartment=t4.FItemID
 left join t_Item t5 ON t3.F_117=t5.FItemID
 LEFT JOIN t_Department t6 ON t1.FSource=t6.FItemID
-WHERE YEAR(v1.FDate) ='2022' AND MONTH(v1.FDate)<='09'
+WHERE YEAR(v1.FDate) ='2022' AND MONTH(v1.FDate)<='12'
 and 
-YEAR(t2.FCreateDate) in ('2022') AND MONTH(t2.FCreateDate)='09'
+YEAR(t2.FCreateDate) in ('2022') AND MONTH(t2.FCreateDate)='12'
 --where year(v1.FDate)IN ('2022') 
 --and year(t2.FCreateDate) in ('2022')
 --and month(v1.FDate)<='6'

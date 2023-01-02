@@ -1,7 +1,7 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202210' --统计的年月
+SET @Period='202212' --统计的年月
 SET @Department='医疗事业部'
 
 --SELECT MONTH(@Period+'01')

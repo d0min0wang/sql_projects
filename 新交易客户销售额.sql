@@ -270,7 +270,7 @@ AS
 	--SELECT FItemID,F_123 FROM t_Organization WHERE F_123<'2021-06-01'
 	SELECT  distinct FSupplyID AS fitemid
 	from ICStockBill
-	where FDate<'2021-06-01'
+	where FDate<'2021-01-01'
 	AND
 	FTranType=21 
 	And FCheckerID>0 
@@ -281,7 +281,7 @@ AS
 	SELECT FSupplyID AS FSupplyID,
 	min(FDate) AS FMinDate
 	from ICStockBill
-	where FDate>='2022-01-01' AND FDate<'2022-07-01'
+	where FDate>='2021-01-01' AND FDate<'2022-01-01'
 	AND
 	fsupplyid in (select fitemid from CTE_old)
 	and
@@ -295,7 +295,7 @@ AS
 	SELECT FSupplyID AS FSupplyID,
 	max(FDate) AS FMaxDate
 	from ICStockBill
-	where FDate<'2021-06-01'
+	where FDate<'2021-01-01'
 	AND
 	FSupplyID in (select FSupplyID from CTE_OLD)
 	and
@@ -321,7 +321,7 @@ AS
 	--SELECT FItemID,F_123 FROM t_Organization WHERE F_123>='2021-06-01'
 	SELECT  FSupplyID AS fitemid
 	from ICStockBill
-	where FDate<'2022-07-01'
+	where FDate>'2021-01-01'
 	AND
 	FTranType=21 
 	And FCheckerID>0 
@@ -333,7 +333,7 @@ SELECT FSupplyID as FSupplyID,
 	min(FDate) AS FMinDate
 FROM ICStockBill
 WHERE
-FDate >='2021-06-01'  AND FDate<'2022-07-01'
+FDate >='2021-01-01'  AND FDate<'2022-01-01'
 AND
 FSupplyID IN (select fitemid from CTE)
 and
@@ -356,14 +356,14 @@ select t1.FSupplyID as FSupplyID,
 --t2.FDate,
 --DATEDIFF( MONTH,t1.FMinDate,t2.FDate)
 	[FConsignAmount2021]=ISNULL(SUM(CASE when year(t2.FDate)= '2021' then t3.FConsignAmount END),0),
-	[FConsignAmount2022]=ISNULL(SUM(CASE when year(t2.FDate)= '2022' and MONTH(t2.FDate)<'7' then t3.FConsignAmount END),0)
+	[FConsignAmount2022]=ISNULL(SUM(CASE when year(t2.FDate)= '2022' then t3.FConsignAmount END),0)
 	--sum(t2.FConsignAmount) AS FConsignAmount,
 	--[FAuxQtySum2018]=ISNULL(SUM(CASE when year(t1.FDate)= '2018' then t2.FAuxQty END),0),
 	--[FAuxQtySum2019]=ISNULL(SUM(CASE when year(t1.FDate)= '2019' then t2.FAuxQty END),0)
 from CTE_ALL t1
 LEFT JOIN ICStockBill t2 ON t1.FSupplyID=t2.FSupplyID
 INNER JOIN ICStockBillEntry t3 ON t2.FInterID=t3.FInterID
-WHERE DATEDIFF( MONTH,t1.FMinDate,t2.FDate)<=12
+--WHERE DATEDIFF( MONTH,t1.FMinDate,t2.FDate)<=12
 GROUP BY t1.FSupplyID
 )
 

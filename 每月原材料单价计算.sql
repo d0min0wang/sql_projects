@@ -81,7 +81,7 @@ INTO ##temp_Material
 FROM t_ICItem t1
 LEFT JOIN t_Item t2 ON t1.FParentID=t2.FItemID
 LEFT JOIN t_Item t3 ON t2.FParentID=t3.FItemID
-WHERE t3.FName='主原材料' --AND t1.FName='1902-D'
+WHERE t3.FName='主原材料' AND t1.FName='1101-C'
 
  
 --查询临时表中数据
@@ -212,18 +212,18 @@ WHILE EXISTS(SELECT FItemID FROM ##temp_Material)
       -- 删除本次操临时表中的数据（避免无限循环）
       DELETE FROM ##temp_Material WHERE FItemID=@FItemID;
  END
-insert into [dbo].[t_xy_Raw_Material_Price](
-	FNumber ,--代码,
-    FName,-- 规格型号,
-    FBegQty, --起初结存,
-    FInQty,-- 本期收入,
-    FOutQty,-- 本期发出,
-    FOutPrice,-- 本期发出单价,
-    FOutCost,-- 本期发出成本,
-    FEndQty,-- 期末结存,
-    FRemainPrice,-- 期末结存单价,
-    FRemainCost
-) 
+--insert into [dbo].[t_xy_Raw_Material_Price](
+--	FNumber ,--代码,
+--    FName,-- 规格型号,
+--    FBegQty, --起初结存,
+--    FInQty,-- 本期收入,
+--    FOutQty,-- 本期发出,
+--    FOutPrice,-- 本期发出单价,
+--    FOutCost,-- 本期发出成本,
+--    FEndQty,-- 期末结存,
+--    FRemainPrice,-- 期末结存单价,
+--    FRemainCost
+--) 
 SELECT t1.FNumber AS FNumber,--代码,
    t1.FName AS FName,-- 规格型号,
    ROUND(t2.FBegQty,2) AS FBegQty, --起初结存,

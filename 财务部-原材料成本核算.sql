@@ -95,10 +95,10 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
          FROM #t_TempInOut WHERE FNumber=@FNumber
          
       --计算
-     ;WITH InStock
+     ;WITH InStock_Pre
      AS
      (
-          SELECT t1.FInterID,t3.FName,t2.FEntrySelfA0154,t2.FAuxQty,t1.FDate 
+          SELECT t3.FName,t2.FEntrySelfA0154,t2.FAuxQty,t1.FDate,t1.FInterID,t2.FEntryID 
           FROM ICStockBill t1
           LEFT join ICStockBillEntry t2 on t1.FInterID=t2.FInterID
           LEFT JOIN t_ICItem t3 ON t2.FItemID=t3.FItemID
@@ -107,6 +107,15 @@ WHILE EXISTS(SELECT FItemID FROM #temp_Material)
           AND t2.FAuxQty>0
           AND convert(nvarchar(10),t1.FDate,120)<@NextMonthFirstDay
           --ORDER BY t1.FDate DESC
+     ),
+     InStock
+     AS
+     (
+         SELECT FName,
+            SUM(FEntrySelfA0154*FAuxQty)/SUM(FAuxQty) AS FEntrySelfA0154,
+            SUM(FAuxQty) AS FAuxQty,FDate 
+         FROM InStock_Pre 
+         GROUP BY FName,FDate --ORDER BY FDate DESC
      ),
      sort_details_of_remain AS
      (SELECT d.FInterID

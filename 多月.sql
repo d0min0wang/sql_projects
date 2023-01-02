@@ -1014,41 +1014,41 @@ SELECT --v3.FName,
 --		[2009]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then u1.FConsignAmount END),0),
 --		[2010]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then u1.FConsignAmount END),0),
 		--[2014销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FConsignAmount END),0),
-		--[2021年1月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='1' then u1.FConsignAmount END),0),
-		--[2021年2月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='2' then u1.FConsignAmount END),0),
-		[2021年3月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='3' then u1.FConsignAmount END),0),
-		[2021年4月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='4' then u1.FConsignAmount END),0),
-		[2021年5月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='5' then u1.FConsignAmount END),0),
-		[2021年6月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='6' then u1.FConsignAmount END),0),
-		[2021年7月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='7' then u1.FConsignAmount END),0),
-		[2021年8月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='8' then u1.FConsignAmount END),0),
-		[2021年9月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='9' then u1.FConsignAmount END),0),
-		[2021年10月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='10' then u1.FConsignAmount END),0),
-		[2021年11月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='11' then u1.FConsignAmount END),0),
-		[2021年12月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='12' then u1.FConsignAmount END),0),
-		[2021销售额]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)<='11'  then u1.FConsignAmount END),0),
+		[2022年1月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='1' then u1.FConsignAmount END),0),
+		[2022年2月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='2' then u1.FConsignAmount END),0),
+		[2022年3月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='3' then u1.FConsignAmount END),0),
+		[2022年4月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='4' then u1.FConsignAmount END),0),
+		[2022年5月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='5' then u1.FConsignAmount END),0),
+		[2022年6月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='6' then u1.FConsignAmount END),0),
+		[2022年7月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='7' then u1.FConsignAmount END),0),
+		[2022年8月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='8' then u1.FConsignAmount END),0),
+		[2022年9月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='9' then u1.FConsignAmount END),0),
+		[2022年10月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='10' then u1.FConsignAmount END),0),
+		[2022年11月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='11' then u1.FConsignAmount END),0),
+		--[2022年12月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='12' then u1.FConsignAmount END),0),
+		[2022销售额]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)<='11'  then u1.FConsignAmount END),0),
+		[2021销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2021' then u1.FConsignAmount END),0),
 		[2020销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2020' then u1.FConsignAmount END),0),
 		[2019销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2019' then u1.FConsignAmount END),0),
 		[2018销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2018' then u1.FConsignAmount END),0),
 		[2017销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FConsignAmount END),0),
-		[2016销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2016' then u1.FConsignAmount END),0),
-		[2021年1月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)='1' then u1.FAuxQty END),0),
-		[2021年2月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)='2' then u1.FAuxQty END),0),
-		[2021年3月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)='3' then u1.FAuxQty END),0),
-		[2021年4月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)='4' then u1.FAuxQty END),0),
-		[2021年5月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)='5' then u1.FAuxQty END),0),
-		[2021年6月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)='6' then u1.FAuxQty END),0),
-		[2021年7月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)='7' then u1.FAuxQty END),0),
-		[2021年8月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)='8' then u1.FAuxQty END),0),
-		[2021年9月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)='9' then u1.FAuxQty END),0),
-		[2021年10月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)='10' then u1.FAuxQty END),0),
-		[2021年11月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' AND Month(v1.FDate)='11' then u1.FAuxQty END),0),
-		[2021出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)<='11'  then u1.FAuxQty END),0),
+		[2022年1月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)='1' then u1.FAuxQty END),0),
+		[2022年2月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)='2' then u1.FAuxQty END),0),
+		[2022年3月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)='3' then u1.FAuxQty END),0),
+		[2022年4月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)='4' then u1.FAuxQty END),0),
+		[2022年5月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)='5' then u1.FAuxQty END),0),
+		[2022年6月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)='6' then u1.FAuxQty END),0),
+		[2022年7月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)='7' then u1.FAuxQty END),0),
+		[2022年8月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)='8' then u1.FAuxQty END),0),
+		[2022年9月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)='9' then u1.FAuxQty END),0),
+		[2022年10月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)='10' then u1.FAuxQty END),0),
+		[2022年11月出货量]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' AND Month(v1.FDate)='11' then u1.FAuxQty END),0),
+		[2022出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)<='11'  then u1.FAuxQty END),0),
+		[2021出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2021' then u1.FAuxQty END),0),
 		[2020出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2020' then u1.FAuxQty END),0),
 		[2019出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2019' then u1.FAuxQty END),0),
 		[2018出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2018' then u1.FAuxQty END),0),
-		[2017出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FAuxQty END),0),
-		[2016出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2016' then u1.FAuxQty END),0)
+		[2017出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FAuxQty END),0)
 --		sum(u1.FConsignAmount)
     --FROM t_xySaleReporttest
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
@@ -1070,10 +1070,10 @@ LEFT JOIN t_Item v5 ON v4.FParentID=v5.FItemID
 LEFT JOIN t_Item v6 ON v5.FParentID=v6.FItemID
 LEFT JOIN t_SubMessage v7 ON v2.FRegionID=v7.FInterID
 LEFT JOIN t_Emp v8 ON v2.Femployee=v8.FItemID
-where v3.FName='通信事业部'
+where v3.FName='新能源事业部'
 ----where v4.FName='微波炉'
 --and v2.FName like '%顺科新能源%'
-order by [2021销售额] desc
+order by [2022销售额] desc
 
 
 
@@ -1081,7 +1081,7 @@ order by [2021销售额] desc
 --行业年度
 
 DECLARE @Period char(4)
-SET @Period='2015' --统计的年月
+SET @Period='2016' --统计的年月
 
 
 --统计处理
@@ -1111,41 +1111,41 @@ SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<销售部合计>' ELSE 
         FBigTrade=CASE WHEN GROUPING(v5.FName)=1 THEN '<事业部合计>' ELSE (v5.FName) END,    
 		--P_Money=ISNULL(SUM(u1.FConsignAmount),0),
         --P_AuxQty=ISNULL(SUM(u1.FAuxQty),0),
-        [2021年1月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='1'  THEN v1.FConsignAmount END),0),
-        [2021年2月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='2'  THEN v1.FConsignAmount END),0),
-        [2021年3月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='3'  THEN v1.FConsignAmount END),0),
-        [2021年4月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='4'  THEN v1.FConsignAmount END),0),
-        [2021年5月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='5'  THEN v1.FConsignAmount END),0),
-        [2021年6月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='6'  THEN v1.FConsignAmount END),0),
-        [2021年7月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='7'  THEN v1.FConsignAmount END),0),
-        [2021年8月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='8'  THEN v1.FConsignAmount END),0),
-        [2021年9月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='9'  THEN v1.FConsignAmount END),0),
-        [2021年10月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='10'  THEN v1.FConsignAmount END),0),
-        [2021年11月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='11'  THEN v1.FConsignAmount END),0),
-        [2021销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)<='11'  THEN v1.FConsignAmount END),0),
-        [2020销售额]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_6 THEN v1.FConsignAmount END),0),
-        [2019销售额]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_5 THEN v1.FConsignAmount END),0),
-        [2018销售额]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_4 THEN v1.FConsignAmount END),0),
-        [2017销售额]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_3 THEN v1.FConsignAmount END),0),
-		[2016销售额]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_2 THEN v1.FConsignAmount END),0),
+        [2022年1月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='1'  THEN v1.FConsignAmount END),0),
+        [2022年2月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='2'  THEN v1.FConsignAmount END),0),
+        [2022年3月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='3'  THEN v1.FConsignAmount END),0),
+        [2022年4月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='4'  THEN v1.FConsignAmount END),0),
+        [2022年5月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='5'  THEN v1.FConsignAmount END),0),
+        [2022年6月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='6'  THEN v1.FConsignAmount END),0),
+        [2022年7月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='7'  THEN v1.FConsignAmount END),0),
+        [2022年8月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='8'  THEN v1.FConsignAmount END),0),
+        [2022年9月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='9'  THEN v1.FConsignAmount END),0),
+        [2022年10月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='10'  THEN v1.FConsignAmount END),0),
+        [2022年11月销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='11'  THEN v1.FConsignAmount END),0),
+        [2022销售额]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)<='11'  THEN v1.FConsignAmount END),0),
+        [2021销售额]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_6 THEN v1.FConsignAmount END),0),
+        [2020销售额]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_5 THEN v1.FConsignAmount END),0),
+        [2019销售额]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_4 THEN v1.FConsignAmount END),0),
+        [2018销售额]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_3 THEN v1.FConsignAmount END),0),
+		[2017销售额]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_2 THEN v1.FConsignAmount END),0),
 		--P_Money_7=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_1 THEN v1.FConsignAmount END),0),
-        [2021年1月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='1' THEN v1.FAuxQty END),0),
-        [2021年2月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='2' THEN v1.FAuxQty END),0),
-        [2021年3月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='3' THEN v1.FAuxQty END),0),
-        [2021年4月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='4' THEN v1.FAuxQty END),0),
-        [2021年5月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='5' THEN v1.FAuxQty END),0),
-        [2021年6月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='6' THEN v1.FAuxQty END),0),
-        [2021年7月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='7' THEN v1.FAuxQty END),0),
-        [2021年8月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='8' THEN v1.FAuxQty END),0),
-        [2021年9月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='9' THEN v1.FAuxQty END),0),
-        [2021年10月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='10' THEN v1.FAuxQty END),0),
-        [2021年11月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)='11' THEN v1.FAuxQty END),0),
-        [2021出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' AND Month(v1.FDate)<='11'  THEN v1.FAuxQty END),0),
-        [2020出货量]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_6 THEN v1.FAuxQty END),0),
-        [2019出货量]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_5 THEN v1.FAuxQty END),0),
-        [2018出货量]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_4 THEN v1.FAuxQty END),0),
-        [2017出货量]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_3 THEN v1.FAuxQty END),0),
-        [2016出货量]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_2 THEN v1.FAuxQty END),0)
+        [2022年1月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='1' THEN v1.FAuxQty END),0),
+        [2022年2月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='2' THEN v1.FAuxQty END),0),
+        [2022年3月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='3' THEN v1.FAuxQty END),0),
+        [2022年4月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='4' THEN v1.FAuxQty END),0),
+        [2022年5月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='5' THEN v1.FAuxQty END),0),
+        [2022年6月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='6' THEN v1.FAuxQty END),0),
+        [2022年7月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='7' THEN v1.FAuxQty END),0),
+        [2022年8月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='8' THEN v1.FAuxQty END),0),
+        [2022年9月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='9' THEN v1.FAuxQty END),0),
+        [2022年10月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='10' THEN v1.FAuxQty END),0),
+        [2022年11月出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)='11' THEN v1.FAuxQty END),0),
+        [2022出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' AND Month(v1.FDate)<='11'  THEN v1.FAuxQty END),0),
+        [2021出货量]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_6 THEN v1.FAuxQty END),0),
+        [2020出货量]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_5 THEN v1.FAuxQty END),0),
+        [2019出货量]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_4 THEN v1.FAuxQty END),0),
+        [2018出货量]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_3 THEN v1.FAuxQty END),0),
+        [2017出货量]=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_2 THEN v1.FAuxQty END),0)
         --P_AuxQty_7=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_1 THEN v1.FAuxQty END),0)
    --FROM t_xySaleReporttest
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
@@ -1169,13 +1169,13 @@ SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<销售部合计>' ELSE 
 		year(v1.FDate) >=@Period
 		--and month(v1.FDate)<='8'
 	AND
-		v3.FName='通信事业部'
-	AND 
-		v6.FName='吕俊杰'
+		v3.FName='新能源事业部'
+	--AND 
+	--	v6.FName='吕俊杰'
     GROUP BY v3.FName,v5.FName  WITH ROLLUP	
 	--ORDER BY u1.FConsignAmount
     --HAVING GROUPING(FDepartment)=0 AND GROUPING(FbigTrade)=0 
-    ORDER BY [2021销售额] DESC
+    ORDER BY [2022销售额] DESC
 --     
 --select   RIGHT(CONVERT(char(6),getdate(),112),2)    
 --select month(getdate())
