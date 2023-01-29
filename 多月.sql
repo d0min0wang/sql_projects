@@ -1204,18 +1204,18 @@ SELECT --v3.FName,
 --		[2009]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then u1.FConsignAmount END),0),
 --		[2010]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then u1.FConsignAmount END),0),
 		--[2014销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FConsignAmount END),0),
-		[2021销售额]=ISNULL(SUM(CASE when Year(v1.FDate)='2021' then u1.FConsignAmount END),0),
+		[2022销售额]=ISNULL(SUM(CASE when Year(v1.FDate)='2022' then u1.FConsignAmount END),0),
+		[2021销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2021' then u1.FConsignAmount END),0),
 		[2020销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2020' then u1.FConsignAmount END),0),
 		[2019销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2019' then u1.FConsignAmount END),0),
 		[2018销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2018' then u1.FConsignAmount END),0),
 		[2017销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FConsignAmount END),0),
-		[2016销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2016' then u1.FConsignAmount END),0),
-		[2021出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2021' then u1.FAuxQty END),0),
+		[2022出货量]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2022' then u1.FAuxQty END),0),
+		[2021出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2021' then u1.FAuxQty END),0),
 		[2020出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2020' then u1.FAuxQty END),0),
 		[2019出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2019' then u1.FAuxQty END),0),
 		[2018出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2018' then u1.FAuxQty END),0),
-		[2017出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FAuxQty END),0),
-		[2016出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2016' then u1.FAuxQty END),0)
+		[2017出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FAuxQty END),0)
 --		sum(u1.FConsignAmount)
     --FROM t_xySaleReporttest
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
@@ -1238,16 +1238,16 @@ LEFT JOIN t_Item v6 ON v5.FParentID=v6.FItemID
 LEFT JOIN t_SubMessage v7 ON v2.FRegionID=v7.FInterID
 LEFT JOIN t_Emp v8 ON v2.Femployee=v8.FItemID
 LEFT JOIN t_Settle v9 ON v2.FSetID=v9.FItemID
-where v3.FName='健康事业部'
+where v3.FName='新能源事业部'
 ----where v4.FName='微波炉'
 --and v2.FName like '%顺科新能源%'
-order by [2021销售额] desc
+order by [2022销售额] desc
 
 
 --行业年度
 
 DECLARE @Period char(4)
-SET @Period='2015' --统计的年月
+SET @Period='2016' --统计的年月
 
 
 --统计处理
@@ -1276,19 +1276,19 @@ SELECT FDepartment AS 事业部,FBigTrade AS 行业,
 	--P_Money AS '年销售额',
 	--P_AuxQty AS '年出货量',
 	--P_Money_1 AS '2009销售额',
-    P_Money_7 AS '2021销售额',
-    P_Money_6 AS '2020销售额',
-    P_Money_5 AS '2019销售额',
-    P_Money_4 AS '2018销售额',
-    P_Money_3 AS '2017销售额',
-	P_Money_2 AS '2016销售额',
+    P_Money_7 AS '2022销售额',
+    P_Money_6 AS '2021销售额',
+    P_Money_5 AS '2020销售额',
+    P_Money_4 AS '2019销售额',
+    P_Money_3 AS '2018销售额',
+	P_Money_2 AS '2017销售额',
 	--P_AuxQty_1 AS '2009出货量',
-    P_AuxQty_7 AS '2021出货量',
-    P_AuxQty_6 AS '2020出货量',
-    P_AuxQty_5 AS '2019出货量',
-    P_AuxQty_4 AS '2018出货量',
-    P_AuxQty_3 AS '2017出货量',
-	P_AuxQty_2 AS '2016出货量'
+    P_AuxQty_7 AS '2022出货量',
+    P_AuxQty_6 AS '2021出货量',
+    P_AuxQty_5 AS '2020出货量',
+    P_AuxQty_4 AS '2019出货量',
+    P_AuxQty_3 AS '2018出货量',
+	P_AuxQty_2 AS '2017出货量'
 FROM(
     SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<销售部合计>' ELSE (v3.FName) END,
         FBigTrade=CASE WHEN GROUPING(v5.FName)=1 THEN '<事业部合计>' ELSE (v5.FName) END,    
