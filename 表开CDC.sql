@@ -1,11 +1,26 @@
 SELECT * FROM sys.tables WHERE is_tracked_by_cdc = 1
 
-if exists(select 1 from sys.databases where name='peiliao' and is_cdc_enabled=0)
+if exists(select 1 from sys.databases where name='AIS20150402160359' and is_cdc_enabled=0)
 begin
     exec sys.sp_cdc_enable_db
 end
 
-select is_cdc_enabled from sys.databases where name='peiliao';
+SELECT * FROM sys.filegroups WHERE database_id = DB_ID('AIS20140921170539'); --cdc
+
+SELECT name, physical_name FROM sys.master_files WHERE database_id = DB_ID('AIS20140921170539');
+
+SELECT name, physical_name FROM sys.master_files WHERE database_id = DB_ID('AIS20150402160359');
+ALTER DATABASE AIS20150402160359 ADD FILEGROUP CDC;
+
+ALTER DATABASE AIS20150402160359
+ADD FILE
+(
+NAME= 'SCM102SP2_CDC',
+FILENAME = 'D:\DATABASES\AIS20150402160359_cdc.ldf'
+)
+TO FILEGROUP CDC;
+
+select is_cdc_enabled from sys.databases where name='AIS20150402160359';
 
 alter table actual_data add  constraint pk_actual_data primary key(ID)
 
@@ -13,10 +28,11 @@ select * from t_itemclass
 
 SELECT * FROM sys.tables WHERE is_tracked_by_cdc = 1 ORDER BY name
 
+
 --表开CDC
 DECLARE @TablaName NVARCHAR(100)
 
-SET @TablaName='t_itemclass'
+SET @TablaName='ICMO'
 
 IF EXISTS(SELECT 1 FROM sys.tables WHERE name=@TablaName AND is_tracked_by_cdc = 0)
 BEGIN
@@ -30,6 +46,13 @@ BEGIN
         @captured_column_list = NULL, -- captured_column_list
         @filegroup_name = 'CDC' -- filegroup_name
 END
+
+
+EXECUTE sys.sp_cdc_disable_table   
+    @source_schema = N'dbo',   
+    @source_name = N'ICMO',  
+    @capture_instance = N'dbo_ICMO'
+
 
 --查询表是否有主键
 SELECT TABLE_NAME,COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE   
