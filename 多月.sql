@@ -1328,7 +1328,7 @@ FROM(
 	--AND v1.FDate<='2021-12-21'
 	--	year(v1.FDate) >=@Period
 	--	and month(v1.FDate)<='8'
-	AND v3.FName='新能源事业部'
+	AND v3.FName='健康事业部'
     GROUP BY v3.FName,v5.FName  WITH ROLLUP	
 	--ORDER BY u1.FConsignAmount
     --HAVING GROUPING(FDepartment)=0 AND GROUPING(FbigTrade)=0 
@@ -1452,3 +1452,62 @@ and t1.FTranType=21 )
 
 
 select convert(varchar(7),getdate(),120)
+
+
+
+;WITH CTE
+AS
+(
+	SELECT --v3.FName,
+		--v5.FName,
+		--v4.FName as FTradeName,
+		--v2.FName AS FName,  
+		--YEAR(v1.FDate) AS FYear,
+		v1.FSupplyID,  
+		--u1.FItemID,
+--        CONVERT(char(7),v1.FDate,120),
+--		ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),fnumber like '93.%'
+--		[2009]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then u1.FConsignAmount END),0),
+--		[2010]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then u1.FConsignAmount END),0),
+		--[2014销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FConsignAmount END),0),
+		[2017硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2017' and t1.FHelpCode like 'GQ%' then u1.FConsignAmount END),0),
+		[2018硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2018' and t1.FHelpCode like 'GQ%' then u1.FConsignAmount END),0),
+		[2019硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2019' and t1.FHelpCode like 'GQ%' then u1.FConsignAmount END),0),
+		[2020硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2020' and t1.FHelpCode like 'GQ%' then u1.FConsignAmount END),0),
+		[2021硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2021' and t1.FHelpCode like 'GQ%' then u1.FConsignAmount END),0),
+		[2022硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2022' and t1.FHelpCode like 'GQ%' then u1.FConsignAmount END),0),
+
+		[2017外购硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2017' and t1.fnumber like '93.%' then u1.FConsignAmount END),0),
+		[2018外购硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2018' and t1.fnumber like '93.%' then u1.FConsignAmount END),0),
+		[2019外购硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2019' and t1.fnumber like '93.%' then u1.FConsignAmount END),0),
+		[2020外购硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2020' and t1.fnumber like '93.%' then u1.FConsignAmount END),0),
+		[2021外购硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2021' and t1.fnumber like '93.%' then u1.FConsignAmount END),0),
+		[2022外购硅胶]=ISNULL(SUM(CASE when year(v1.FDate)='2022' and t1.fnumber like '93.%' then u1.FConsignAmount END),0),
+		SUM(u1.FConsignAmount) AS FConsignAmount
+		--SUM(u1.FAuxQty) AS FAuxQty
+		--AVG(u1.FPrice) AS FPrice,
+		--count(*) AS FCount
+--		sum(u1.FConsignAmount)
+    --FROM t_xySaleReporttest
+    --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
+    FROM ICStockBill v1 
+	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
+	LEFT JOIN t_ICItem t1 on u1.fitemid=t1.fitemid
+	where year(v1.FDate)IN ('2017','2018','2019','2020','2021','2022') 
+	and (t1.FHelpCode like 'GQ%' or t1.fnumber like '93.%')
+	--month(v1.FDate)>='5'
+	--AND
+	--MONTH(v1.FDate)<='11'
+	
+	and
+	 v1.FTranType=21 
+	group by v1.FSupplyID--,u1.FItemID
+	--order by [2022] DESC
+)
+select t4.FName,t2.FName,t5.FName,
+	t1.* FROM CTE t1
+LEFT JOIN t_Organization t2 ON t1.FSupplyID=t2.FItemID
+--LEFT JOIN t_ICItem t3 ON t1.FItemID=t3.FItemID
+LEFT JOIN t_Department t4 ON t2.Fdepartment=t4.FItemID
+LEFT JOIN t_Emp t5 ON t2.Femployee=t5.FItemID
+--WHERE t4.FName IN('电气连接事业部','电气连接国内事业部')

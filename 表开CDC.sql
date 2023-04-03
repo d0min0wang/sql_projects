@@ -32,7 +32,7 @@ SELECT * FROM sys.tables WHERE is_tracked_by_cdc = 1 ORDER BY name
 --表开CDC
 DECLARE @TablaName NVARCHAR(100)
 
-SET @TablaName='ICMO'
+SET @TablaName='t_routing'
 
 IF EXISTS(SELECT 1 FROM sys.tables WHERE name=@TablaName AND is_tracked_by_cdc = 0)
 BEGIN
