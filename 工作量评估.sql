@@ -7,7 +7,7 @@ SELECT * FROM
     --订单量
 SELECT YEAR(t1.FDate) AS FYear,
         --t3.Fname AS FDepartmentName,
-        '订单量' AS FCatlog,
+        '订单数量' AS FCatlog,
         count(*) AS FSEOrderCount,
         SUM(case when MONTH(t1.fdate)='1' then 1 END) AS FSEOrderCount1,
         SUM(case when MONTH(t1.fdate)='2' then 1 END) AS FSEOrderCount2,
@@ -32,7 +32,7 @@ UNION ALL
 --订单量
 SELECT YEAR(t1.FDate) AS FYear,
         --t3.Fname AS FDepartmentName,
-        '订单分录量' AS FCatlog,
+        '订单分录数量' AS FCatlog,
         count(*) AS FSEOrderCount,
         SUM(case when MONTH(t1.fdate)='1' then 1 END) AS FSEOrderCount1,
         SUM(case when MONTH(t1.fdate)='2' then 1 END) AS FSEOrderCount2,
