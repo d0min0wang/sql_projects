@@ -21,8 +21,8 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202303' --统计的年月
-SET @Department='新能源事业部'
+SET @Period='202304' --统计的年月
+SET @Department='健康事业部'
 
 --SELECT MONTH(@Period+'01')
 
@@ -457,77 +457,6 @@ where v3.FName=@Department
 --and v2.FName like '%顺科新能源%'
 order by [年销售额] desc
 
-
---企业两年销售额
-select  v8.FName,
-		v7.FName,
-		v2.FProvince,
-		v2.FName AS FName,
-		v3.FName,
-		v5.FName AS 行业,
-		v4.FName as 客户所属行业,
-        v2.F_112 AS 配套产品,
-		t1.*
-from
-(
-SELECT --v3.FName,
-		--v5.FName,
-		--v4.FName as FTradeName,
-		--v2.FName AS FName,  
-		v1.FSupplyID,  
---        CONVERT(char(7),v1.FDate,120),
---		ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),
---		[2009]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then u1.FConsignAmount END),0),
---		[2010]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then u1.FConsignAmount END),0),
-		--[2014销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FConsignAmount END),0),
-		[年销售额]=ISNULL(SUM(CASE year(v1.FDate) when left(@Period,4) then u1.FConsignAmount END),0),
-		[1月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '1' then u1.FConsignAmount END),0),
-		[2月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '2' then u1.FConsignAmount END),0),
-		[3月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '3' then u1.FConsignAmount END),0),
-		[4月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '4' then u1.FConsignAmount END),0),
-		[5月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '5' then u1.FConsignAmount END),0),
-		[6月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '6' then u1.FConsignAmount END),0),
-		[7月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '7' then u1.FConsignAmount END),0),
-		[8月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '8' then u1.FConsignAmount END),0),
-		[9月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '9' then u1.FConsignAmount END),0),
-		[10月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '10' then u1.FConsignAmount END),0),
-		[11月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '11' then u1.FConsignAmount END),0),
-		[12月销售额]=ISNULL(SUM(CASE month(v1.FDate) when '12' then u1.FConsignAmount END),0),
-		[年出货量]=ISNULL(SUM(CASE year(v1.FDate) when left(@Period,4) then u1.FAuxQty END),0),
-		[1月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '1' then u1.FAuxQty END),0),
-		[2月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '2' then u1.FAuxQty END),0),
-		[3月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '3' then u1.FAuxQty END),0),
-		[4月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '4' then u1.FAuxQty END),0),
-		[5月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '5' then u1.FAuxQty END),0),
-		[6月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '6' then u1.FAuxQty END),0),
-		[7月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '7' then u1.FAuxQty END),0),
-		[8月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '8' then u1.FAuxQty END),0),
-		[9月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '9' then u1.FAuxQty END),0),
-		[10月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '10' then u1.FAuxQty END),0),
-		[11月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '11' then u1.FAuxQty END),0),
-		[12月出货量]=ISNULL(SUM(CASE month(v1.FDate) when '12' then u1.FAuxQty END),0)
---		sum(u1.FConsignAmount)
-    --FROM t_xySaleReporttest
-    --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
-    FROM ICStockBill v1 
-	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
-	where year(v1.FDate)=left(@Period,4)
-	--and month(v1.FDate)<='2'
-	
-	and v1.FTranType=21 
-	group by v1.FSupplyID) t1
-
-LEFT JOIN t_Organization v2 ON t1.FSupplyID=v2.FItemID
-LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
-LEFT JOIN t_Item v4 ON v2.F_117=v4.FItemID
-LEFT JOIN t_Item v5 ON v4.FParentID=v5.FItemID
-LEFT JOIN t_Item v6 ON v5.FParentID=v6.FItemID
-LEFT JOIN t_SubMessage v7 ON v2.FRegionID=v7.FInterID
-LEFT JOIN t_Emp v8 ON v2.Femployee=v8.FItemID
-where v3.FName=@Department
-----where v4.FName='微波炉'
---and v2.FName like '%顺科新能源%'
-order by [年销售额] desc
 
 --SELECT * FROM t_FieldDescription WHERE FDescription LIKE '%配套%'
 
