@@ -1,15 +1,20 @@
 --产品代码93开头的为外购硅胶产品；产品助记码GQ开头为硅胶产品
 
-Select v1.FSupplyID, sum(u1.FConsignAmount) From ICStockBill v1 inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID AND u1.FInterID <> 0
+Select t4.FName, sum(u1.FConsignAmount) From ICStockBill v1 inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID AND u1.FInterID <> 0
 left join t_ICItem t3 on u1.FItemID=t3.FItemID
-Where (v1.FTranType = 21 AND (v1.FCancellation = 0)) and t3.FHelpCode like 'GQ%' And Year(v1.FDate)='2022'
-Group by v1.FSupplyID
+LEFT JOIN t_Organization t4 ON v1.fsupplyid=t4.FItemID
+Where (v1.FTranType = 21 AND (v1.FCancellation = 0)) and t3.FHelpCode like 'GQ%' --And Year(v1.FDate)='2022'
+AND t4.FName LIKE '%将军%'
+Group by t4.FName
 
 Select v1.FSupplyID, sum(u1.FConsignAmount) From ICStockBill v1 inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID AND u1.FInterID <> 0
 left join t_ICItem t3 on u1.FItemID=t3.FItemID
-Where (v1.FTranType = 21 AND (v1.FCancellation = 0)) and t3.FNumber like '93.%' And Year(v1.FDate)='2022'
+LEFT JOIN t_Organization t4 ON v1.fsupplyid=t4.FItemID
+Where (v1.FTranType = 21 AND (v1.FCancellation = 0)) and t3.FNumber like '93.%' --And Year(v1.FDate)='2022'
+AND t4.FName LIKE '%将军%'
 Group by v1.FSupplyID
 
+SELECT * FROM t_Organization where fname like '%富士通%'
 
 SELECT FHelpCode,* FROM t_ICItem where --fnumber like '93.%' or 
 FHelpCode LIKE 'GQ%'
@@ -25,8 +30,10 @@ Select FORMAT(v1.FDate, 'yyyy-MM'),
 From ICStockBill v1 
 inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID AND u1.FInterID <> 0
 left join t_ICItem t3 on u1.FItemID=t3.FItemID
+LEFT JOIN t_Organization t4 ON v1.fsupplyid=t4.FItemID
 Where (v1.FTranType = 21 AND (v1.FCancellation = 0)) and (t3.FNumber like '93.%' or t3.FHelpCode LIKE 'GQ%' )
 And Year(v1.FDate) in('2019','2020','2021','2022','2023')
+AND t4.fname LIKE '%富士通%'
 Group by FORMAT(v1.FDate, 'yyyy-MM')
 order by FORMAT(v1.FDate, 'yyyy-MM') ASC
 
