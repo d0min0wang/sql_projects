@@ -1,9 +1,20 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE   PROCEDURE [dbo].[p_xy_Industry_YoY]
+	@Period nvarchar(6)
+--SET @Querytime='2011-02-28'
+AS
+SET NOCOUNT ON
+
+--EXEC p_xy_Industry_YoY '202306'
 
 --select * from t_xySaleReporttest
-use AIS20140921170539
-DECLARE @Period char(6)
+--DECLARE @Period char(6)
 --DECLARE @Department char(30)
-SET @Period='202306' --统计的年月
+--SET @Period='202306' --统计的年月
 --SET @Department='电气连接事业部'
 
 --SELECT MONTH(@Period+'01')
