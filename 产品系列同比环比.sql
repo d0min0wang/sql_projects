@@ -23,30 +23,26 @@ AS
         CL_Money=C_Money-L_Money,
         CL_Money_Rate=CASE
                 WHEN L_Money=0 THEN '----'
-                ELSE SUBSTRING('↓－↑',CAST(SIGN(C_Money-L_Money) as int)+2,1)
-                    +CAST(CAST(ABS(C_Money-L_Money)*100/(CASE WHEN L_Money =0 THEN 1 ELSE L_Money END) as decimal(10,2)) as varchar)+'%'
+                ELSE format((C_Money-L_Money)/(CASE WHEN L_Money =0 THEN 1 ELSE L_Money END),'P')
             END,
         P_Money,
         CP_Money=C_Money-P_Money,
         CP_Money_Rate=CASE
                 WHEN P_Money=0 THEN '----'
-                ELSE SUBSTRING('↓－↑',CAST(SIGN(C_Money-P_Money) as int)+2,1)
-                    +CAST(CAST(ABS(C_Money-P_Money)*100/P_Money as decimal(10,2)) as varchar)+'%'
+                ELSE format((C_Money-P_Money)/P_Money,'P')
             END,
         C_AuxQty,
         L_AuxQty,
         CL_AunQty=C_AuxQty-L_AuxQty,
         CL_AuxQty_Rate=CASE
                 WHEN L_AuxQty=0 THEN '----'
-                ELSE SUBSTRING('↓－↑',CAST(SIGN(C_AuxQty-L_AuxQty) as int)+2,1)
-                    +CAST(CAST(ABS(C_AuxQty-L_AuxQty)*100/(CASE WHEN L_AuxQty =0 THEN 1 ELSE L_AuxQty END) as decimal(10,2)) as varchar)+'%'
+                ELSE format((C_AuxQty-L_AuxQty)/(CASE WHEN L_AuxQty =0 THEN 1 ELSE L_AuxQty END),'P')
             END,
         P_AuxQty,
         CP_AuxQty=C_AuxQty-P_AuxQty,
         CP_AuxQty_Rate=CASE
                 WHEN P_AuxQty=0 THEN '----'
-                ELSE SUBSTRING('↓－↑',CAST(SIGN(C_AuxQty-P_AuxQty) as int)+2,1)
-                    +CAST(CAST(ABS(C_AuxQty-P_AuxQty)*100/P_AuxQty as decimal(10,2)) as varchar)+'%'
+                ELSE format((C_AuxQty-P_AuxQty)/P_AuxQty,'P')
             END
     --into #tongbihuanbi
     FROM(
