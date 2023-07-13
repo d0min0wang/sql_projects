@@ -3,13 +3,15 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE   PROCEDURE [dbo].[p_xy_Product_Series_YoY]
-	@Period nvarchar(6)
+ALTER   PROCEDURE [dbo].[p_xy_Product_Series_YoY]
+	@PeriodYear int,
+    @PeriodMonth int,
+    @Department nvarchar(30)
 --SET @Querytime='2011-02-28'
 AS
 SET NOCOUNT ON
 
---EXEC p_xy_Product_Series_YoY '202306'
+--EXEC p_xy_Product_Series_YoY '202306','电气连接事业部'
 
 --select * from t_xySaleReporttest
 --DECLARE @Period char(6)
@@ -22,10 +24,41 @@ SET NOCOUNT ON
 
 
 --统计处理
-DECLARE @Last_Period char(6),@Previous_Period char(6)
-SELECT @Last_Period=CONVERT(char(6),DATEADD(Year,-1,@Period+'01'),112),
- @Previous_Period=CONVERT(char(6),DATEADD(Month,-1,@Period+'01'),112)
- ;WITH tongbihuanbi
+DECLARE @Period nvarchar(6),@Last_Period nvarchar(6),@Previous_Period nvarchar(6)
+SET @Period=FORMAT(@PeriodYear,'D4')+FORMAT(@PeriodMonth,'D2')
+--SELECT @Period
+set @Last_Period=FORMAT(@PeriodYear-1,'D4')+FORMAT(@PeriodMonth,'D2')
+set @Previous_Period=FORMAT(@PeriodYear,'D4')+FORMAT(@PeriodMonth-1,'D2')
+
+ ;WITH CTE_Origin
+ AS
+ (
+    SELECT --FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<销售部合计>' ELSE (v3.FName) END,
+            FItemSerial=CASE WHEN GROUPING(v5.FName)=1 THEN '总计' ELSE (v5.FName) END,
+            --FTrade=convert(varchar(10),min(v2.F_117)),    
+            C_Money=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),
+            L_Money=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Last_Period THEN u1.FConsignAmount END),0),
+            P_Money=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Previous_Period THEN u1.FConsignAmount END),0),
+            C_AuxQty=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FAuxQty END),0),
+            L_AuxQty=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Last_Period THEN u1.FAuxQty END),0),
+            P_AuxQty=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Previous_Period THEN u1.FAuxQty END),0)
+        --FROM t_xySaleReporttest
+        --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
+        FROM ICStockBill v1 
+        INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
+        LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
+        LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+        LEFT JOIN t_ICItem v4 ON u1.FItemID=v4.FItemID
+        left join t_SubMessage v5 ON v4.F_126=v5.FInterID
+
+        WHERE v1.FTranType=21 And
+            CONVERT(char(6),v1.FDate,112) IN(@Last_Period,@Previous_Period,@Period)
+            AND v3.fname=@Department
+        GROUP BY v5.FName  WITH ROLLUP	
+        --ORDER BY u1.FConsignAmount
+        --HAVING GROUPING(FDepartment)=0 AND GROUPING(FbigTrade)=0 
+ ),
+tongbihuanbi
 AS
 (
     SELECT FItemSerial,--FTrade,
@@ -56,32 +89,7 @@ AS
                 ELSE format((C_AuxQty-P_AuxQty)/P_AuxQty,'P')
             END
     --into #tongbihuanbi
-    FROM(
-        SELECT --FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<销售部合计>' ELSE (v3.FName) END,
-            FItemSerial=CASE WHEN GROUPING(v5.FName)=1 THEN '总计' ELSE (v5.FName) END,
-            --FTrade=convert(varchar(10),min(v2.F_117)),    
-            C_Money=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),
-            L_Money=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Last_Period THEN u1.FConsignAmount END),0),
-            P_Money=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Previous_Period THEN u1.FConsignAmount END),0),
-            C_AuxQty=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FAuxQty END),0),
-            L_AuxQty=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Last_Period THEN u1.FAuxQty END),0),
-            P_AuxQty=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Previous_Period THEN u1.FAuxQty END),0)
-        --FROM t_xySaleReporttest
-        --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
-        FROM ICStockBill v1 
-        INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
-        LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
-        LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
-        LEFT JOIN t_ICItem v4 ON u1.FItemID=v4.FItemID
-        left join t_SubMessage v5 ON v4.F_126=v5.FInterID
-
-        WHERE v1.FTranType=21 And
-            CONVERT(char(6),v1.FDate,112) IN(@Last_Period,@Previous_Period,@Period)
-            AND v3.fname='电气连接事业部'
-        GROUP BY v5.FName  WITH ROLLUP	
-        --ORDER BY u1.FConsignAmount
-        --HAVING GROUPING(FDepartment)=0 AND GROUPING(FbigTrade)=0 
-        )a
+    FROM CTE_Origin
         --ORDER BY a.FDepartment,a.C_Money DESC
 )
 
@@ -90,16 +98,16 @@ select
 	t1.FItemSerial AS 产品系列,
 	--t2.FName AS 行业,
     P_Money AS 上月出库金额,
-    L_Money AS 去年本月出库金额,
-    C_Money AS 本月出库金额,
+    L_Money AS 去年当月出库金额,
+    C_Money AS 当月出库金额,
     --format(C_Money*2/(select sum(C_Money) from tongbihuanbi),'P')  AS 占比,    
     --CP_Money AS 销售额环比,
     CP_Money_Rate AS 环比,
     --CL_Money AS 销售额同比,
     CL_Money_Rate AS 同比,
     P_AuxQty AS 上月出货量,
-    L_AuxQty AS 去年本月出货量,
-	C_AuxQty AS 本月出货量,
+    L_AuxQty AS 去年当月出货量,
+	C_AuxQty AS 当月出货量,
     --CP_AuxQty AS 出货量环比,
     CP_AuxQty_Rate AS 环比,
     --CL_AunQty AS 出货量同比,
