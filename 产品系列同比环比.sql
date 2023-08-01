@@ -2,7 +2,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
+--电气连接事业部-产品系列同比环比
 ALTER   PROCEDURE [dbo].[p_xy_Product_Series_YoY]
 	@PeriodYear int,
     @PeriodMonth int,
@@ -11,7 +11,7 @@ ALTER   PROCEDURE [dbo].[p_xy_Product_Series_YoY]
 AS
 SET NOCOUNT ON
 
---EXEC p_xy_Product_Series_YoY '202306','电气连接事业部'
+--EXEC p_xy_Product_Series_YoY 2023,6,'电气连接事业部'
 
 --select * from t_xySaleReporttest
 --DECLARE @Period char(6)

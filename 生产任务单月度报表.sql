@@ -1,3 +1,15 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[p_xy_ICMO_with_Label_monthly_report]
+	@FYear nvarchar(4)
+AS
+SET NOCOUNT ON
+
+--EXEC p_xy_ICMO_with_Label_monthly_report '2022'
+
 --SELECT * FROM t_TableDescription where FTableName='ICMO' --470000
 
 --SELECT * FROM t_FieldDescription where  FTableID=470000 AND FDescription LIKE '%人%'
@@ -20,8 +32,9 @@ AS
     LEFT JOIN t_User t3 ON t1.FBillerID=t3.FUserID AND t3.FUserID<>0
     LEFT JOIN t_Organization t4 on t1.FHeadSelfJ0195=t4.FItemID
     LEFT JOIN t_Item t5 ON t1.FHeadSelfJ01102=t5.FItemID
-    WHERE year(t1.fcheckdate)='2023'
+    WHERE year(t1.fcheckdate)=@FYear
     AND t2.FName IN('电气连接国内事业部','电气连接事业部')
+    AND (t1.FTranType = 85 AND ( t1.FType <> 11060 ) AND (t1.FCancellation = 0))
 ),
 CTE_Total
 AS
@@ -62,6 +75,8 @@ AS
 (
     SELECT FDepartmentName,
     FUserName,
+    SUM(case when FLabel<>'*' then 1 else 0 end) AS FUnNormalX,
+    SUM(case when FLabel<>'*' then FAuxQty else 0 end) AS FUnNormalFAuxQtyX,
     SUM(case when FCustName='' or FLabel='*' then 1 else 0 end) AS FUnNormal,
     SUM(case when FCustName='' or FLabel='*' then FAuxQty else 0 end) AS FUnNormalFAuxQty,
     SUM(case when (FCustName='' or FLabel='*') and MONTH(FCheckDate)='1' then 1 else 0 end) AS FUnNormal1,
@@ -93,8 +108,13 @@ AS
 )
 
 
-SELECT t1.FDepartmentName,
-    t1.FUserName,
+SELECT @fyear AS [年份],
+    t1.FDepartmentName as [部门],
+    t1.FUserName AS [制单人],
+    --t1.FTotal,
+    --t1.FTotalQty,
+    --t1.FTotal-t2.FUnNormal, 
+    --t2.FUnNormalx,
     --一月
     t1.FTotal1 AS [1月总任务单数],
     t1.FTotal1-t2.FUnNormal1 AS [1月特殊张数],
@@ -107,90 +127,91 @@ SELECT t1.FDepartmentName,
     t1.FTotal2 AS [2月总任务单数],
     t1.FTotal2-t2.FUnNormal2 AS [2月特殊张数],
     t1.FTotalQty2-t2.FUnNormalFAuxQty2 AS [2月特殊数量],
-    (t1.FTotal2-t2.FUnNormal2)*1.0/t1.FTotal2,
-    t2.FUnNormal2,
-    t2.FUnNormalFAuxQty2,
-    t2.FUnNormal2*1.0/t1.FTotal2,
+    (t1.FTotal2-t2.FUnNormal2)*1.0/t1.FTotal2 AS [2月特殊张数占比],
+    t2.FUnNormal2 AS [2月非特殊张数],
+    t2.FUnNormalFAuxQty2 AS [2月非特殊数量],
+    t2.FUnNormal2*1.0/t1.FTotal2 AS [2月非特殊张数占比],
     --三月
     t1.FTotal3 AS [3月总任务单数],
     t1.FTotal3-t2.FUnNormal3 AS [3月特殊张数],
     t1.FTotalQty3-t2.FUnNormalFAuxQty3 AS [3月特殊数量],
-    (t1.FTotal3-t2.FUnNormal3)*1.0/t1.FTotal3,
-    t2.FUnNormal3,
-    t2.FUnNormalFAuxQty3,
-    t2.FUnNormal3*1.0/t1.FTotal3,
+    (t1.FTotal3-t2.FUnNormal3)*1.0/t1.FTotal3 AS [3月特殊张数占比],
+    t2.FUnNormal3 AS [3月非特殊张数],
+    t2.FUnNormalFAuxQty3 AS [3月非特殊数量],
+    t2.FUnNormal3*1.0/t1.FTotal3 AS [3月非特殊张数占比],
     --四月
     t1.FTotal4 AS [4月总任务单数],
     t1.FTotal4-t2.FUnNormal4 AS [4月特殊张数],
     t1.FTotalQty4-t2.FUnNormalFAuxQty4 AS [4月特殊数量],
-    (t1.FTotal4-t2.FUnNormal4)*1.0/t1.FTotal4,
-    t2.FUnNormal4,
-    t2.FUnNormalFAuxQty4,
-    t2.FUnNormal4*1.0/t1.FTotal4,
+    (t1.FTotal4-t2.FUnNormal4)*1.0/t1.FTotal4 AS [4月特殊张数占比],
+    t2.FUnNormal4 AS [4月非特殊张数],
+    t2.FUnNormalFAuxQty4 AS [4月非特殊数量],
+    t2.FUnNormal4*1.0/t1.FTotal4 AS [4月非特殊张数占比],
     --五月
     t1.FTotal5 AS [5月总任务单数],
     t1.FTotal5-t2.FUnNormal5 AS [5月特殊张数],
     t1.FTotalQty5-t2.FUnNormalFAuxQty5 AS [5月特殊数量],
-    (t1.FTotal5-t2.FUnNormal5)*1.0/t1.FTotal5,
-    t2.FUnNormal5,
-    t2.FUnNormalFAuxQty5,
-    t2.FUnNormal5*1.0/t1.FTotal5,
+    (t1.FTotal5-t2.FUnNormal5)*1.0/t1.FTotal5 AS [5月特殊张数占比],
+    t2.FUnNormal5 AS [5月非特殊张数],
+    t2.FUnNormalFAuxQty5 AS [5月非特殊数量],
+    t2.FUnNormal5*1.0/t1.FTotal5 AS [5月非特殊张数占比],
     --六月
     t1.FTotal6 AS [6月总任务单数],
     t1.FTotal6-t2.FUnNormal6 AS [6月特殊张数],
     t1.FTotalQty6-t2.FUnNormalFAuxQty6 AS [6月特殊数量],
-    (t1.FTotal6-t2.FUnNormal6)*1.0/t1.FTotal6,
-    t2.FUnNormal6,
-    t2.FUnNormalFAuxQty6,
-    t2.FUnNormal6*1.0/t1.FTotal6,
+    (t1.FTotal6-t2.FUnNormal6)*1.0/t1.FTotal6 AS [6月特殊张数占比],
+    t2.FUnNormal6 AS [6月非特殊张数],
+    t2.FUnNormalFAuxQty6 AS [6月非特殊数量],
+    t2.FUnNormal6*1.0/t1.FTotal6 AS [6月非特殊张数占比],
     --七月
     t1.FTotal7 AS [7月总任务单数],
     t1.FTotal7-t2.FUnNormal7 AS [7月特殊张数],
     t1.FTotalQty7-t2.FUnNormalFAuxQty7 AS [7月特殊数量],
-    (t1.FTotal7-t2.FUnNormal7)*1.0/t1.FTotal7,
-    t2.FUnNormal7,
-    t2.FUnNormalFAuxQty7,
-    t2.FUnNormal7*1.0/t1.FTotal7,
+    (t1.FTotal7-t2.FUnNormal7)*1.0/t1.FTotal7 AS [7月特殊张数占比],
+    t2.FUnNormal7 AS [7月非特殊张数],
+    t2.FUnNormalFAuxQty7 AS [7月非特殊数量],
+    t2.FUnNormal7*1.0/t1.FTotal7 AS [7月非特殊张数占比],
     --八月
     t1.FTotal8 AS [8月总任务单数],
     t1.FTotal8-t2.FUnNormal8 AS [8月特殊张数],
     t1.FTotalQty8-t2.FUnNormalFAuxQty8 AS [8月特殊数量],
-    (t1.FTotal8-t2.FUnNormal8)*1.0/t1.FTotal8,
-    t2.FUnNormal8,
-    t2.FUnNormalFAuxQty8,
-    t2.FUnNormal8*1.0/t1.FTotal8,
+    (t1.FTotal8-t2.FUnNormal8)*1.0/t1.FTotal8 AS [8月特殊张数占比],
+    t2.FUnNormal8 AS [8月非特殊张数],
+    t2.FUnNormalFAuxQty8 AS [8月非特殊数量],
+    t2.FUnNormal8*1.0/t1.FTotal8 AS [8月非特殊张数占比],
     --九月
     t1.FTotal9 AS [9月总任务单数],
     t1.FTotal9-t2.FUnNormal9 AS [9月特殊张数],
     t1.FTotalQty9-t2.FUnNormalFAuxQty9 AS [9月特殊数量],
-    (t1.FTotal9-t2.FUnNormal9)*1.0/t1.FTotal9,
-    t2.FUnNormal9,
-    t2.FUnNormalFAuxQty9,
-    t2.FUnNormal9*1.0/t1.FTotal9,
+    (t1.FTotal9-t2.FUnNormal9)*1.0/t1.FTotal9 AS [9月特殊张数占比],
+    t2.FUnNormal9 AS [9月非特殊张数],
+    t2.FUnNormalFAuxQty9 AS [9月非特殊数量],
+    t2.FUnNormal9*1.0/t1.FTotal9 AS [9月非特殊张数占比],
     --十月
     t1.FTotal10 AS [10月总任务单数],
     t1.FTotal10-t2.FUnNormal10 AS [10月特殊张数],
     t1.FTotalQty10-t2.FUnNormalFAuxQty10 AS [10月特殊数量],
-    (t1.FTotal10-t2.FUnNormal10)*1.0/t1.FTotal10,
-    t2.FUnNormal10,
-    t2.FUnNormalFAuxQty10,
-    t2.FUnNormal10*1.0/t1.FTotal10,
+    (t1.FTotal10-t2.FUnNormal10)*1.0/t1.FTotal10 AS [10月特殊张数占比],
+    t2.FUnNormal10 AS [10月非特殊张数],
+    t2.FUnNormalFAuxQty10 AS [10月非特殊数量],
+    t2.FUnNormal10*1.0/t1.FTotal10 AS [10月非特殊张数占比],
     --十一月
     t1.FTotal11 AS [11月总任务单数],
     t1.FTotal11-t2.FUnNormal11 AS [11月特殊张数],
     t1.FTotalQty11-t2.FUnNormalFAuxQty11 AS [11月特殊数量],
-    (t1.FTotal11-t2.FUnNormal11)*1.0/t1.FTotal11,
-    t2.FUnNormal11,
-    t2.FUnNormalFAuxQty11,
-    t2.FUnNormal11*1.0/t1.FTotal11,
+    (t1.FTotal11-t2.FUnNormal11)*1.0/t1.FTotal11 AS [11月特殊张数占比],
+    t2.FUnNormal11 AS [11月非特殊张数],
+    t2.FUnNormalFAuxQty11 AS [11月非特殊数量],
+    t2.FUnNormal11*1.0/t1.FTotal11 AS [11月非特殊张数占比],
     --十二月
     t1.FTotal12 AS [12月总任务单数],
     t1.FTotal12-t2.FUnNormal12 AS [12月特殊张数],
     t1.FTotalQty12-t2.FUnNormalFAuxQty12 AS [12月特殊数量],
-    (t1.FTotal12-t2.FUnNormal12)*1.0/t1.FTotal12,
-    t2.FUnNormal12,
-    t2.FUnNormalFAuxQty12,
-    t2.FUnNormal12*1.0/t1.FTotal12
+    (t1.FTotal12-t2.FUnNormal12)*1.0/t1.FTotal12 AS [12月特殊张数占比],
+    t2.FUnNormal12 AS [12月非特殊张数],
+    t2.FUnNormalFAuxQty12 AS [12月非特殊数量],
+    t2.FUnNormal12*1.0/t1.FTotal12 AS [12月非特殊张数占比]
 
 FROM CTE_Total t1
 LEFT JOIN CTE_UnNormal t2 ON t1.FDepartmentName=t2.FDepartmentName AND t1.FUserName=t2.FUserName
+

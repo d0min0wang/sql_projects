@@ -2,7 +2,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
+--电气连接事业部-行业同比环比
 ALTER   PROCEDURE [dbo].[p_xy_Industry_YoY]
 	@PeriodYear int,
     @PeriodMonth int,
