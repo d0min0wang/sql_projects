@@ -321,19 +321,19 @@ SELECT --v3.FName,
 		--[2008销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FConsignAmount END),0),
 		--[2009销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FConsignAmount END),0),
 		--[2010销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FConsignAmount END),0),
-		--[2011销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FConsignAmount END),0),
-		--[2012销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FConsignAmount END),0),
-		[2014销售额]=ISNULL(SUM(CASE when year(v1.FDate) = '2014' AND Month(v1.FDate)<='12'  then v1.FConsignAmount END),0),
-		[2015销售额]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' AND Month(v1.FDate)<='12'  then v1.FConsignAmount END),0),
-		[2016销售额]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' AND Month(v1.FDate)<='12'  then v1.FConsignAmount END),0),
+		[2023销售额]=ISNULL(SUM(CASE when year(v1.FDate) = '2023' AND Month(v1.FDate)<='6' then v1.FConsignAmount END),0),
+		[2022销售额]=ISNULL(SUM(CASE when year(v1.FDate) = '2022' AND Month(v1.FDate)<='6' then v1.FConsignAmount END),0),
+		[2021销售额]=ISNULL(SUM(CASE when year(v1.FDate) = '2021' AND Month(v1.FDate)<='6'  then v1.FConsignAmount END),0),
+		[2020销售额]=ISNULL(SUM(CASE when year(v1.FDate) = '2020' AND Month(v1.FDate)<='6'  then v1.FConsignAmount END),0),
+		[2019销售额]=ISNULL(SUM(CASE when year(v1.FDate) = '2019' AND Month(v1.FDate)<='6'  then v1.FConsignAmount END),0),
 		--[2008出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FAuxQty END),0),
 		--[2009出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FAuxQty END),0),
 		--[2010出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FAuxQty END),0),
-		--[2011出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FAuxQty END),0),
-		--[2012出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FAuxQty END),0),
-		[2014出货量]=ISNULL(SUM(CASE when year(v1.FDate) = '2014' AND Month(v1.FDate)<='12'  then v1.FAuxQty END),0),
-		[2015出货量]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' AND Month(v1.FDate)<='12'  then v1.FAuxQty END),0),
-		[2016出货量]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' AND Month(v1.FDate)<='12'  then v1.FAuxQty END),0)
+		[2023出货量]=ISNULL(SUM(CASE when year(v1.FDate) = '2023' AND Month(v1.FDate)<='6' then v1.FAuxQty END),0),
+		[2022出货量]=ISNULL(SUM(CASE when year(v1.FDate) = '2022' AND Month(v1.FDate)<='6' then v1.FAuxQty END),0),
+		[2021出货量]=ISNULL(SUM(CASE when year(v1.FDate) = '2021' AND Month(v1.FDate)<='6'  then v1.FAuxQty END),0),
+		[2020出货量]=ISNULL(SUM(CASE when year(v1.FDate) = '2020' AND Month(v1.FDate)<='6'  then v1.FAuxQty END),0),
+		[2019出货量]=ISNULL(SUM(CASE when year(v1.FDate) = '2019' AND Month(v1.FDate)<='6'  then v1.FAuxQty END),0)
 --		sum(u1.FConsignAmount)
     --FROM t_xySaleReporttest
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
@@ -358,7 +358,7 @@ month(v1.FDate)<='12'
 and 
 v1.FTranType=21 
 And v1.FCheckerID>0 
-and v3.FName='健康事业部' --and v5.FName='体育用品' 
+and v3.FName='新能源事业部' --and v5.FName='体育用品' 
 --and v4.FName IN ('通信设备','光纤连接器','射频连接器','天线','光纤\光缆','日用五金')
 
 group by --v3.FName,v5.FName,
@@ -366,7 +366,7 @@ v4.FName,v2.FName--,year(v1.FDate)
 --CONVERT(char(7),v1.FDate,120) 
 with rollup
 order by v4.FName,
-[2016销售额] desc
+[2023销售额] desc
 
 
 --企业四年按业务员分
@@ -1276,19 +1276,19 @@ SELECT FDepartment AS 事业部,FBigTrade AS 行业,
 	--P_Money AS '年销售额',
 	--P_AuxQty AS '年出货量',
 	--P_Money_1 AS '2009销售额',
-    P_Money_7 AS '2022销售额',
-    P_Money_6 AS '2021销售额',
-    P_Money_5 AS '2020销售额',
-    P_Money_4 AS '2019销售额',
-    P_Money_3 AS '2018销售额',
-	P_Money_2 AS '2017销售额',
+    P_Money_7 AS '2023销售额',
+    P_Money_6 AS '2022销售额',
+    P_Money_5 AS '2021销售额',
+    P_Money_4 AS '2020销售额',
+    P_Money_3 AS '2019销售额',
+	P_Money_2 AS '2018销售额',
 	--P_AuxQty_1 AS '2009出货量',
-    P_AuxQty_7 AS '2022出货量',
-    P_AuxQty_6 AS '2021出货量',
-    P_AuxQty_5 AS '2020出货量',
-    P_AuxQty_4 AS '2019出货量',
-    P_AuxQty_3 AS '2018出货量',
-	P_AuxQty_2 AS '2017出货量'
+    P_AuxQty_7 AS '2023出货量',
+    P_AuxQty_6 AS '2022出货量',
+    P_AuxQty_5 AS '2021出货量',
+    P_AuxQty_4 AS '2020出货量',
+    P_AuxQty_3 AS '2019出货量',
+	P_AuxQty_2 AS '2018出货量'
 FROM(
     SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<销售部合计>' ELSE (v3.FName) END,
         FBigTrade=CASE WHEN GROUPING(v5.FName)=1 THEN '<事业部合计>' ELSE (v5.FName) END,    
@@ -1327,8 +1327,8 @@ FROM(
     WHERE v1.FTranType=21 And v1.FCheckerID>0 
 	--AND v1.FDate<='2021-12-21'
 	--	year(v1.FDate) >=@Period
-	--	and month(v1.FDate)<='8'
-	AND v3.FName='健康事业部'
+	and month(v1.FDate)<='6'
+	AND v3.FName='新能源事业部'
     GROUP BY v3.FName,v5.FName  WITH ROLLUP	
 	--ORDER BY u1.FConsignAmount
     --HAVING GROUPING(FDepartment)=0 AND GROUPING(FbigTrade)=0 
@@ -1511,3 +1511,108 @@ LEFT JOIN t_Organization t2 ON t1.FSupplyID=t2.FItemID
 LEFT JOIN t_Department t4 ON t2.Fdepartment=t4.FItemID
 LEFT JOIN t_Emp t5 ON t2.Femployee=t5.FItemID
 --WHERE t4.FName IN('电气连接事业部','电气连接国内事业部')
+
+
+--企业销售额
+select  v8.FName,
+		v7.FName,
+		v2.FProvince,
+		v2.FName AS FName,
+		v3.FName,
+		v5.FName AS 行业,
+		v4.FName as 客户所属行业,
+        v2.F_112 AS 配套产品,
+		t1.*
+from
+(
+SELECT --v3.FName,
+		--v5.FName,
+		--v4.FName as FTradeName,
+		--v2.FName AS FName,  
+		v1.FSupplyID,  
+--        CONVERT(char(7),v1.FDate,120),
+--		ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),
+--		[2009]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then u1.FConsignAmount END),0),
+--		[2010]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then u1.FConsignAmount END),0),
+		--[2014销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FConsignAmount END),0),
+		[2023年销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2023' then u1.FConsignAmount END),0),
+		[2022年销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2022' then u1.FConsignAmount END),0),
+		[2021年销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2021' then u1.FConsignAmount END),0),
+		[2020年销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2020' then u1.FConsignAmount END),0),
+		[2019年销售额]=ISNULL(SUM(CASE year(v1.FDate) when '2019' then u1.FConsignAmount END),0),
+		
+		[2023年出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2023' then u1.FAuxQty END),0),
+		[2022年出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2022' then u1.FAuxQty END),0),
+		[2021年出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2021' then u1.FAuxQty END),0),
+		[2020年出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2020' then u1.FAuxQty END),0),
+		[2019年出货量]=ISNULL(SUM(CASE year(v1.FDate) when '2019' then u1.FAuxQty END),0)
+--		sum(u1.FConsignAmount)
+    --FROM t_xySaleReporttest
+    --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
+    FROM ICStockBill v1 
+	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
+	where month(v1.FDate)<='6'
+	
+	and v1.FTranType=21 
+	group by v1.FSupplyID) t1
+
+LEFT JOIN t_Organization v2 ON t1.FSupplyID=v2.FItemID
+LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+LEFT JOIN t_Item v4 ON v2.F_117=v4.FItemID
+LEFT JOIN t_Item v5 ON v4.FParentID=v5.FItemID
+LEFT JOIN t_Item v6 ON v5.FParentID=v6.FItemID
+LEFT JOIN t_SubMessage v7 ON v2.FRegionID=v7.FInterID
+LEFT JOIN t_Emp v8 ON v2.Femployee=v8.FItemID
+where v3.FName='新能源事业部'
+----where v4.FName='微波炉'
+--and v2.FName like '%顺科新能源%'
+order by [2023年销售额] desc
+
+
+SELECT FDepartment AS 事业部,FBigTrade AS 行业,
+	P_Money AS '年销售额',
+	P_AuxQty AS '年出货量',
+    P_Money_1 AS '2023销售额',
+    P_Money_2 AS '2022销售额',
+    P_Money_3 AS '2021销售额',
+    P_Money_4 AS '2020销售额',
+    P_Money_5 AS '2019销售额',
+    P_AuxQty_1 AS '2023出货量',
+    P_AuxQty_2 AS '2022出货量',
+    P_AuxQty_3 AS '2021出货量',
+    P_AuxQty_4 AS '2020出货量',
+    P_AuxQty_5 AS '2019出货量'
+FROM(
+    SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<销售部合计>' ELSE (v3.FName) END,
+        FBigTrade=CASE WHEN GROUPING(v5.FName)=1 THEN '<事业部合计>' ELSE (v5.FName) END,    
+		P_Money=ISNULL(SUM(u1.FConsignAmount),0),
+        P_AuxQty=ISNULL(SUM(u1.FAuxQty),0),
+        P_Money_1=ISNULL(SUM(CASE year(v1.FDate) WHEN '2023' THEN u1.FConsignAmount END),0),
+        P_Money_2=ISNULL(SUM(CASE year(v1.FDate) WHEN '2022' THEN u1.FConsignAmount END),0),
+        P_Money_3=ISNULL(SUM(CASE year(v1.FDate) WHEN '2021' THEN u1.FConsignAmount END),0),
+        P_Money_4=ISNULL(SUM(CASE year(v1.FDate) WHEN '2020' THEN u1.FConsignAmount END),0),
+        P_Money_5=ISNULL(SUM(CASE year(v1.FDate) WHEN '2019' THEN u1.FConsignAmount END),0),
+        
+        P_AuxQty_1=ISNULL(SUM(CASE year(v1.FDate) WHEN '2023' THEN u1.FAuxQty END),0),
+        P_AuxQty_2=ISNULL(SUM(CASE year(v1.FDate) WHEN '2022' THEN u1.FAuxQty END),0),
+        P_AuxQty_3=ISNULL(SUM(CASE year(v1.FDate) WHEN '2021' THEN u1.FAuxQty END),0),
+        P_AuxQty_4=ISNULL(SUM(CASE year(v1.FDate) WHEN '2020' THEN u1.FAuxQty END),0),
+        P_AuxQty_5=ISNULL(SUM(CASE year(v1.FDate) WHEN '2019' THEN u1.FAuxQty END),0)
+    --FROM t_xySaleReporttest
+    --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
+    FROM ICStockBill v1 
+	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
+	LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
+	LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+	LEFT JOIN t_Item v4 ON u1.FItemID=v4.FItemID
+	left join t_Item v5 ON v2.F_117=v5.FItemID
+    WHERE v1.FTranType=21 And v1.FCheckerID>0 AND
+		month(v1.FDate) <='6'
+		--and month(v1.FDate)<month(getdate()) 
+		and v3.FName='新能源事业部'
+
+    GROUP BY v3.FName,v5.FName  WITH ROLLUP	
+	--ORDER BY u1.FConsignAmount
+    --HAVING GROUPING(FDepartment)=0 AND GROUPING(FbigTrade)=0 
+    )a
+    ORDER BY a.FDepartment,P_Money DESC
