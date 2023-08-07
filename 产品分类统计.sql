@@ -91,6 +91,7 @@ left join t_ICItem t3 on u1.FItemID=t3.FItemID
 LEFT JOIN t_Organization t4 ON v1.fsupplyid=t4.FItemID
 Where (v1.FTranType = 21 AND (v1.FCancellation = 0)) and (t3.FNumber like '93.%' or t3.FHelpCode LIKE 'GQ%' )
 And Year(v1.FDate) in('2019','2020','2021','2022','2023')
+and MONTH(v1.fdate)<='6'
 AND t4.f_131 LIKE '%富士通%'
 Group by Year(v1.FDate),t4.fname
 order by Year(v1.FDate),sum(u1.FConsignAmount) desc
