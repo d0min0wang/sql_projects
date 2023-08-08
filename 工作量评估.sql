@@ -1,6 +1,6 @@
 DECLARE @FDepartmentName NVARCHAR(50)
 
-SET @FDepartmentName='医疗事业部'
+SET @FDepartmentName='电气连接事业部'
 
 SELECT * FROM
 (
@@ -107,9 +107,9 @@ SELECT YEAR(t1.FDate) AS FYear,
 
 SELECT * FROM
 (
-    --出库单分录量
+    --出库单量
     SELECT YEAR(t1.FDate) AS FYear,
-        '出库单分录数量' AS FCatlog,
+        '出库单数量' AS FCatlog,
         count(*) AS FICStockBillCount,
         SUM(case when MONTH(t1.fdate)='1' then 1 END) AS FICStockBillCount1,
         SUM(case when MONTH(t1.fdate)='2' then 1 END) AS FICStockBillCount2,

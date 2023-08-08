@@ -1,4 +1,17 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+--物料收发汇总表
+ALTER   PROCEDURE [dbo].[p_xy_Material_summary]
+	@StartQuerytime nvarchar(10),
+    @EndQuerytime nvarchar(10)
+--SET @Querytime='2011-02-28'
+AS
 Set NoCount On Set Ansi_Warnings Off
+
+--EXEC p_xy_Material_summary '2023-01-01','2023-12-31'
+
  Create Table #Happen_New(
         FItemID int Null,
         FStockID int Null,
@@ -56,7 +69,8 @@ v2.FKFPeriod,isnull(v2.FKFDate,''),0,0,0,
  Inner Join ICStockBillEntry v2  On v1.FInterID=v2.FInterID 
  Left Join t_Stock t2 On v2.FDCStockID=t2.FItemID 
  Where v1.FTranType = 101 
- And v1.FDate < '2023-01-01'
+ --And v1.FDate < '2023-01-01'
+ And v1.FDate < @StartQuerytime
  And v1.FStatus>0 And v1.FCancelLation=0 
  And isnull(v1.FPoMode,0)=36681 AND t2.FTypeID=504 
  AND isnull(t2.FIncludeAccounting,0) =1 
@@ -65,7 +79,8 @@ v2.FKFPeriod,isnull(v2.FKFDate,''),0,0,0,
  Left Join t_Stock t2 On v2.FStockID=t2.FItemID
  Left Join t_StockPlace t11 On v2.FStockPlaceID=t11.FSPID
 
- Where v2.FYear=2023 And v2.FPeriod=1
+ --Where v2.FYear=2023 And v2.FPeriod=1
+ Where v2.FYear=YEAR(@StartQuerytime) And v2.FPeriod=month(@StartQuerytime)
  AND isnull(t2.FIncludeAccounting,0) =1
  And t2.FNumber>='13' AND t2.FNumber<='13' AND t2.FIncludeAccounting<>0 
 
@@ -82,8 +97,9 @@ Left Join t_ICItem t1 On v2.FItemID=t1.FItemID
 Left Join t_Stock t2 On v2.FDCStockID=t2.FItemID 
 Left Join t_StockPlace t11 On v2.FDCSPID=t11.FSPID
 
- Where (v1.FTranType In (1,2,5,10,40,101,102,41) Or (V1.FTranType=100 And V1.FBillTypeID=12542)) And v1.FDate >='2023-01-01'
- And v1.FDate <'2023-01-01'
+ Where (v1.FTranType In (1,2,5,10,40,101,102,41) Or (V1.FTranType=100 And V1.FBillTypeID=12542)) 
+ --And v1.FDate >='2023-01-01' And v1.FDate <'2023-01-01'
+ And v1.FDate >=@StartQuerytime And v1.FDate <@StartQuerytime
  And t2.FNumber>='13' AND t2.FNumber<='13' AND t2.FIncludeAccounting<>0 
  And v1.FStatus>0 And v1.FCancelLation=0 
  Group By v2.FItemID,t2.FItemID,v2.FDCSPID,v2.FMTONo,v2.FBatchNo,v2.FAuxPropID,v1.FTranType,t1.FTrack
@@ -97,8 +113,9 @@ Select v2.FItemID,t2.FItemID,v2.FDCSPID,v2.FBatchNo,v2.FMTONo,v2.FAuxPropID,Sum(
  Left Join t_Stock t2 On v2.FDCStockID=t2.FItemID 
  Left Join t_StockPlace t11 On v2.FDCSPID=t11.FSPID
 
- Where (v1.FTranType In (21,28,29,43) Or (V1.FTranType=100 And V1.FBillTypeID=12541)) And v1.FDate >='2023-01-01'
- And v1.FDate <'2023-01-01'
+ Where (v1.FTranType In (21,28,29,43) Or (V1.FTranType=100 And V1.FBillTypeID=12541)) 
+ --And v1.FDate >='2023-01-01' And v1.FDate <'2023-01-01'
+ And v1.FDate >=@StartQuerytime And v1.FDate <@StartQuerytime
  And t2.FNumber>='13' AND t2.FNumber<='13' AND t2.FIncludeAccounting<>0 
  And v1.FStatus>0 And v1.FCancelLation=0 
  Group By v2.FItemID,t2.FItemID,v2.FDCSPID,v2.FMTONo,v2.FBatchNo,v2.FAuxPropID,v1.FTranType,t1.FTrack
@@ -114,8 +131,8 @@ Select v2.FItemID,t2.FItemID,Case When v1.FTranType=41 Then v2.FSCSPID Else v2.F
 
 
  Where v1.FTranType In (24,41) 
- And v1.FDate >='2023-01-01'
- And v1.FDate <'2023-01-01'
+ --And v1.FDate >='2023-01-01' And v1.FDate <'2023-01-01'
+ And v1.FDate >=@StartQuerytime And v1.FDate <@StartQuerytime
  And t2.FNumber>='13' AND t2.FNumber<='13' AND t2.FIncludeAccounting<>0 
  And v1.FStatus>0 And v1.FCancelLation=0 
  Group By v2.FItemID,t2.FItemID,Case When v1.FTranType=41 Then v2.FSCSPID Else v2.FDCSPID End,v2.FMTONo,v2.FBatchNo,v2.FAuxPropID,v1.FTranType,t1.FTrack
@@ -134,8 +151,9 @@ Sum(IsNull(Round(v2.FAmount,2),0))
 
 
 
- Where v1.FClassTypeID = 1007601 And v1.FDate >='2023-01-01'
- And v1.FDate <'2023-01-01'
+ Where v1.FClassTypeID = 1007601 
+ --And v1.FDate >='2023-01-01' And v1.FDate <'2023-01-01'
+ And v1.FDate >=@StartQuerytime And v1.FDate <@StartQuerytime
  And t2.FNumber>='13' AND t2.FNumber<='13' AND t2.FIncludeAccounting<>0 
  And v1.FStatus>0 
  Group By v2.FItemID,t2.FItemID,v2.FSPID,v2.FMTONo, v2.FBatchNo,v2.FAuxPropID,t1.FTrack
@@ -153,8 +171,9 @@ Sum(IsNull(Round(v2.FAmount,2),0))
  Left Join t_StockPlace t11 On v2.FDCSPID=t11.FSPID
 
 
- Where (v1.FTranType In (1,2,5,10,40,101,102) Or (V1.FTranType=100 And V1.FBillTypeID=12542)) And v1.FDate >='2023-01-01'
- And v1.FDate <'2024-01-01'
+ Where (v1.FTranType In (1,2,5,10,40,101,102) Or (V1.FTranType=100 And V1.FBillTypeID=12542)) 
+ --And v1.FDate >='2023-01-01' And v1.FDate <'2024-01-01'
+ And v1.FDate >=@StartQuerytime And v1.FDate <=@EndQuerytime
  And t2.FNumber>='13' AND t2.FNumber<='13' AND t2.FIncludeAccounting<>0 
 
  And v1.FStatus>0 And v1.FCancelLation=0 
@@ -175,8 +194,8 @@ Sum(IsNull(Round(v2.FAmount,2),0))
  Left Join t_Stock t2 On v2.FDCStockID=t2.FItemID 
  Left Join t_StockPlace t11 On v2.FDCSPID=t11.FSPID
  Where v1.FTranType =41 
- And v1.FDate >='2023-01-01'
- And v1.FDate <'2024-01-01'
+ --And v1.FDate >='2023-01-01' And v1.FDate <'2024-01-01'
+ And v1.FDate >=@StartQuerytime And v1.FDate <=@EndQuerytime
  And t2.FNumber>='13' AND t2.FNumber<='13' AND t2.FIncludeAccounting<>0 
 
  And v1.FStatus>0 And v1.FCancelLation=0 
@@ -198,8 +217,9 @@ Sum(IsNull(Round(v2.FAmount,2),0))
 
 
 
- Where v1.FClassTypeID = 1007601 And v1.FDate >='2023-01-01'
- And v1.FDate <'2024-01-01'
+ Where v1.FClassTypeID = 1007601 
+ --And v1.FDate >='2023-01-01' And v1.FDate <'2024-01-01'
+ And v1.FDate >=@StartQuerytime And v1.FDate <=@EndQuerytime
  And t2.FNumber>='13' AND t2.FNumber<='13' AND t2.FIncludeAccounting<>0 
 
  And v1.FStatus>0 
@@ -220,8 +240,9 @@ Sum(IsNull(Round(v2.FAmount,2),0))
  Left Join t_StockPlace t11 On v2.FDCSPID=t11.FSPID
 
 
- Where (v1.FTranType In (21,28,29,43) Or (V1.FTranType=100 And V1.FBillTypeID=12541)) And v1.FDate >='2023-01-01'
- And v1.FDate <'2024-01-01'
+ Where (v1.FTranType In (21,28,29,43) Or (V1.FTranType=100 And V1.FBillTypeID=12541)) 
+ --And v1.FDate >='2023-01-01' And v1.FDate <'2024-01-01'
+ And v1.FDate >=@StartQuerytime And v1.FDate <=@EndQuerytime
  And t2.FNumber>='13' AND t2.FNumber<='13' AND t2.FIncludeAccounting<>0 
 
  And v1.FStatus>0 And v1.FCancelLation=0 
@@ -245,8 +266,8 @@ Insert Into #Happen_New Select v2.FItemID,t2.FItemID, v2.FDCSPID ,v2.FBatchNo,v2
 
 
  Where v1.FTranType In (24) 
- And v1.FDate >='2023-01-01'
- And v1.FDate <'2024-01-01'
+ --And v1.FDate >='2023-01-01' And v1.FDate <'2024-01-01'
+ And v1.FDate >=@StartQuerytime And v1.FDate <=@EndQuerytime
  And t2.FNumber>='13' AND t2.FNumber<='13' AND t2.FIncludeAccounting<>0 
 
  And v1.FStatus>0 And v1.FCancelLation=0 
@@ -268,8 +289,8 @@ Insert Into #Happen_New Select v2.FItemID,t2.FItemID, v2.FSCSPID ,v2.FBatchNo,v2
  Left Join t_MeasureUnit t3  On t1.FStoreUnitID=t3.FMeasureUnitID
  Left Join t_StockPlace t11 On  v2.FSCSPID =t11.FSPID
  Where v1.FTranType In (41) 
- And v1.FDate >='2023-01-01'
- And v1.FDate <'2024-01-01'
+ --And v1.FDate >='2023-01-01' And v1.FDate <'2024-01-01'
+ And v1.FDate >=@StartQuerytime And v1.FDate <=@EndQuerytime
  And t2.FNumber>='13' AND t2.FNumber<='13' AND t2.FIncludeAccounting<>0 
 
  And v1.FStatus>0 And v1.FCancelLation=0 
@@ -383,11 +404,56 @@ Update #Data_New Set  FName1=ISNULL(FName1,'') +'(小计)'  Where FSumSort=107
 Update #Data_New Set FName1='合计' Where FSumSort=106
 Update #Data_New Set FSumSort=101   Where FSumSort=106
 
-Select td.*,tm.FName As FSecUnitName,t.fhighlimit,t.flowlimit From #Data_New td
+--Select td.*,tm.FName As FSecUnitName,t.fhighlimit,t.flowlimit From #Data_New td
+Select td.Fname1 AS '1级物料类别',
+     td.fnumber AS '物料长代码',
+     td.FName AS '物料名称',
+     td.FModel as '规格型号',
+     td.FSUnitName as '期初结存+单位(基本)',
+     td.FBegPrice as '期初结存+单价(基本)',
+     td.FBegQty as '期初结存+数量(基本)',
+     td.FCUnitName as '期初结存+单位(常用)',
+     td.FBegCUUnitPrice as '期初结存+单价(常用)',
+     td.FBegCUUnitQty as '期初结存+数量(常用)',
+     td.FBegBal as '期初结存+金额',
+
+     td.FSUnitName as '本期收入+单位(基本)',
+     td.FInPrice as '本期收入+单价(基本)',
+     td.FInQty as '本期收入+数量(基本)',
+     td.FCUnitName as '本期收入+单位(常用)',
+     td.FInCUUnitPrice as '本期收入+单价(常用)',
+     td.FInCUUnitQty as '本期收入+数量(常用)',
+     td.FInAmount as '本期收入+金额',
+
+     td.FSUnitName as '本期发出+单位(基本)',
+     td.FOutPrice as '本期发出+单价(基本)',
+     td.FOutQty as '本期发出+数量(基本)',
+     td.FCUnitName as '本期发出+单位(常用)',
+     td.FOutCUUnitPrice as '本期发出+单价(常用)',
+     td.FOutCUUnitQty as '本期发出+数量(常用)',
+     td.FOutAmount as '本期发出+金额',
+
+     td.FSUnitName as '期末结存+单位(基本)',
+     td.FEndPrice as '期末结存+单价(基本)',
+     td.FEndQty as '期末结存+数量(基本)',
+     td.FCUnitName as '期末结存+单位(常用)',
+     td.FEndCUUnitPrice as '期末结存+单价(常用)',
+     td.FEndCUUnitQty as '期末结存+数量(常用)',
+     td.FEndAmount as '期末结存+金额',
+     t.fhighlimit AS '最高库存量',
+     t.flowlimit AS '最低库存量' 
+From #Data_New td
  Left Join t_ICItem t On t.FNumber=td.FNumber
  Left Join t_MeasureUnit tm On t.FSecUnitID=tm.FMeasureUnitID
 Where 1=1 
   and Not (FBegQty=0 and  FBegBal=0 and FInQty=0 and  FInAmount=0 and FOutQty=0 and FOutAmount=0)
+
+ -- Select td.*,tm.FName As FSecUnitName,t.fhighlimit,t.flowlimit From #Data_New td
+
+ --Left Join t_ICItem t On t.FNumber=td.FNumber
+ --Left Join t_MeasureUnit tm On t.FSecUnitID=tm.FMeasureUnitID
+--Where 1=1 
+ -- and Not (FBegQty=0 and  FBegBal=0 and FInQty=0 and  FInAmount=0 and FOutQty=0 and FOutAmount=0)
 
 
 

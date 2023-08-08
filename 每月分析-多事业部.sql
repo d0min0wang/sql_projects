@@ -21,8 +21,8 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202305' --统计的年月
-SET @Department='新能源事业部'
+SET @Period='202307' --统计的年月
+SET @Department='健康事业部'
 
 --SELECT MONTH(@Period+'01')
 
@@ -459,5 +459,74 @@ order by [年销售额] desc
 
 
 --SELECT * FROM t_FieldDescription WHERE FDescription LIKE '%配套%'
+
+
+
+--年度累计销售额
+--DECLARE @Last_Year char(6)
+SELECT @Last_Year=CONVERT(char(6),DATEADD(Year,-1,@Period+'01'),112)
+;WITH tongbihuanbi_year
+AS
+(
+    SELECT FDepartment,FCustName,FTrade,
+        C_Money,
+        L_Money,
+        CL_Money=C_Money-L_Money,
+        CL_Money_Rate=CASE
+                WHEN L_Money=0 THEN '----'
+                ELSE SUBSTRING('↓－↑',CAST(SIGN(C_Money-L_Money) as int)+2,1)
+                    +CAST(CAST(ABS(C_Money-L_Money)*100/(CASE WHEN L_Money =0 THEN 1 ELSE L_Money END) as decimal(10,2)) as varchar)+'%'
+            END,
+        C_AuxQty,
+        L_AuxQty,
+        CL_AunQty=C_AuxQty-L_AuxQty,
+        CL_AuxQty_Rate=CASE
+                WHEN L_AuxQty=0 THEN '----'
+                ELSE SUBSTRING('↓－↑',CAST(SIGN(C_AuxQty-L_AuxQty) as int)+2,1)
+                    +CAST(CAST(ABS(C_AuxQty-L_AuxQty)*100/(CASE WHEN L_AuxQty =0 THEN 1 ELSE L_AuxQty END) as decimal(10,2)) as varchar)+'%'
+            END
+    --into #tongbihuanbi_year
+    FROM(
+        SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<销售部合计>' ELSE (v3.FName) END,
+            FCustName=CASE WHEN GROUPING(v2.FName)=1 THEN '<事业部合计>' ELSE (v2.FName) END,
+            FTrade=convert(varchar(10),min(v2.F_117)),    
+            C_Money=ISNULL(SUM(CASE WHEN year(v1.FDate) =year(@Period+'01') and MONTH(v1.FDate) <=MONTH(@Period+'01') THEN u1.FConsignAmount END),0),
+            L_Money=ISNULL(SUM(CASE WHEN year(v1.FDate) =year(@Last_Year+'01') and MONTH(v1.FDate) <=MONTH(@Last_Year+'01') THEN u1.FConsignAmount END),0),
+            C_AuxQty=ISNULL(SUM(CASE WHEN year(v1.FDate) =year(@Period+'01') and MONTH(v1.FDate) <=MONTH(@Period+'01') THEN u1.FAuxQty END),0),
+            L_AuxQty=ISNULL(SUM(CASE WHEN year(v1.FDate) =year(@Last_Year+'01') and MONTH(v1.FDate) <=MONTH(@Last_Year+'01') THEN u1.FAuxQty END),0)
+        --FROM t_xySaleReporttest
+        --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
+        FROM ICStockBill v1 
+        INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
+        LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
+        LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+        LEFT JOIN t_Item v4 ON u1.FItemID=v4.FItemID
+
+        WHERE v1.FTranType=21 
+        GROUP BY v3.FName,v2.FName  WITH ROLLUP	
+        --ORDER BY u1.FConsignAmount
+        --HAVING GROUPING(FDepartment)=0 AND GROUPING(FbigTrade)=0 
+        )a
+        --ORDER BY a.FDepartment,a.C_Money DESC
+)
+
+select 
+	t1.FDepartment AS 事业部,
+	t1.FCustName AS 方普行业结构,
+	t2.FName AS 行业,
+    C_Money AS 本年同期累计销售额,
+    L_Money AS 去年同期累计销售额,
+    CL_Money AS 累计销售额同比,
+    CL_Money_Rate AS 累计销售额同比百分比,
+	C_AuxQty AS 本年同期累计出货量,
+    L_AuxQty AS 去年同期累计出货量,
+    CL_AunQty AS 出货量累计同比,
+    CL_AuxQty_Rate AS 累计出货量同比百分比
+from tongbihuanbi_year t1
+left join t_Item t2 ON t1.FTrade=t2.FItemID
+WHERE t1.FDepartment=@Department
+order by t1.FDepartment,C_Money desc
+
+--drop table #tongbihuanbi_year
 
 

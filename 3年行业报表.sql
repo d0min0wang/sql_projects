@@ -2,7 +2,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-
+--电气连接事业部-3年行业报表
 ALTER   PROCEDURE [dbo].[p_xy_3year_industry_report]
 	@Period nvarchar(4),
     @Department nvarchar(30)

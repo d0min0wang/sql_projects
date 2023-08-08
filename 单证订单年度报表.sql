@@ -181,10 +181,10 @@ SELECT case when t1.FBillerID=1 then '合计' else t4.FName end AS [姓名],
     t1.FSEOrderCount AS [合计+下单],
     t2.FICStockBillCount AS [合计+出单],
     (t1.FSEOrderCount*1.0)/(select FSEOrderCount from CTE_SEOrder where FBillerID=1) AS [下单占比],
-    (t2.FICStockBillCount*1.0)/(select FICStockBillCount from CTE_ICStockBill where FMultiCheckLevel2=1) AS [出单占比]
-    --t2.FICStockBillAmount AS [合计+出库总金额],
-    --t3.FICStockBillCount1+t3.FICStockBillCount2+t3.FICStockBillCount3+t3.FICStockBillCount4+t3.FICStockBillCount5+t3.FICStockBillCount6
-    --    +t3.FICStockBillCount7+t3.FICStockBillCount8+t3.FICStockBillCount9+t3.FICStockBillCount10+t3.FICStockBillCount11+t3.FICStockBillCount12 AS [合计+出库客户数]
+    (t2.FICStockBillCount*1.0)/(select FICStockBillCount from CTE_ICStockBill where FMultiCheckLevel2=1) AS [出单占比],
+    t2.FICStockBillAmount AS [合计+出库总金额],
+    t3.FICStockBillCount1+t3.FICStockBillCount2+t3.FICStockBillCount3+t3.FICStockBillCount4+t3.FICStockBillCount5+t3.FICStockBillCount6
+        +t3.FICStockBillCount7+t3.FICStockBillCount8+t3.FICStockBillCount9+t3.FICStockBillCount10+t3.FICStockBillCount11+t3.FICStockBillCount12 AS [合计+出库客户数]
 FROM CTE_SEOrder t1
 LEFT JOIN CTE_ICStockBill t2 ON t1.FBillerID=t2.FMultiCheckLevel2
 LEFT JOIN CTE_ICStockBill_Cust t3 ON t1.FBillerID=t3.FMultiCheckLevel2
