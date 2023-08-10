@@ -158,3 +158,4 @@ SELECT fname as 项目,
             END as 累计同比增长率
     --into #tongbihuanbi
     FROM basicTable
+

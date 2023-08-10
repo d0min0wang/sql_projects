@@ -1,5 +1,5 @@
 use AIS20140921170539
-
+--新增规格，并发生销售额
 IF OBJECT_ID('tempdb.dbo.#temp1','U') IS NOT NULL DROP TABLE dbo.#temp1;
 IF OBJECT_ID('tempdb.dbo.#temp2','U') IS NOT NULL DROP TABLE dbo.#temp2;
 
@@ -28,9 +28,9 @@ LEFT JOIN t_Organization t3 ON v1.FSupplyID=t3.FItemID
 LEFT JOIN t_Department t4 ON t3.Fdepartment=t4.FItemID
 left join t_Item t5 ON t3.F_117=t5.FItemID
 LEFT JOIN t_Department t6 ON t1.FSource=t6.FItemID
-WHERE YEAR(v1.FDate) ='2023' AND MONTH(v1.FDate)<='7'
+WHERE YEAR(v1.FDate) ='2023' AND MONTH(v1.FDate)<='6'
 and 
-YEAR(t2.FCreateDate) in ('2023') AND MONTH(t2.FCreateDate)='7'
+YEAR(t2.FCreateDate) in ('2023') AND MONTH(t2.FCreateDate)<='6'
 --where year(v1.FDate)IN ('2022') 
 --and year(t2.FCreateDate) in ('2022')
 --and month(v1.FDate)<='6'
@@ -49,3 +49,5 @@ exec (@sql)
 
 DROP TABLE #temp1
 DROP TABLE #temp2
+
+

@@ -1,7 +1,7 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202307' --统计的年月
+SET @Period='202306' --统计的年月
 SET @Department='电气连接国内事业部'
 
 --SELECT MONTH(@Period+'01')
@@ -188,6 +188,4 @@ SELECT fname as 项目,
             END as 累计同比增长率
     --into #tongbihuanbi
     FROM basicTable
-
-
 

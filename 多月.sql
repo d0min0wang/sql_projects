@@ -801,7 +801,7 @@ select tt3.FName AS 部门,
 from ICStockBill t1 
 INNER JOIN ICStockBillEntry t2 ON t1.FInterID=t2.FInterID
 where 
-(convert(varchar(10),t1.FDate,120)>='2021-06-01' and convert(varchar(10),t1.FDate,120)<'2022-07-01')
+(convert(varchar(10),t1.FDate,120)>='2022-01-01' and convert(varchar(10),t1.FDate,120)<'2022-07-01')
 and
 t1.FTranType=21 
 And t1.FCheckerID>0 
@@ -811,7 +811,7 @@ LEFT JOIN t_Item tt3 ON tt2.Fdepartment=tt3.FItemID
 LEFT JOIN t_Item tt4 ON tt2.F_122=tt4.FItemID
 LEFT JOIN t_Item tt5 ON tt2.F_117=tt5.FItemID
 where --year(tt1.FMinDate)='2015'
-(convert(varchar(10),tt2.F_123,120)>='2021-06-01' and convert(varchar(10),tt2.F_123,120)<'2022-07-01')
+(convert(varchar(10),tt2.F_123,120)>='2022-01-01' and convert(varchar(10),tt2.F_123,120)<'2022-07-01')
 
 order by tt3.FName,tt2.F_101,tt1.FConsignAmount DESC
 

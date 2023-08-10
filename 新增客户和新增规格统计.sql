@@ -27,13 +27,111 @@ AS
 
 )
 select t5.FName,sum(t3.FConsignAmount) FROM CTE_CustID t1
-LEFT JOIN ICStockBill t2 on t1.FSupplyID=t2.FSupplyID
-LEFT JOIN ICStockBillEntry t3 ON t2.FInterID=t3.FInterID
+LEFT JOIN ICStockBill t2 on t1.FSupplyID=t2.FSupplyID AND CAST(DATEDIFF(MONTH, t1.FDate, t2.FDate) AS INT)<6
+LEFT JOIN ICStockBillEntry t3 ON t2.FInterID=t3.FInterID 
 left join t_Organization t4 on t1.FSupplyID=t4.FItemID
 left join t_Department t5 on t4.FDepartment=t5.FItemID
-WHERE YEAR(t2.FDate)=CAST(@FYear as varchar(4))
-GROUP BY t5.FName
+WHERE YEAR(t2.FDate)>=CAST(@FYear as varchar(4)) AND t2.FTranType=21
+GROUP BY t5.FName 
+ORDER BY t5.FName 
 
+--新增客户数量
+;WITH CTE_CustID
+AS
+(
+  SELECT T1.FSupplyID, T1.FDate
+		FROM
+			(select
+				v1.FSupplyID AS FSupplyID,
+				min(v1.FDate) as FDate
+			From ICStockBill v1
+				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
+			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear as varchar(4)) AND MONTH(v1.FDate)<=6
+			GROUP BY v1.FSupplyID) T1
+			LEFT JOIN
+			(select
+				v1.FSupplyID AS FSupplyID,
+				max(v1.FDate) as FDate
+			From ICStockBill v1
+				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
+			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear-1 as varchar(4)) AND MONTH(v1.FDate)<=6
+			GROUP BY v1.FSupplyID) T2
+			ON T1.FSupplyID = T2.FSupplyID
+		WHERE (CASE WHEN T2.FDate IS NULL THEN 0 ELSE CAST(DATEDIFF(MONTH, T2.FDate, T1.FDate) AS INT) END) > 12
+			OR (CASE WHEN T2.FDate IS NULL THEN 0 ELSE CAST(DATEDIFF(MONTH, T2.FDate, T1.FDate) AS INT) END) = 0
+
+)
+select t5.FName,COUNT(t1.FSupplyID) FROM CTE_CustID t1
+left join t_Organization t4 on t1.FSupplyID=t4.FItemID
+left join t_Department t5 on t4.FDepartment=t5.FItemID
+GROUP BY t5.FName 
+ORDER BY t5.FName 
+
+--全新开发客户
+;WITH CTE_CustID
+AS
+(
+  SELECT T1.FSupplyID, T1.FDate
+		FROM
+			(select
+				v1.FSupplyID AS FSupplyID,
+				min(v1.FDate) as FDate
+			From ICStockBill v1
+				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
+			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear as varchar(4)) AND MONTH(v1.FDate)<=6
+			GROUP BY v1.FSupplyID) T1
+			LEFT JOIN
+			(select
+				v1.FSupplyID AS FSupplyID,
+				max(v1.FDate) as FDate
+			From ICStockBill v1
+				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
+			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear-1 as varchar(4)) AND MONTH(v1.FDate)<=6
+			GROUP BY v1.FSupplyID) T2
+			ON T1.FSupplyID = T2.FSupplyID
+		WHERE (CASE WHEN T2.FDate IS NULL THEN 0 ELSE CAST(DATEDIFF(MONTH, T2.FDate, T1.FDate) AS INT) END) = 0
+
+)
+select t5.FName,sum(t3.FConsignAmount) FROM CTE_CustID t1
+LEFT JOIN ICStockBill t2 on t1.FSupplyID=t2.FSupplyID AND CAST(DATEDIFF(MONTH, t1.FDate, t2.FDate) AS INT)<6
+LEFT JOIN ICStockBillEntry t3 ON t2.FInterID=t3.FInterID 
+left join t_Organization t4 on t1.FSupplyID=t4.FItemID
+left join t_Department t5 on t4.FDepartment=t5.FItemID
+WHERE YEAR(t2.FDate)>=CAST(@FYear as varchar(4)) AND t2.FTranType=21
+GROUP BY t5.FName 
+ORDER BY t5.FName 
+
+
+--全新开发客户数量
+;WITH CTE_CustID
+AS
+(
+  SELECT T1.FSupplyID, T1.FDate
+		FROM
+			(select
+				v1.FSupplyID AS FSupplyID,
+				min(v1.FDate) as FDate
+			From ICStockBill v1
+				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
+			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear as varchar(4)) AND MONTH(v1.FDate)<=6
+			GROUP BY v1.FSupplyID) T1
+			LEFT JOIN
+			(select
+				v1.FSupplyID AS FSupplyID,
+				max(v1.FDate) as FDate
+			From ICStockBill v1
+				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
+			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear-1 as varchar(4)) AND MONTH(v1.FDate)<=6
+			GROUP BY v1.FSupplyID) T2
+			ON T1.FSupplyID = T2.FSupplyID
+		WHERE (CASE WHEN T2.FDate IS NULL THEN 0 ELSE CAST(DATEDIFF(MONTH, T2.FDate, T1.FDate) AS INT) END) = 0
+
+)
+select t5.FName,COUNT(t1.FSupplyID) FROM CTE_CustID t1
+left join t_Organization t4 on t1.FSupplyID=t4.FItemID
+left join t_Department t5 on t4.FDepartment=t5.FItemID
+GROUP BY t5.FName 
+ORDER BY t5.FName 
 
 --今年新增客户
 select '累计新增客户销售额(元)' AS fname, 
