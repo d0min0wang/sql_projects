@@ -414,7 +414,8 @@ Select t.*,tm.FName As FSecUnitName From #Data_New t
 OutStockAmount
 AS
 (
-    SELECT t3.FNumber,
+    SELECT --t3.FNumber,
+        Case When Grouping(t3.FNumber)=1 THEN '小计' Else t3.FNumber END as FNumber, 
         sum(case DATEDIFF(MONTH,GETDATE(),t1.fdate) when -1 then t2.FConsignAmount else 0 END) AS FLast1Month,
         sum(case DATEDIFF(MONTH,GETDATE(),t1.fdate) when -2 then t2.FConsignAmount else 0 END) AS FLast2Month,
         sum(case DATEDIFF(MONTH,GETDATE(),t1.fdate) when -3 then t2.FConsignAmount else 0 END) AS FLast3Month
@@ -425,24 +426,31 @@ AS
     AND DATEDIFF(MONTH,GETDATE(),t1.fdate)>=-3
     AND t3.FNumber LIKE '93.%'
     GROUP BY t3.FNumber
+    WITH ROLLUP
 ),
 SeOrderUnQty
 AS
 (
-    SELECT t2.FNumber,SUM(FEntrySelfS0162) AS FUnQty FROM SEOrderEntry t1
+    SELECT --2.FNumber,
+    Case When Grouping(t2.FNumber)=1 THEN '小计' Else t2.FNumber END as FNumber, 
+    SUM(FEntrySelfS0162) AS FUnQty FROM SEOrderEntry t1
     left join t_ICItem t2 on t1.fitemid=t2.fitemid
     where t2.fnumber LIKE '93.%'
     GROUP BY t2.FNumber
+    with ROLLUP
 ),
 POOrderUnQty
 AS
 (
-    SELECT t2.FNumber,SUM(FEntrySelfP0248) AS FUnQty FROM POOrder t0
+    SELECT --t2.FNumber,
+    Case When Grouping(t2.FNumber)=1 THEN '小计' Else t2.FNumber END as FNumber, 
+    SUM(FEntrySelfP0248) AS FUnQty FROM POOrder t0
     left join POOrderEntry t1 on t0.FInterID=t1.FInterID
     left join t_ICItem t2 on t1.fitemid=t2.fitemid
     where t2.fnumber LIKE '93.%'
     AND DATEDIFF(MONTH,GETDATE(),t0.fdate)>=-3
     GROUP BY t2.FNumber
+    with ROLLUP
 ),
 CustCountOrigin
 AS
@@ -456,13 +464,16 @@ AS
 CustCount
 AS
 (
-    SELECT FNumber,COUNT(FSupplyID) FCount
+    SELECT --FNumber,
+    Case When Grouping(FNumber)=1 THEN '小计' Else FNumber END as FNumber, 
+    COUNT(FSupplyID) FCount
     FROM CustCountOrigin
     GROUP BY FNumber
+    with ROLLUP
 )
 
 
-SELECT t1.fname as [物料名称],
+SELECT t1.fname as [物料名称],--t1.FID,
     t1.FInQty as [本月收入],
     t1.FOutCUUnitQty as [本月发出],
     t1.FEndCUUnitQty as [库存],
@@ -477,6 +488,7 @@ LEFT JOIN SeOrderUnQty t2 ON t1.FNumber=t2.FNumber
 LEFT JOIN OutStockAmount t3 ON t1.FNumber=t3.FNumber
 LEFT JOIN POOrderUnQty t4 ON t1.FNumber=t4.FNumber
 LEFT JOIN CustCount t5 ON t1.FNumber=t5.FNumber
+Order By t1.ForderByID,t1.FID,t1.FNumber
 
 Drop Table #Data_New  
 Drop Table #Happen_New
