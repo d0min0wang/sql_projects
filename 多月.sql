@@ -1551,7 +1551,7 @@ SELECT --v3.FName,
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
     FROM ICStockBill v1 
 	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
-	where month(v1.FDate)<='6'
+	where month(v1.FDate)<='12'
 	
 	and v1.FTranType=21 
 	group by v1.FSupplyID) t1
@@ -1563,7 +1563,7 @@ LEFT JOIN t_Item v5 ON v4.FParentID=v5.FItemID
 LEFT JOIN t_Item v6 ON v5.FParentID=v6.FItemID
 LEFT JOIN t_SubMessage v7 ON v2.FRegionID=v7.FInterID
 LEFT JOIN t_Emp v8 ON v2.Femployee=v8.FItemID
-where v3.FName='新能源事业部'
+where v3.FName='健康事业部'
 ----where v4.FName='微波炉'
 --and v2.FName like '%顺科新能源%'
 order by [2023年销售额] desc
@@ -1607,9 +1607,9 @@ FROM(
 	LEFT JOIN t_Item v4 ON u1.FItemID=v4.FItemID
 	left join t_Item v5 ON v2.F_117=v5.FItemID
     WHERE v1.FTranType=21 And v1.FCheckerID>0 AND
-		month(v1.FDate) <='6'
+		month(v1.FDate) <='12'
 		--and month(v1.FDate)<month(getdate()) 
-		and v3.FName='新能源事业部'
+		and v3.FName='健康事业部'
 
     GROUP BY v3.FName,v5.FName  WITH ROLLUP	
 	--ORDER BY u1.FConsignAmount
