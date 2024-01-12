@@ -21,7 +21,7 @@ AS
 				max(v1.FDate) as FDate
 			From ICStockBill v1
 				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
-			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear-1 as varchar(4)) AND MONTH(v1.FDate)<=@FMonth
+			where v1.FTranType=21 and year(v1.FDate)<=CAST(@FYear-1 as varchar(4)) --AND MONTH(v1.FDate)<=@FMonth
 			GROUP BY v1.FSupplyID) T2
 			ON T1.FSupplyID = T2.FSupplyID
 		WHERE (CASE WHEN T2.FDate IS NULL THEN 0 ELSE CAST(DATEDIFF(MONTH, T2.FDate, T1.FDate) AS INT) END) > 12
@@ -123,7 +123,7 @@ AS
 				max(v1.FDate) as FDate
 			From ICStockBill v1
 				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
-			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear-1 as varchar(4)) AND MONTH(v1.FDate)<=@FMonth
+			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear-1 as varchar(4)) --AND MONTH(v1.FDate)<=@FMonth
 			GROUP BY v1.FSupplyID) T2
 			ON T1.FSupplyID = T2.FSupplyID
 		WHERE (CASE WHEN T2.FDate IS NULL THEN 0 ELSE CAST(DATEDIFF(MONTH, T2.FDate, T1.FDate) AS INT) END) = 0

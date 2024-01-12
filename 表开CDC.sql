@@ -22,7 +22,7 @@ FILENAME = 'D:\DATABASES\AIS20150402160359_cdc.ldf'
 )
 TO FILEGROUP CDC;
 
-select is_cdc_enabled from sys.databases where name='peiliao';
+select is_cdc_enabled from sys.databases where name='AIS20150402160359';
 
 alter table actual_data add  constraint pk_actual_data primary key(ID)
 
@@ -34,14 +34,14 @@ SELECT * FROM sys.tables WHERE is_tracked_by_cdc = 1 ORDER BY name
 --表开CDC
 DECLARE @TablaName NVARCHAR(100)
 
-SET @TablaName='actual_data'
+SET @TablaName='ICInventory'
 
 IF EXISTS(SELECT 1 FROM sys.tables WHERE name=@TablaName AND is_tracked_by_cdc = 0)
 BEGIN
     EXEC sys.sp_cdc_enable_table
         @source_schema = 'dbo', -- source_schema
         @source_name = @TablaName, -- table_name
-        @capture_instance = N'dbo_actual_data', -- capture_instance
+        @capture_instance = N'dbo_ICInventory', -- capture_instance
         @supports_net_changes = 1, -- supports_net_changes
         @role_name = NULL, -- role_name
         @index_name = NULL, -- index_name

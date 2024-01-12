@@ -1,3 +1,4 @@
+--原材料成本
 SELECT * FROM t_xy_Raw_Material_Price
 --出库成本
 SELECT * FROM t_FIN_Ingredient_Cost
@@ -5,8 +6,8 @@ SELECT * FROM t_FIN_Ingredient_Cost
 SELECT * FROM t_FIN_Shipping_Fee
 --利息成本
 SELECT * FROM t_FIN_Material_Inventory_Interest
---总表
-SELECT * FROM t_FIN_Paste_Unit_Price WHERE FDate='2023-11'
+--糊料成本
+SELECT * FROM t_FIN_Paste_Unit_Price WHERE FDate='2023-12'
 
 
 CREATE TABLE [dbo].[t_FIN_Raw_Material_Price](
