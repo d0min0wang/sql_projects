@@ -34,7 +34,7 @@ YEAR(t2.FCreateDate) in ('2023') AND MONTH(t2.FCreateDate)='11'
 --where year(v1.FDate)IN ('2022') 
 --and year(t2.FCreateDate) in ('2022')
 --and month(v1.FDate)<='6'
-and v1.FTranType=21 
+and v1.FTranType=21 AND (v1.FROB=1 AND  v1.FCancellation = 0)
 
 SELECT distinct Fdepartment into #temp2 FROM #temp1
 

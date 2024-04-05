@@ -1,7 +1,7 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202312' --统计的年月
+SET @Period='202403' --统计的年月
 SET @Department='电气连接国内事业部'
 
 --SELECT MONTH(@Period+'01')
@@ -117,7 +117,7 @@ SELECT  '月度新增规格销售额(元)' AS fname,
     --where year(v1.FDate)IN ('2022') 
 	--and year(t2.FCreateDate) in ('2022')
 	--and month(v1.FDate)<='6'
-    and v1.FTranType=21 
+    and v1.FTranType=21 AND (v1.FROB=1 AND  v1.FCancellation = 0)
     GROUP BY t4.fname
 union ALL
 --累计新增规格销售额
@@ -158,7 +158,7 @@ SELECT  '累计新增规格销售额(元)' AS fname,
     --where year(v1.FDate)IN ('2022') 
 	--and year(t2.FCreateDate) in ('2022')
 	--and month(v1.FDate)<='6'
-	and v1.FTranType=21 
+	and v1.FTranType=21 AND (v1.FROB=1 AND  v1.FCancellation = 0)
     GROUP BY t4.fname
 )
 SELECT fname as 项目,

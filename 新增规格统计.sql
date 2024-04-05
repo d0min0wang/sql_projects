@@ -1,7 +1,7 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202312' --统计的年月
+SET @Period='202403' --统计的年月
 SET @Department='医疗事业部'
 
 --SELECT MONTH(@Period+'01')
@@ -82,7 +82,7 @@ SELECT  '月度新增规格销售额(元)' AS fname,
 	--and year(t2.FCreateDate) in ('2022')
 	--and month(v1.FDate)<='6'
 	--AND t4.FName IN ('电气连接国内事业部','电气连接事业部','医疗事业部','食品设备事业部','健康事业部','通信事业部','新能源事业部')
-	and v1.FTranType=21 
+	and v1.FTranType=21 AND (v1.FROB=1 AND  v1.FCancellation = 0)
 union ALL
 --累计新增规格销售额
 SELECT  '累计新增规格销售额(元)' AS fname,
@@ -122,7 +122,7 @@ SELECT  '累计新增规格销售额(元)' AS fname,
 	--and year(t2.FCreateDate) in ('2022')
 	--and month(v1.FDate)<='6'
 	--AND t3.FName IN ('电气连接国内事业部','电气连接事业部','医疗事业部','食品设备事业部','健康事业部','通信事业部','新能源事业部')
-	and v1.FTranType=21 
+	and v1.FTranType=21 AND (v1.FROB=1 AND  v1.FCancellation = 0)
 )
 SELECT fname AS 项目,
         thisMonth AS 本年同期,
