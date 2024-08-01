@@ -56,18 +56,18 @@ FROM
 AS
 (
 SELECT cast(format(v1.fdate, 'MM-dd') AS nvarchar(5)) AS fdate, 
-    sum(case year(v1.FDate) when '2019' then u1.FConsignAmount else 0 end) AS FConsignAmount2019,
     sum(case year(v1.FDate) when '2020' then u1.FConsignAmount else 0 end) AS FConsignAmount2020,
     sum(case year(v1.FDate) when '2021' then u1.FConsignAmount else 0 end) AS FConsignAmount2021,
     sum(case year(v1.FDate) when '2022' then u1.FConsignAmount else 0 end) AS FConsignAmount2022,
-    sum(case year(v1.FDate) when '2023' then u1.FConsignAmount else 0 end) AS FConsignAmount2023
+    sum(case year(v1.FDate) when '2023' then u1.FConsignAmount else 0 end) AS FConsignAmount2023,
+    sum(case year(v1.FDate) when '2024' then u1.FConsignAmount else 0 end) AS FConsignAmount2024
     --FROM t_xySaleReporttest
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
     FROM ICStockBill v1 
 	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
   LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
 	LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
-  --WHERE v3.FName='电气连接事业部'
+  WHERE v3.FName='新能源事业部'
 	--where year(v1.FDate)IN ('2020','2021','2022') 
 	--and month(v1.FDate)<='2'
 	
@@ -82,11 +82,11 @@ SELECT
   --SUM(FConsignAmount2022) over () AS FAllAmount2022,
   --SUM(FConsignAmount2021) over (PARTITION BY fdate) AS FDateAmount2021,
   --SUM(FConsignAmount2022) over (PARTITION BY fdate) AS FDateAmount2022,
-  SUM(FConsignAmount2019) over (ORDER BY fdate) AS FAccAmount2019,
-  SUM(FConsignAmount2020) over (ORDER BY fdate) AS FAccAmount2020,
-  SUM(FConsignAmount2021) over (ORDER BY fdate) AS FAccAmount2021,
-  SUM(FConsignAmount2022) over (ORDER BY fdate) AS FAccAmount2022,
-  SUM(FConsignAmount2023) over (ORDER BY fdate) AS FAccAmount2023
+  SUM(FConsignAmount2020) over (ORDER BY fdate) AS [2020],
+  SUM(FConsignAmount2021) over (ORDER BY fdate) AS [2021],
+  SUM(FConsignAmount2022) over (ORDER BY fdate) AS [2022],
+  SUM(FConsignAmount2023) over (ORDER BY fdate) AS [2023],
+  SUM(FConsignAmount2024) over (ORDER BY fdate) AS [2024]
 FROM
   Amount
 

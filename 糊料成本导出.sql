@@ -7,7 +7,7 @@ SELECT * FROM t_FIN_Shipping_Fee
 --利息成本
 SELECT * FROM t_FIN_Material_Inventory_Interest
 --糊料成本
-SELECT * FROM t_FIN_Paste_Unit_Price WHERE FDate='2023-12'
+SELECT * FROM t_FIN_Paste_Unit_Price WHERE FDate='2024-06'
 
 
 CREATE TABLE [dbo].[t_FIN_Raw_Material_Price](

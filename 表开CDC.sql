@@ -1,6 +1,6 @@
 SELECT * FROM sys.tables WHERE is_tracked_by_cdc = 1
 
-if exists(select 1 from sys.databases where name='AIS20150402160359' and is_cdc_enabled=0)
+if exists(select 1 from sys.databases where name='peiliao' and is_cdc_enabled=0)
 begin
     exec sys.sp_cdc_enable_db
 end
@@ -34,14 +34,14 @@ SELECT * FROM sys.tables WHERE is_tracked_by_cdc = 1 ORDER BY name
 --表开CDC
 DECLARE @TablaName NVARCHAR(100)
 
-SET @TablaName='ICInventory'
+SET @TablaName='ICMO'
 
 IF EXISTS(SELECT 1 FROM sys.tables WHERE name=@TablaName AND is_tracked_by_cdc = 0)
 BEGIN
     EXEC sys.sp_cdc_enable_table
         @source_schema = 'dbo', -- source_schema
         @source_name = @TablaName, -- table_name
-        @capture_instance = N'dbo_ICInventory', -- capture_instance
+        @capture_instance = N'dbo_ICMO', -- capture_instance
         @supports_net_changes = 1, -- supports_net_changes
         @role_name = NULL, -- role_name
         @index_name = NULL, -- index_name
@@ -52,8 +52,11 @@ END
 
 EXECUTE sys.sp_cdc_disable_table   
     @source_schema = N'dbo',   
-    @source_name = N'actual_data',  
-    @capture_instance = N'dbo_actual_data'
+    @source_name = N'ICMO',  
+    @capture_instance = N'dbo_ICMO'
+
+select * FROM cdc.dbo_actual_data_CT
+SELECT * FROM actual_data WHERE fendtime>='2024-04-14' order by fendtime DESC
 
 
 --查询表是否有主键
@@ -285,3 +288,48 @@ BEGIN
 	DEALLOCATE TmpCDCObjects;
 END;
 SET NOCOUNT OFF;
+
+SELECT blocking_session_id '阻塞进程的ID', wait_duration_ms '等待时间(毫秒)', session_id '(会话ID)' FROM sys.dm_os_waiting_tasks
+
+select request_session_id spid,OBJECT_NAME(resource_associated_entity_id) tableName
+
+from sys.dm_tran_locks where resource_type='OBJECT'
+
+
+--查询当前活动的锁管理器资源的信息 
+
+SELECT resource_type '资源类型',request_mode '请求模式',request_type '请求类型',request_status '请求状态',request_session_id '会话ID' FROM sys.dm_tran_locks
+
+ 
+
+--查询数据库进程（where 筛选库）
+
+select spId  from master..SysProcesses
+
+where db_Name(dbID) = '312' and spId <> @@SpId and dbID <> 0
+
+--查询死锁表
+
+select request_session_id spid,OBJECT_NAME(resource_associated_entity_id) tableName
+
+from sys.dm_tran_locks where resource_type='OBJECT'
+
+ 
+
+--死锁相关信息查询
+
+exec sp_who2 312
+
+ 
+
+--查看此进程执行的SQL
+
+dbcc inputbuffer(spid)
+
+ 
+
+--查看隔离级别
+
+DBCC USEROPTIONS
+
+kill 312
