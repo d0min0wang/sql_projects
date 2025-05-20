@@ -21,7 +21,7 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202404' --统计的年月
+SET @Period='202502' --统计的年月
 --SET @Department='健康事业部'
 
 --SELECT MONTH(@Period+'01')
@@ -238,5 +238,8 @@ FROM cte_Items	a
 ORDER BY FDepartment,C_Money DESC
 
 
-ORDER BY t2.FNumber
-        GROUP BY v3.FName,t2.FNumber  WITH ROLLUP
+--ORDER BY t2.FNumber
+--        GROUP BY v3.FName,t2.FNumber  WITH ROLLUP
+
+
+--SELECT * FROM t_TableDescription WHERE FDescription LIKE '%调拨%'

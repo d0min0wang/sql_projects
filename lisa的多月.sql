@@ -1,9 +1,9 @@
 use AIS20140921170539
 DECLARE @Period char(6)
-SET @Period='201701' --Í³¼ÆµÄÄêÔÂ
+SET @Period='201701' --ç»Ÿè®¡çš„å¹´æœˆ
 
 
---Í³¼Æ´¦Àí
+--ç»Ÿè®¡å¤„ç†
 DECLARE 
 	--@Last_Period char(6),
 	@Period_1 char(6),
@@ -35,36 +35,36 @@ SELECT
 	@Period_11=CONVERT(char(6),DATEADD(Month,10,@Period+'01'),112),
 	@Period_12=CONVERT(char(6),DATEADD(Month,11,@Period+'01'),112)
 
-SELECT FDepartment AS ÊÂÒµ²¿,FBigTrade AS ĞĞÒµ,
-	P_Money AS 'ÄêÏúÊÛ¶î',
-	P_AuxQty AS 'Äê³ö»õÁ¿',
-    P_Money_1 AS '1ÔÂÏúÊÛ¶î',
-    P_Money_2 AS '2ÔÂÏúÊÛ¶î',
-    P_Money_3 AS '3ÔÂÏúÊÛ¶î',
-    P_Money_4 AS '4ÔÂÏúÊÛ¶î',
-    P_Money_5 AS '5ÔÂÏúÊÛ¶î',
-    P_Money_6 AS '6ÔÂÏúÊÛ¶î',
-    P_Money_7 AS '7ÔÂÏúÊÛ¶î',
-    P_Money_8 AS '8ÔÂÏúÊÛ¶î',
-    P_Money_9 AS '9ÔÂÏúÊÛ¶î',
-    P_Money_10 AS '10ÔÂÏúÊÛ¶î',
-    P_Money_11 AS '11ÔÂÏúÊÛ¶î',
-    P_Money_12 AS '12ÔÂÏúÊÛ¶î',
-    P_AuxQty_1 AS '1ÔÂ³ö»õÁ¿',
-    P_AuxQty_2 AS '2ÔÂ³ö»õÁ¿',
-    P_AuxQty_3 AS '3ÔÂ³ö»õÁ¿',
-    P_AuxQty_4 AS '4ÔÂ³ö»õÁ¿',
-    P_AuxQty_5 AS '5ÔÂ³ö»õÁ¿',
-    P_AuxQty_6 AS '6ÔÂ³ö»õÁ¿',
-    P_AuxQty_7 AS '7ÔÂ³ö»õÁ¿',
-    P_AuxQty_8 AS '8ÔÂ³ö»õÁ¿',
-    P_AuxQty_9 AS '9ÔÂ³ö»õÁ¿',
-    P_AuxQty_10 AS '10ÔÂ³ö»õÁ¿',
-    P_AuxQty_11 AS '11ÔÂ³ö»õÁ¿',
-    P_AuxQty_12 AS '12ÔÂ³ö»õÁ¿'
+SELECT FDepartment AS äº‹ä¸šéƒ¨,FBigTrade AS è¡Œä¸š,
+	P_Money AS 'å¹´é”€å”®é¢',
+	P_AuxQty AS 'å¹´å‡ºè´§é‡',
+    P_Money_1 AS '1æœˆé”€å”®é¢',
+    P_Money_2 AS '2æœˆé”€å”®é¢',
+    P_Money_3 AS '3æœˆé”€å”®é¢',
+    P_Money_4 AS '4æœˆé”€å”®é¢',
+    P_Money_5 AS '5æœˆé”€å”®é¢',
+    P_Money_6 AS '6æœˆé”€å”®é¢',
+    P_Money_7 AS '7æœˆé”€å”®é¢',
+    P_Money_8 AS '8æœˆé”€å”®é¢',
+    P_Money_9 AS '9æœˆé”€å”®é¢',
+    P_Money_10 AS '10æœˆé”€å”®é¢',
+    P_Money_11 AS '11æœˆé”€å”®é¢',
+    P_Money_12 AS '12æœˆé”€å”®é¢',
+    P_AuxQty_1 AS '1æœˆå‡ºè´§é‡',
+    P_AuxQty_2 AS '2æœˆå‡ºè´§é‡',
+    P_AuxQty_3 AS '3æœˆå‡ºè´§é‡',
+    P_AuxQty_4 AS '4æœˆå‡ºè´§é‡',
+    P_AuxQty_5 AS '5æœˆå‡ºè´§é‡',
+    P_AuxQty_6 AS '6æœˆå‡ºè´§é‡',
+    P_AuxQty_7 AS '7æœˆå‡ºè´§é‡',
+    P_AuxQty_8 AS '8æœˆå‡ºè´§é‡',
+    P_AuxQty_9 AS '9æœˆå‡ºè´§é‡',
+    P_AuxQty_10 AS '10æœˆå‡ºè´§é‡',
+    P_AuxQty_11 AS '11æœˆå‡ºè´§é‡',
+    P_AuxQty_12 AS '12æœˆå‡ºè´§é‡'
 FROM(
-    SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<ÏúÊÛ²¿ºÏ¼Æ>' ELSE (v3.FName) END,
-        FBigTrade=CASE WHEN GROUPING(v5.FName)=1 THEN '<ÊÂÒµ²¿ºÏ¼Æ>' ELSE (v5.FName) END,    
+    SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<é”€å”®éƒ¨åˆè®¡>' ELSE (v3.FName) END,
+        FBigTrade=CASE WHEN GROUPING(v5.FName)=1 THEN '<äº‹ä¸šéƒ¨åˆè®¡>' ELSE (v5.FName) END,    
 		P_Money=ISNULL(SUM(u1.FConsignAmount),0),
         P_AuxQty=ISNULL(SUM(u1.FAuxQty),0),
         P_Money_1=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period_1 THEN u1.FConsignAmount END),0),
@@ -102,7 +102,7 @@ FROM(
     WHERE v1.FTranType=21 And v1.FCheckerID>0 AND
 		year(v1.FDate) =left(@Period,4)
 		--and month(v1.FDate)<month(getdate()) 
-		--and v3.FName='·À³¾Ã±ÊÂÒµ²¿'
+		--and v3.FName='é˜²å°˜å¸½äº‹ä¸šéƒ¨'
 
     GROUP BY v3.FName,v5.FName  WITH ROLLUP	
 	--ORDER BY u1.FConsignAmount
@@ -115,9 +115,9 @@ FROM(
 
 
 --select * from t_Organization where FNumber='01.CZ.0001'
-----F_123 ĞÂÔöÈÕÆÚ 
+----F_123 æ–°å¢æ—¥æœŸ 
 
---ÆóÒµÏúÊÛ¶î
+--ä¼ä¸šé”€å”®é¢
 select  v8.FName,
 		v7.FName,
 		v2.FProvince,
@@ -137,33 +137,33 @@ SELECT --v3.FName,
 --		ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),
 --		[2009]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then u1.FConsignAmount END),0),
 --		[2010]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then u1.FConsignAmount END),0),
-		--[2014ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FConsignAmount END),0),
-		[2017ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FConsignAmount END),0),
-		[1ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '1' then u1.FConsignAmount END),0),
-		[2ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '2' then u1.FConsignAmount END),0),
-		[3ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '3' then u1.FConsignAmount END),0),
-		[4ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '4' then u1.FConsignAmount END),0),
-		[5ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '5' then u1.FConsignAmount END),0),
-		[6ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '6' then u1.FConsignAmount END),0),
-		[7ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '7' then u1.FConsignAmount END),0),
-		[8ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '8' then u1.FConsignAmount END),0),
-		[9ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '9' then u1.FConsignAmount END),0),
-		[10ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '10' then u1.FConsignAmount END),0),
-		[11ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '11' then u1.FConsignAmount END),0),
-		[12ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '12' then u1.FConsignAmount END),0),
-		[2017³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FAuxQty END),0),
-		[1ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '1' then u1.FAuxQty END),0),
-		[2ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '2' then u1.FAuxQty END),0),
-		[3ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '3' then u1.FAuxQty END),0),
-		[4ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '4' then u1.FAuxQty END),0),
-		[5ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '5' then u1.FAuxQty END),0),
-		[6ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '6' then u1.FAuxQty END),0),
-		[7ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '7' then u1.FAuxQty END),0),
-		[8ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '8' then u1.FAuxQty END),0),
-		[9ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '9' then u1.FAuxQty END),0),
-		[10ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '10' then u1.FAuxQty END),0),
-		[11ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '11' then u1.FAuxQty END),0),
-		[12ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '12' then u1.FAuxQty END),0)
+		--[2014é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FConsignAmount END),0),
+		[2017é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FConsignAmount END),0),
+		[1æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '1' then u1.FConsignAmount END),0),
+		[2æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '2' then u1.FConsignAmount END),0),
+		[3æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '3' then u1.FConsignAmount END),0),
+		[4æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '4' then u1.FConsignAmount END),0),
+		[5æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '5' then u1.FConsignAmount END),0),
+		[6æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '6' then u1.FConsignAmount END),0),
+		[7æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '7' then u1.FConsignAmount END),0),
+		[8æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '8' then u1.FConsignAmount END),0),
+		[9æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '9' then u1.FConsignAmount END),0),
+		[10æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '10' then u1.FConsignAmount END),0),
+		[11æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '11' then u1.FConsignAmount END),0),
+		[12æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '12' then u1.FConsignAmount END),0),
+		[2017å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FAuxQty END),0),
+		[1æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '1' then u1.FAuxQty END),0),
+		[2æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '2' then u1.FAuxQty END),0),
+		[3æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '3' then u1.FAuxQty END),0),
+		[4æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '4' then u1.FAuxQty END),0),
+		[5æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '5' then u1.FAuxQty END),0),
+		[6æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '6' then u1.FAuxQty END),0),
+		[7æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '7' then u1.FAuxQty END),0),
+		[8æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '8' then u1.FAuxQty END),0),
+		[9æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '9' then u1.FAuxQty END),0),
+		[10æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '10' then u1.FAuxQty END),0),
+		[11æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '11' then u1.FAuxQty END),0),
+		[12æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '12' then u1.FAuxQty END),0)
 --		sum(u1.FConsignAmount)
     --FROM t_xySaleReporttest
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
@@ -182,18 +182,18 @@ LEFT JOIN t_Item v5 ON v4.FParentID=v5.FItemID
 LEFT JOIN t_Item v6 ON v5.FParentID=v6.FItemID
 LEFT JOIN t_SubMessage v7 ON v2.FRegionID=v7.FInterID
 LEFT JOIN t_Emp v8 ON v2.Femployee=v8.FItemID
-where v3.FName='·À³¾Ã±ÊÂÒµ²¿'
-----where v4.FName='Î¢²¨Â¯'
-order by [2017ÏúÊÛ¶î] desc
+where v3.FName='é˜²å°˜å¸½äº‹ä¸šéƒ¨'
+----where v4.FName='å¾®æ³¢ç‚‰'
+order by [2017é”€å”®é¢] desc
 
 
 
 where year(v1.FDate)IN ('2014') 
 and month(v1.FDate)<='12' 
 and v1.FTranType=21 
---and v2.F_123>='2013-09-01' --ĞÂ¿ª·¢
---and v3.FName='·À³¾Ã±ÊÂÒµ²¿' --and v5.FName='ÌåÓıÓÃÆ·' 
---and v4.FName IN ('Í¨ĞÅÉè±¸','¹âÏËÁ¬½ÓÆ÷','ÉäÆµÁ¬½ÓÆ÷','ÌìÏß','¹âÏË\¹âÀÂ','ÈÕÓÃÎå½ğ')
+--and v2.F_123>='2013-09-01' --æ–°å¼€å‘
+--and v3.FName='é˜²å°˜å¸½äº‹ä¸šéƒ¨' --and v5.FName='ä½“è‚²ç”¨å“' 
+--and v4.FName IN ('é€šä¿¡è®¾å¤‡','å…‰çº¤è¿æ¥å™¨','å°„é¢‘è¿æ¥å™¨','å¤©çº¿','å…‰çº¤\å…‰ç¼†','æ—¥ç”¨äº”é‡‘')
 
 group by --v3.FName,v5.FName,
 v4.FName,v2.FName--,year(v1.FDate)
@@ -204,15 +204,15 @@ order by v4.FName,
 
 FRegionID t_SubMessage
 select * from t_Organization
-select * from t_SubMessage where FName like '%»ªÄÏ%'
+select * from t_SubMessage where FName like '%åå—%'
 
---ĞĞÒµÄê¶È
+--è¡Œä¸šå¹´åº¦
 
 DECLARE @Period char(4)
-SET @Period='2011' --Í³¼ÆµÄÄêÔÂ
+SET @Period='2011' --ç»Ÿè®¡çš„å¹´æœˆ
 
 
---Í³¼Æ´¦Àí
+--ç»Ÿè®¡å¤„ç†
 DECLARE 
 	--@Last_Period char(6),
 	@Period_1 char(4),
@@ -234,26 +234,26 @@ SELECT
 	@Period_5=CONVERT(char(4),DATEADD(Year,4,@Period),112),
 	@Period_6=CONVERT(char(4),DATEADD(Year,5,@Period),112),
 	@Period_7=CONVERT(char(4),DATEADD(Year,6,@Period),112)
-SELECT FDepartment AS ÊÂÒµ²¿,FBigTrade AS ĞĞÒµ,
-	--P_Money AS 'ÄêÏúÊÛ¶î',
-	--P_AuxQty AS 'Äê³ö»õÁ¿',
-	--P_Money_1 AS '2009ÏúÊÛ¶î',
-    P_Money_2 AS '2012ÏúÊÛ¶î',
-    P_Money_3 AS '2013ÏúÊÛ¶î',
-    P_Money_4 AS '2014ÏúÊÛ¶î',
-    P_Money_5 AS '2015ÏúÊÛ¶î',
-    P_Money_6 AS '2016ÏúÊÛ¶î',
-	P_Money_7 AS '2017ÏúÊÛ¶î',
-	--P_AuxQty_1 AS '2009³ö»õÁ¿',
-    P_AuxQty_2 AS '2012³ö»õÁ¿',
-    P_AuxQty_3 AS '2013³ö»õÁ¿',
-    P_AuxQty_4 AS '2014³ö»õÁ¿',
-    P_AuxQty_5 AS '2015³ö»õÁ¿',
-    P_AuxQty_6 AS '2016³ö»õÁ¿',
-	P_AuxQty_7 AS '2017³ö»õÁ¿'
+SELECT FDepartment AS äº‹ä¸šéƒ¨,FBigTrade AS è¡Œä¸š,
+	--P_Money AS 'å¹´é”€å”®é¢',
+	--P_AuxQty AS 'å¹´å‡ºè´§é‡',
+	--P_Money_1 AS '2009é”€å”®é¢',
+    P_Money_2 AS '2012é”€å”®é¢',
+    P_Money_3 AS '2013é”€å”®é¢',
+    P_Money_4 AS '2014é”€å”®é¢',
+    P_Money_5 AS '2015é”€å”®é¢',
+    P_Money_6 AS '2016é”€å”®é¢',
+	P_Money_7 AS '2017é”€å”®é¢',
+	--P_AuxQty_1 AS '2009å‡ºè´§é‡',
+    P_AuxQty_2 AS '2012å‡ºè´§é‡',
+    P_AuxQty_3 AS '2013å‡ºè´§é‡',
+    P_AuxQty_4 AS '2014å‡ºè´§é‡',
+    P_AuxQty_5 AS '2015å‡ºè´§é‡',
+    P_AuxQty_6 AS '2016å‡ºè´§é‡',
+	P_AuxQty_7 AS '2017å‡ºè´§é‡'
 FROM(
-    SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<ÏúÊÛ²¿ºÏ¼Æ>' ELSE (v3.FName) END,
-        FBigTrade=CASE WHEN GROUPING(v5.FName)=1 THEN '<ÊÂÒµ²¿ºÏ¼Æ>' ELSE (v5.FName) END,    
+    SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<é”€å”®éƒ¨åˆè®¡>' ELSE (v3.FName) END,
+        FBigTrade=CASE WHEN GROUPING(v5.FName)=1 THEN '<äº‹ä¸šéƒ¨åˆè®¡>' ELSE (v5.FName) END,    
 		--P_Money=ISNULL(SUM(u1.FConsignAmount),0),
         --P_AuxQty=ISNULL(SUM(u1.FAuxQty),0),
         P_Money_1=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_1 THEN v1.FConsignAmount END),0),
@@ -301,7 +301,7 @@ FROM(
 --select month(getdate())
 
 
---ÆóÒµËÄÄê
+--ä¼ä¸šå››å¹´
 
 SELECT --v3.FName,
 		--v5.FName,
@@ -309,22 +309,22 @@ SELECT --v3.FName,
 		v2.FName AS FName,    
 --        CONVERT(char(7),v1.FDate,120),
 --		ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),
-		--[2008ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FConsignAmount END),0),
-		--[2009ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FConsignAmount END),0),
-		--[2010ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FConsignAmount END),0),
-		--[2011ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FConsignAmount END),0),
-		--[2012ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FConsignAmount END),0),
-		[2014ÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2014' AND Month(v1.FDate)<='12'  then v1.FConsignAmount END),0),
-		[2015ÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' AND Month(v1.FDate)<='12'  then v1.FConsignAmount END),0),
-		[2016ÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' AND Month(v1.FDate)<='12'  then v1.FConsignAmount END),0),
-		--[2008³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FAuxQty END),0),
-		--[2009³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FAuxQty END),0),
-		--[2010³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FAuxQty END),0),
-		--[2011³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FAuxQty END),0),
-		--[2012³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FAuxQty END),0),
-		[2014³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2014' AND Month(v1.FDate)<='12'  then v1.FAuxQty END),0),
-		[2015³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' AND Month(v1.FDate)<='12'  then v1.FAuxQty END),0),
-		[2016³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' AND Month(v1.FDate)<='12'  then v1.FAuxQty END),0)
+		--[2008é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FConsignAmount END),0),
+		--[2009é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FConsignAmount END),0),
+		--[2010é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FConsignAmount END),0),
+		--[2011é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FConsignAmount END),0),
+		--[2012é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FConsignAmount END),0),
+		[2014é”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2014' AND Month(v1.FDate)<='12'  then v1.FConsignAmount END),0),
+		[2015é”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' AND Month(v1.FDate)<='12'  then v1.FConsignAmount END),0),
+		[2016é”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' AND Month(v1.FDate)<='12'  then v1.FConsignAmount END),0),
+		--[2008å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FAuxQty END),0),
+		--[2009å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FAuxQty END),0),
+		--[2010å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FAuxQty END),0),
+		--[2011å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FAuxQty END),0),
+		--[2012å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FAuxQty END),0),
+		[2014å‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2014' AND Month(v1.FDate)<='12'  then v1.FAuxQty END),0),
+		[2015å‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' AND Month(v1.FDate)<='12'  then v1.FAuxQty END),0),
+		[2016å‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' AND Month(v1.FDate)<='12'  then v1.FAuxQty END),0)
 --		sum(u1.FConsignAmount)
     --FROM t_xySaleReporttest
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
@@ -349,18 +349,18 @@ month(v1.FDate)<='12'
 and 
 v1.FTranType=21 
 And v1.FCheckerID>0 
-and v3.FName='·À³¾Ã±ÊÂÒµ²¿' --and v5.FName='ÌåÓıÓÃÆ·' 
---and v4.FName IN ('Í¨ĞÅÉè±¸','¹âÏËÁ¬½ÓÆ÷','ÉäÆµÁ¬½ÓÆ÷','ÌìÏß','¹âÏË\¹âÀÂ','ÈÕÓÃÎå½ğ')
+and v3.FName='é˜²å°˜å¸½äº‹ä¸šéƒ¨' --and v5.FName='ä½“è‚²ç”¨å“' 
+--and v4.FName IN ('é€šä¿¡è®¾å¤‡','å…‰çº¤è¿æ¥å™¨','å°„é¢‘è¿æ¥å™¨','å¤©çº¿','å…‰çº¤\å…‰ç¼†','æ—¥ç”¨äº”é‡‘')
 
 group by --v3.FName,v5.FName,
 v4.FName,v2.FName--,year(v1.FDate)
 --CONVERT(char(7),v1.FDate,120) 
 with rollup
 order by v4.FName,
-[2016ÏúÊÛ¶î] desc
+[2016é”€å”®é¢] desc
 
 
---ÆóÒµËÄÄê°´ÒµÎñÔ±·Ö
+--ä¼ä¸šå››å¹´æŒ‰ä¸šåŠ¡å‘˜åˆ†
 
 SELECT v3.FName,
 		--v5.FName,
@@ -373,46 +373,46 @@ SELECT v3.FName,
 		max(v2.F_101) AS F_101,    
 --        CONVERT(char(7),v1.FDate,120),
 --		ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),
-		--[2008ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FConsignAmount END),0),
-		--[2009ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FConsignAmount END),0),
-		--[2010ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FConsignAmount END),0),
-		--[2011ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FConsignAmount END),0),
-		--[2012ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FConsignAmount END),0),
-		[2014ÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate)= '2014' then v1.FConsignAmount END),0),
-		[2015ÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' then v1.FConsignAmount END),0),
-		[2016ÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' then v1.FConsignAmount END),0),
-		[1ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '1' then v1.FConsignAmount END),0),
-		[2ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '2' then v1.FConsignAmount END),0),
-		[3ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '3' then v1.FConsignAmount END),0),
-		[4ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '4' then v1.FConsignAmount END),0),
-		[5ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '5' then v1.FConsignAmount END),0),
-		[6ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '6' then v1.FConsignAmount END),0),
-		--[7ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '7' then v1.FConsignAmount END),0),
-		--[8ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '8' then v1.FConsignAmount END),0),
-		--[9ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '9' then v1.FConsignAmount END),0),
-		--[10ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '10' then v1.FConsignAmount END),0),
-		--[11ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '11' then v1.FConsignAmount END),0),
-		--[12ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '12' then v1.FConsignAmount END),0),
-		--[2008³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FAuxQty END),0),
-		--[2009³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FAuxQty END),0),
-		--[2010³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FAuxQty END),0),
-		--[2011³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FAuxQty END),0),
-		--[2012³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FAuxQty END),0),
-		[2014³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate)= '2014'  then v1.FAuxQty END),0),
-		[2015³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2015'  then v1.FAuxQty END),0),
-		[2016³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2016'  then v1.FAuxQty END),0),
-		[1ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '1' then v1.FAuxQty END),0),
-		[2ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '2' then v1.FAuxQty END),0),
-		[3ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '3' then v1.FAuxQty END),0),
-		[4ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '4' then v1.FAuxQty END),0),
-		[5ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '5' then v1.FAuxQty END),0),
-		[6ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '6' then v1.FAuxQty END),0)
-		--[7ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '7' then v1.FAuxQty END),0),
-		--[8ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '8' then v1.FAuxQty END),0),
-		--[9ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '9' then v1.FAuxQty END),0),
-		--[10ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '10' then v1.FAuxQty END),0),
-		--[11ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '11' then v1.FAuxQty END),0),
-		--[12ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '12' then v1.FAuxQty END),0)
+		--[2008é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FConsignAmount END),0),
+		--[2009é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FConsignAmount END),0),
+		--[2010é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FConsignAmount END),0),
+		--[2011é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FConsignAmount END),0),
+		--[2012é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FConsignAmount END),0),
+		[2014é”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate)= '2014' then v1.FConsignAmount END),0),
+		[2015é”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' then v1.FConsignAmount END),0),
+		[2016é”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' then v1.FConsignAmount END),0),
+		[1æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '1' then v1.FConsignAmount END),0),
+		[2æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '2' then v1.FConsignAmount END),0),
+		[3æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '3' then v1.FConsignAmount END),0),
+		[4æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '4' then v1.FConsignAmount END),0),
+		[5æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '5' then v1.FConsignAmount END),0),
+		[6æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '6' then v1.FConsignAmount END),0),
+		--[7æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '7' then v1.FConsignAmount END),0),
+		--[8æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '8' then v1.FConsignAmount END),0),
+		--[9æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '9' then v1.FConsignAmount END),0),
+		--[10æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '10' then v1.FConsignAmount END),0),
+		--[11æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '11' then v1.FConsignAmount END),0),
+		--[12æœˆé”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '12' then v1.FConsignAmount END),0),
+		--[2008å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FAuxQty END),0),
+		--[2009å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FAuxQty END),0),
+		--[2010å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FAuxQty END),0),
+		--[2011å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FAuxQty END),0),
+		--[2012å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FAuxQty END),0),
+		[2014å‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate)= '2014'  then v1.FAuxQty END),0),
+		[2015å‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2015'  then v1.FAuxQty END),0),
+		[2016å‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2016'  then v1.FAuxQty END),0),
+		[1æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '1' then v1.FAuxQty END),0),
+		[2æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '2' then v1.FAuxQty END),0),
+		[3æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '3' then v1.FAuxQty END),0),
+		[4æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '4' then v1.FAuxQty END),0),
+		[5æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '5' then v1.FAuxQty END),0),
+		[6æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2016' and month(v1.FDate)= '6' then v1.FAuxQty END),0)
+		--[7æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '7' then v1.FAuxQty END),0),
+		--[8æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '8' then v1.FAuxQty END),0),
+		--[9æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '9' then v1.FAuxQty END),0),
+		--[10æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '10' then v1.FAuxQty END),0),
+		--[11æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '11' then v1.FAuxQty END),0),
+		--[12æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate) = '2015' and month(v1.FDate)= '12' then v1.FAuxQty END),0)
 --		sum(u1.FConsignAmount)
     --FROM t_xySaleReporttest
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
@@ -439,27 +439,27 @@ where --year(v1.FDate) <= '2013')
 --and 
 v1.FTranType=21 
 And v1.FCheckerID>0 
-and v3.FName='¶Ë×ÓÌ×ÊÂÒµ²¿' --and v5.FName='ÌåÓıÓÃÆ·' 
-----and v4.FName IN ('Í¨ĞÅÉè±¸','¹âÏËÁ¬½ÓÆ÷','ÉäÆµÁ¬½ÓÆ÷','ÌìÏß','¹âÏË\¹âÀÂ','ÈÕÓÃÎå½ğ')
---and v7.FName='ÖìÃ÷Ï¼'
---and [2014ÏúÊÛ¶î]<>0
+and v3.FName='ç«¯å­å¥—äº‹ä¸šéƒ¨' --and v5.FName='ä½“è‚²ç”¨å“' 
+----and v4.FName IN ('é€šä¿¡è®¾å¤‡','å…‰çº¤è¿æ¥å™¨','å°„é¢‘è¿æ¥å™¨','å¤©çº¿','å…‰çº¤\å…‰ç¼†','æ—¥ç”¨äº”é‡‘')
+--and v7.FName='æœ±æ˜éœ'
+--and [2014é”€å”®é¢]<>0
 group by v3.FName,--v5.FName,
 v4.FName,v7.FName,v2.FName--,year(v1.FDate)
 --CONVERT(char(7),v1.FDate,120) 
 with rollup
 order by v4.FName,v7.FName,
-[2016ÏúÊÛ¶î] desc
+[2016é”€å”®é¢] desc
 
 --select t2.FName,t1.* from t_Organization t1
 --left join t_Emp t2 on t1.Femployee=t2.FItemID
 
---ĞĞÒµ°ëÄê
+--è¡Œä¸šåŠå¹´
 
 DECLARE @Period char(4)
-SET @Period='2009' --Í³¼ÆµÄÄêÔÂ
+SET @Period='2009' --ç»Ÿè®¡çš„å¹´æœˆ
 
 
---Í³¼Æ´¦Àí
+--ç»Ÿè®¡å¤„ç†
 DECLARE 
 	--@Last_Period char(6),
 	@Period_1 char(4),
@@ -481,26 +481,26 @@ SELECT
 	@Period_5=CONVERT(char(4),DATEADD(Year,5,@Period),112),
 	@Period_6=CONVERT(char(4),DATEADD(Year,6,@Period),112),
 	@Period_7=CONVERT(char(4),DATEADD(Year,7,@Period),112)
-SELECT FDepartment AS ÊÂÒµ²¿,FBigTrade AS ĞĞÒµ,
-	--P_Money AS 'ÄêÏúÊÛ¶î',
-	--P_AuxQty AS 'Äê³ö»õÁ¿',
-	--P_Money_1 AS '2008ÏúÊÛ¶î',
- --   P_Money_2 AS '2009ÏúÊÛ¶î',
- --   P_Money_3 AS '2010ÏúÊÛ¶î',
- --   P_Money_4 AS '2011ÏúÊÛ¶î',
-    P_Money_5 AS '2014ÏúÊÛ¶î',
-    P_Money_6 AS '2015ÏúÊÛ¶î',
-	P_Money_7 AS '2016ÏúÊÛ¶î',
-	--P_AuxQty_1 AS '2008³ö»õÁ¿',
- --   P_AuxQty_2 AS '2009³ö»õÁ¿',
- --   P_AuxQty_3 AS '2010³ö»õÁ¿',
- --   P_AuxQty_4 AS '2011³ö»õÁ¿',
-    P_AuxQty_5 AS '2014³ö»õÁ¿',
-    P_AuxQty_6 AS '2015³ö»õÁ¿',
-	P_AuxQty_7 AS '2016³ö»õÁ¿'
+SELECT FDepartment AS äº‹ä¸šéƒ¨,FBigTrade AS è¡Œä¸š,
+	--P_Money AS 'å¹´é”€å”®é¢',
+	--P_AuxQty AS 'å¹´å‡ºè´§é‡',
+	--P_Money_1 AS '2008é”€å”®é¢',
+ --   P_Money_2 AS '2009é”€å”®é¢',
+ --   P_Money_3 AS '2010é”€å”®é¢',
+ --   P_Money_4 AS '2011é”€å”®é¢',
+    P_Money_5 AS '2014é”€å”®é¢',
+    P_Money_6 AS '2015é”€å”®é¢',
+	P_Money_7 AS '2016é”€å”®é¢',
+	--P_AuxQty_1 AS '2008å‡ºè´§é‡',
+ --   P_AuxQty_2 AS '2009å‡ºè´§é‡',
+ --   P_AuxQty_3 AS '2010å‡ºè´§é‡',
+ --   P_AuxQty_4 AS '2011å‡ºè´§é‡',
+    P_AuxQty_5 AS '2014å‡ºè´§é‡',
+    P_AuxQty_6 AS '2015å‡ºè´§é‡',
+	P_AuxQty_7 AS '2016å‡ºè´§é‡'
 FROM(
-    SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<ÏúÊÛ²¿ºÏ¼Æ>' ELSE (v3.FName) END,
-        FBigTrade=CASE WHEN GROUPING(v5.FName)=1 THEN '<ÊÂÒµ²¿ºÏ¼Æ>' ELSE (v5.FName) END,    
+    SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<é”€å”®éƒ¨åˆè®¡>' ELSE (v3.FName) END,
+        FBigTrade=CASE WHEN GROUPING(v5.FName)=1 THEN '<äº‹ä¸šéƒ¨åˆè®¡>' ELSE (v5.FName) END,    
 		--P_Money=ISNULL(SUM(u1.FConsignAmount),0),
         --P_AuxQty=ISNULL(SUM(u1.FAuxQty),0),
         P_Money_1=ISNULL(SUM(CASE WHEN Year(v1.FDate)=@Period_1 AND Month(v1.FDate)<='6' THEN v1.FConsignAmount END),0),
@@ -547,7 +547,7 @@ FROM(
 --select   RIGHT(CONVERT(char(6),getdate(),112),2)    
 --select month(getdate())
 
---ÆóÒµ³ö»õÁ¿
+--ä¼ä¸šå‡ºè´§é‡
 select v7.FName,
 		v2.FProvince,
 		v2.FName AS FName,
@@ -597,14 +597,14 @@ LEFT JOIN t_Item v5 ON v4.FParentID=v5.FItemID
 LEFT JOIN t_Item v6 ON v5.FParentID=v6.FItemID
 LEFT JOIN t_SubMessage v7 ON v2.FRegionID=v7.FInterID
 
---where v3.FName='·À³¾Ã±ÊÂÒµ²¿'
-where v4.FName='Î¢²¨Â¯'
+--where v3.FName='é˜²å°˜å¸½äº‹ä¸šéƒ¨'
+where v4.FName='å¾®æ³¢ç‚‰'
 order by [2013] desc
 
 
 --select * from  t_Organization
 
---ÆóÒµÃ¿ÔÂ°´ÒµÎñÔ±·Ö
+--ä¼ä¸šæ¯æœˆæŒ‰ä¸šåŠ¡å‘˜åˆ†
 
 SELECT v3.FName,
 		--v5.FName,
@@ -617,42 +617,42 @@ SELECT v3.FName,
 		max(v2.F_101) AS F_101,    
 --        CONVERT(char(7),v1.FDate,120),
 --		ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),
-		--[2008ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FConsignAmount END),0),
-		--[2009ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FConsignAmount END),0),
-		--[2010ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FConsignAmount END),0),
-		--[2011ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FConsignAmount END),0),
-		--[2012ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FConsignAmount END),0),
-		[2015ÏúÊÛ¶î]=ISNULL(SUM(CASE when year(v1.FDate)= '2015' then v1.FConsignAmount END),0),
-		[1ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '1' then v1.FConsignAmount END),0),
-		[2ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '2' then v1.FConsignAmount END),0),
-		[3ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '3' then v1.FConsignAmount END),0),
-		[4ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '4' then v1.FConsignAmount END),0),
-		[5ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '5' then v1.FConsignAmount END),0),
-		[6ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '6' then v1.FConsignAmount END),0),
-		[7ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '7' then v1.FConsignAmount END),0),
-		[8ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '8' then v1.FConsignAmount END),0),
-		[9ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '9' then v1.FConsignAmount END),0),
-		[10ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '10' then v1.FConsignAmount END),0),
-		[11ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '11' then v1.FConsignAmount END),0),
-		[12ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE when month(v1.FDate) = '12' then v1.FConsignAmount END),0),
-		--[2008³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FAuxQty END),0),
-		--[2009³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FAuxQty END),0),
-		--[2010³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FAuxQty END),0),
-		--[2011³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FAuxQty END),0),
-		--[2012³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FAuxQty END),0),
-		[2015³ö»õÁ¿]=ISNULL(SUM(CASE when year(v1.FDate)= '2015'  then v1.FAuxQty END),0),
-		[1ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '1'  then v1.FAuxQty END),0),
-		[2ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '2'  then v1.FAuxQty END),0),
-		[3ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '3'  then v1.FAuxQty END),0),
-		[4ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '4'  then v1.FAuxQty END),0),
-		[5ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '5'  then v1.FAuxQty END),0),
-		[6ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '6'  then v1.FAuxQty END),0),
-		[7ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '7'  then v1.FAuxQty END),0),
-		[8ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '8'  then v1.FAuxQty END),0),
-		[9ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '9'  then v1.FAuxQty END),0),
-		[10ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '10'  then v1.FAuxQty END),0),
-		[11ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '11'  then v1.FAuxQty END),0),
-		[12ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE when month(v1.FDate) = '12'  then v1.FAuxQty END),0)
+		--[2008é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FConsignAmount END),0),
+		--[2009é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FConsignAmount END),0),
+		--[2010é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FConsignAmount END),0),
+		--[2011é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FConsignAmount END),0),
+		--[2012é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FConsignAmount END),0),
+		[2015é”€å”®é¢]=ISNULL(SUM(CASE when year(v1.FDate)= '2015' then v1.FConsignAmount END),0),
+		[1æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '1' then v1.FConsignAmount END),0),
+		[2æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '2' then v1.FConsignAmount END),0),
+		[3æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '3' then v1.FConsignAmount END),0),
+		[4æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '4' then v1.FConsignAmount END),0),
+		[5æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '5' then v1.FConsignAmount END),0),
+		[6æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '6' then v1.FConsignAmount END),0),
+		[7æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '7' then v1.FConsignAmount END),0),
+		[8æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '8' then v1.FConsignAmount END),0),
+		[9æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '9' then v1.FConsignAmount END),0),
+		[10æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '10' then v1.FConsignAmount END),0),
+		[11æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '11' then v1.FConsignAmount END),0),
+		[12æœˆé”€å”®é¢]=ISNULL(SUM(CASE when month(v1.FDate) = '12' then v1.FConsignAmount END),0),
+		--[2008å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2008' then v1.FAuxQty END),0),
+		--[2009å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then v1.FAuxQty END),0),
+		--[2010å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then v1.FAuxQty END),0),
+		--[2011å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2011' then v1.FAuxQty END),0),
+		--[2012å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2012' then v1.FAuxQty END),0),
+		[2015å‡ºè´§é‡]=ISNULL(SUM(CASE when year(v1.FDate)= '2015'  then v1.FAuxQty END),0),
+		[1æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '1'  then v1.FAuxQty END),0),
+		[2æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '2'  then v1.FAuxQty END),0),
+		[3æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '3'  then v1.FAuxQty END),0),
+		[4æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '4'  then v1.FAuxQty END),0),
+		[5æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '5'  then v1.FAuxQty END),0),
+		[6æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '6'  then v1.FAuxQty END),0),
+		[7æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '7'  then v1.FAuxQty END),0),
+		[8æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '8'  then v1.FAuxQty END),0),
+		[9æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '9'  then v1.FAuxQty END),0),
+		[10æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '10'  then v1.FAuxQty END),0),
+		[11æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '11'  then v1.FAuxQty END),0),
+		[12æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE when month(v1.FDate) = '12'  then v1.FAuxQty END),0)
 --		sum(u1.FConsignAmount)
     --FROM t_xySaleReporttest
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
@@ -679,52 +679,52 @@ where --year(v1.FDate) <= '2013')
 --and 
 v1.FTranType=21 
 And v1.FCheckerID>0 
-and v3.FName='¶Ë×ÓÌ×ÊÂÒµ²¿' --and v5.FName='ÌåÓıÓÃÆ·' 
-----and v4.FName IN ('Í¨ĞÅÉè±¸','¹âÏËÁ¬½ÓÆ÷','ÉäÆµÁ¬½ÓÆ÷','ÌìÏß','¹âÏË\¹âÀÂ','ÈÕÓÃÎå½ğ')
---and v7.FName='ÖìÃ÷Ï¼'
---and [2014ÏúÊÛ¶î]<>0
+and v3.FName='ç«¯å­å¥—äº‹ä¸šéƒ¨' --and v5.FName='ä½“è‚²ç”¨å“' 
+----and v4.FName IN ('é€šä¿¡è®¾å¤‡','å…‰çº¤è¿æ¥å™¨','å°„é¢‘è¿æ¥å™¨','å¤©çº¿','å…‰çº¤\å…‰ç¼†','æ—¥ç”¨äº”é‡‘')
+--and v7.FName='æœ±æ˜éœ'
+--and [2014é”€å”®é¢]<>0
 group by v3.FName,--v5.FName,
 v7.FName,v4.FName,v2.FName--,year(v1.FDate)
 --CONVERT(char(7),v1.FDate,120) 
 with rollup
 order by v7.FName,v4.FName,
-[2015ÏúÊÛ¶î] desc
+[2015é”€å”®é¢] desc
 
 
 
 
---½ñÄêĞÂ½»Ò×¿Í»§
+--ä»Šå¹´æ–°äº¤æ˜“å®¢æˆ·
 
 
 
 SELECT top 20 * FROM
-(select tt3.FName AS ²¿ÃÅ,
-	tt5.FName AS ĞĞÒµ, 
-	tt2.FName AS ¿Í»§Ãû³Æ,
+(select tt3.FName AS éƒ¨é—¨,
+	tt5.FName AS è¡Œä¸š, 
+	tt2.FName AS å®¢æˆ·åç§°,
 	CASE tt2.FComboBox 
-		WHEN '00' THEN 'ÆäËûÍøÂç'
-		WHEN '01' THEN 'Õ¹»á'
-		WHEN '02' THEN '¿Í»§½éÉÜ'
-		WHEN '03' THEN 'ÔÓÖ¾'
-		WHEN '04' THEN 'ÏÖ³¡ĞÅÏ¢'
-		WHEN '05' THEN '°¢Àï°Í°Í'
-		WHEN '06' THEN '¹«Ë¾ÍøÕ¾'
+		WHEN '00' THEN 'å…¶ä»–ç½‘ç»œ'
+		WHEN '01' THEN 'å±•ä¼š'
+		WHEN '02' THEN 'å®¢æˆ·ä»‹ç»'
+		WHEN '03' THEN 'æ‚å¿—'
+		WHEN '04' THEN 'ç°åœºä¿¡æ¯'
+		WHEN '05' THEN 'é˜¿é‡Œå·´å·´'
+		WHEN '06' THEN 'å…¬å¸ç½‘ç«™'
 		ELSE ''
 	END
-	AS À´Ô´,
-	tt2.FContact AS ÁªÏµÈË,
-	tt2.FPhone AS µç»°,
-	tt2.FFax AS ´«Õæ,
-	tt2.FAddress AS µØÖ·,
-	tt2.F_101 AS ¿Í»§·ÖÀà,
-	tt1.FMinDate AS Ê×´Î½»Ò×ÈÕÆÚ,
-	tt1.FMaxDate AS ×îºó½»Ò×ÈÕÆÚ,
-	tt1.FConsignAmount AS ½ğ¶î,
-	tt1.FAuxQtySum AS ³ö»õÁ¿,
-	tt1.FAuxQtyCount AS ³ö»õ´ÎÊı,
-	tt1.FAuxQtySum/tt1.FAuxQtyCount  AS Æ½¾ù³ö»õÁ¿,
-	tt1.FAuxQtyMax AS µ¥´Î×î´ó³ö»õÁ¿,
-	tt1.FAuxQtyMin AS µ¥´Î×îĞ¡³ö»õÁ¿
+	AS æ¥æº,
+	tt2.FContact AS è”ç³»äºº,
+	tt2.FPhone AS ç”µè¯,
+	tt2.FFax AS ä¼ çœŸ,
+	tt2.FAddress AS åœ°å€,
+	tt2.F_101 AS å®¢æˆ·åˆ†ç±»,
+	tt1.FMinDate AS é¦–æ¬¡äº¤æ˜“æ—¥æœŸ,
+	tt1.FMaxDate AS æœ€åäº¤æ˜“æ—¥æœŸ,
+	tt1.FConsignAmount AS é‡‘é¢,
+	tt1.FAuxQtySum AS å‡ºè´§é‡,
+	tt1.FAuxQtyCount AS å‡ºè´§æ¬¡æ•°,
+	tt1.FAuxQtySum/tt1.FAuxQtyCount  AS å¹³å‡å‡ºè´§é‡,
+	tt1.FAuxQtyMax AS å•æ¬¡æœ€å¤§å‡ºè´§é‡,
+	tt1.FAuxQtyMin AS å•æ¬¡æœ€å°å‡ºè´§é‡
  from
 (select t1.FSupplyID as FSupplyID,
 	sum(t2.FConsignAmount) AS FConsignAmount,
@@ -754,33 +754,33 @@ order by tt3.FName,tt2.F_101,tt1.FConsignAmount DESC
 
 
 
---½ñÄêĞÂÔö¿Í»§
-select tt3.FName AS ²¿ÃÅ,
-	tt5.FName AS ĞĞÒµ, 
-	tt2.FName AS ¿Í»§Ãû³Æ,
+--ä»Šå¹´æ–°å¢å®¢æˆ·
+select tt3.FName AS éƒ¨é—¨,
+	tt5.FName AS è¡Œä¸š, 
+	tt2.FName AS å®¢æˆ·åç§°,
 	CASE tt2.FComboBox 
-		WHEN '00' THEN 'ÆäËûÍøÂç'
-		WHEN '01' THEN 'Õ¹»á'
-		WHEN '02' THEN '¿Í»§½éÉÜ'
-		WHEN '03' THEN 'ÔÓÖ¾'
-		WHEN '04' THEN 'ÏÖ³¡ĞÅÏ¢'
-		WHEN '05' THEN '°¢Àï°Í°Í'
-		WHEN '06' THEN '¹«Ë¾ÍøÕ¾'
+		WHEN '00' THEN 'å…¶ä»–ç½‘ç»œ'
+		WHEN '01' THEN 'å±•ä¼š'
+		WHEN '02' THEN 'å®¢æˆ·ä»‹ç»'
+		WHEN '03' THEN 'æ‚å¿—'
+		WHEN '04' THEN 'ç°åœºä¿¡æ¯'
+		WHEN '05' THEN 'é˜¿é‡Œå·´å·´'
+		WHEN '06' THEN 'å…¬å¸ç½‘ç«™'
 		ELSE ''
 	END
-	AS À´Ô´,
-	tt2.FContact AS ÁªÏµÈË,
-	tt2.FPhone AS µç»°,
-	tt2.FFax AS ´«Õæ,
-	tt2.FAddress AS µØÖ·,
-	tt2.F_101 AS ¿Í»§·ÖÀà,
-	tt2.F_123 AS ĞÂÔöÈÕÆÚ,
-	tt1.FConsignAmount AS ½ğ¶î,
-	tt1.FAuxQtySum AS ³ö»õÁ¿,
-	tt1.FAuxQtyCount AS ³ö»õ´ÎÊı,
-	tt1.FAuxQtySum/tt1.FAuxQtyCount  AS Æ½¾ù³ö»õÁ¿,
-	tt1.FAuxQtyMax AS µ¥´Î×î´ó³ö»õÁ¿,
-	tt1.FAuxQtyMin AS µ¥´Î×îĞ¡³ö»õÁ¿
+	AS æ¥æº,
+	tt2.FContact AS è”ç³»äºº,
+	tt2.FPhone AS ç”µè¯,
+	tt2.FFax AS ä¼ çœŸ,
+	tt2.FAddress AS åœ°å€,
+	tt2.F_101 AS å®¢æˆ·åˆ†ç±»,
+	tt2.F_123 AS æ–°å¢æ—¥æœŸ,
+	tt1.FConsignAmount AS é‡‘é¢,
+	tt1.FAuxQtySum AS å‡ºè´§é‡,
+	tt1.FAuxQtyCount AS å‡ºè´§æ¬¡æ•°,
+	tt1.FAuxQtySum/tt1.FAuxQtyCount  AS å¹³å‡å‡ºè´§é‡,
+	tt1.FAuxQtyMax AS å•æ¬¡æœ€å¤§å‡ºè´§é‡,
+	tt1.FAuxQtyMin AS å•æ¬¡æœ€å°å‡ºè´§é‡
  from
 (select t1.FSupplyID as FSupplyID,
 	sum(t2.FConsignAmount) AS FConsignAmount,
@@ -809,14 +809,14 @@ and
 month(tt2.F_123)<='11'
 order by tt3.FName,tt2.F_101,tt1.FConsignAmount DESC
 
---¿Í»§À´Ô´£ºFCombobox
---00	ÆäËûÍøÂç
---01	Õ¹»á
---02	¿Í»§½éÉÜ
---03	ÔÓÖ¾
---04	ÏÖ³¡ĞÅÏ¢
---05	°¢Àï°Í°Í
---06	¹«Ë¾ÍøÕ¾
+--å®¢æˆ·æ¥æºï¼šFCombobox
+--00	å…¶ä»–ç½‘ç»œ
+--01	å±•ä¼š
+--02	å®¢æˆ·ä»‹ç»
+--03	æ‚å¿—
+--04	ç°åœºä¿¡æ¯
+--05	é˜¿é‡Œå·´å·´
+--06	å…¬å¸ç½‘ç«™
 
 select * from t_Organization
 
@@ -826,10 +826,10 @@ FPhone FFax FContact FAddress
 select * from t_Organization
 
 
---ÆóÒµÏúÊÛ¶î
+--ä¼ä¸šé”€å”®é¢
 select  v8.FName,
 		v7.FName,
-		CASE WHEN v2.FProvince LIKE '¹ã¶«%' then '¹ã¶«' else 'ÍâÊ¡' end as FPro,
+		CASE WHEN v2.FProvince LIKE 'å¹¿ä¸œ%' then 'å¹¿ä¸œ' else 'å¤–çœ' end as FPro,
 		v2.FProvince,
 		v2.FName AS FName,
 		v3.FName,
@@ -847,123 +847,123 @@ SELECT --v3.FName,
 --		ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),
 --		[2009]=ISNULL(SUM(CASE year(v1.FDate) when '2009' then u1.FConsignAmount END),0),
 --		[2010]=ISNULL(SUM(CASE year(v1.FDate) when '2010' then u1.FConsignAmount END),0),
-		--[2014ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FConsignAmount END),0),
-		[2017ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FConsignAmount END),0),
-		[2017Äê1ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='1' THEN u1.FConsignAmount END),0),
-		[2017Äê2ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='2' THEN u1.FConsignAmount END),0),
-		[2017Äê3ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='3' THEN u1.FConsignAmount END),0),
-		[2017Äê4ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='4' THEN u1.FConsignAmount END),0),
-		[2017Äê5ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='5' THEN u1.FConsignAmount END),0),
-		[2017Äê6ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='6' THEN u1.FConsignAmount END),0),
-		[2017Äê7ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='7' THEN u1.FConsignAmount END),0),
-		[2017Äê8ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='8' THEN u1.FConsignAmount END),0),
-		[2017Äê9ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='9' THEN u1.FConsignAmount END),0),
-		[2017Äê10ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='10' THEN u1.FConsignAmount END),0),
-		[2017Äê11ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='11' THEN u1.FConsignAmount END),0),
-		[2017Äê12ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='12' THEN u1.FConsignAmount END),0),
-		[2016ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2016' then u1.FConsignAmount END),0),
-		[2016Äê1ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='1' THEN u1.FConsignAmount END),0),
-		[2016Äê2ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='2' THEN u1.FConsignAmount END),0),
-		[2016Äê3ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='3' THEN u1.FConsignAmount END),0),
-		[2016Äê4ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='4' THEN u1.FConsignAmount END),0),
-		[2016Äê5ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='5' THEN u1.FConsignAmount END),0),
-		[2016Äê6ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='6' THEN u1.FConsignAmount END),0),
-		[2016Äê7ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='7' THEN u1.FConsignAmount END),0),
-		[2016Äê8ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='8' THEN u1.FConsignAmount END),0),
-		[2016Äê9ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='9' THEN u1.FConsignAmount END),0),
-		[2016Äê10ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='10' THEN u1.FConsignAmount END),0),
-		[2016Äê11ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='11' THEN u1.FConsignAmount END),0),
-		[2016Äê12ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='12' THEN u1.FConsignAmount END),0),
-		[2015ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2015' then u1.FConsignAmount END),0),
-		[2015Äê1ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='1' THEN u1.FConsignAmount END),0),
-		[2015Äê2ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='2' THEN u1.FConsignAmount END),0),
-		[2015Äê3ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='3' THEN u1.FConsignAmount END),0),
-		[2015Äê4ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='4' THEN u1.FConsignAmount END),0),
-		[2015Äê5ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='5' THEN u1.FConsignAmount END),0),
-		[2015Äê6ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='6' THEN u1.FConsignAmount END),0),
-		[2015Äê7ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='7' THEN u1.FConsignAmount END),0),
-		[2015Äê8ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='8' THEN u1.FConsignAmount END),0),
-		[2015Äê9ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='9' THEN u1.FConsignAmount END),0),
-		[2015Äê10ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='10' THEN u1.FConsignAmount END),0),
-		[2015Äê11ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='11' THEN u1.FConsignAmount END),0),
-		[2015Äê12ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='12' THEN u1.FConsignAmount END),0),
-		[2014ÏúÊÛ¶î]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FConsignAmount END),0),
-		[2014Äê1ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='1' THEN u1.FConsignAmount END),0),
-		[2014Äê2ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='2' THEN u1.FConsignAmount END),0),
-		[2014Äê3ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='3' THEN u1.FConsignAmount END),0),
-		[2014Äê4ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='4' THEN u1.FConsignAmount END),0),
-		[2014Äê5ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='5' THEN u1.FConsignAmount END),0),
-		[2014Äê6ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='6' THEN u1.FConsignAmount END),0),
-		[2014Äê7ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='7' THEN u1.FConsignAmount END),0),
-		[2014Äê8ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='8' THEN u1.FConsignAmount END),0),
-		[2014Äê9ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='9' THEN u1.FConsignAmount END),0),
-		[2014Äê10ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='10' THEN u1.FConsignAmount END),0),
-		[2014Äê11ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='11' THEN u1.FConsignAmount END),0),
-		[2014Äê12ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='12' THEN u1.FConsignAmount END),0),
-		--[7ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '7' then u1.FConsignAmount END),0),
-		--[8ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '8' then u1.FConsignAmount END),0),
-		--[9ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '9' then u1.FConsignAmount END),0),
-		--[10ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '10' then u1.FConsignAmount END),0),
-		--[11ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '11' then u1.FConsignAmount END),0),
-		--[12ÔÂÏúÊÛ¶î]=ISNULL(SUM(CASE month(v1.FDate) when '12' then u1.FConsignAmount END),0),
-		[2017³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FAuxQty END),0),
-		[2017Äê1ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='1' then u1.FAuxQty END),0),
-		[2017Äê2ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='2' then u1.FAuxQty END),0),
-		[2017Äê3ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='3' then u1.FAuxQty END),0),
-		[2017Äê4ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='4' then u1.FAuxQty END),0),
-		[2017Äê5ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='5' then u1.FAuxQty END),0),
-		[2017Äê6ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='6' then u1.FAuxQty END),0),
-		[2017Äê7ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='7' then u1.FAuxQty END),0),
-		[2017Äê8ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='8' then u1.FAuxQty END),0),
-		[2017Äê9ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='9' then u1.FAuxQty END),0),
-		[2017Äê10ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='10' then u1.FAuxQty END),0),
-		[2017Äê11ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='11' then u1.FAuxQty END),0),
-		[2017Äê12ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='12' then u1.FAuxQty END),0),
-		[2016³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2016' then u1.FAuxQty END),0),
-		[2016Äê1ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='1' then u1.FAuxQty END),0),
-		[2016Äê2ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='2' then u1.FAuxQty END),0),
-		[2016Äê3ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='3' then u1.FAuxQty END),0),
-		[2016Äê4ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='4' then u1.FAuxQty END),0),
-		[2016Äê5ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='5' then u1.FAuxQty END),0),
-		[2016Äê6ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='6' then u1.FAuxQty END),0),
-		[2016Äê7ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='7' then u1.FAuxQty END),0),
-		[2016Äê8ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='8' then u1.FAuxQty END),0),
-		[2016Äê9ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='9' then u1.FAuxQty END),0),
-		[2016Äê10ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='10' then u1.FAuxQty END),0),
-		[2016Äê11ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='11' then u1.FAuxQty END),0),
-		[2016Äê12ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='12' then u1.FAuxQty END),0),
-		[2015³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2015' then u1.FAuxQty END),0),
-		[2015Äê1ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='1' then u1.FAuxQty END),0),
-		[2015Äê2ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='2' then u1.FAuxQty END),0),
-		[2015Äê3ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='3' then u1.FAuxQty END),0),
-		[2015Äê4ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='4' then u1.FAuxQty END),0),
-		[2015Äê5ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='5' then u1.FAuxQty END),0),
-		[2015Äê6ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='6' then u1.FAuxQty END),0),
-		[2015Äê7ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='7' then u1.FAuxQty END),0),
-		[2015Äê8ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='8' then u1.FAuxQty END),0),
-		[2015Äê9ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='9' then u1.FAuxQty END),0),
-		[2015Äê10ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='10' then u1.FAuxQty END),0),
-		[2015Äê11ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='11' then u1.FAuxQty END),0),
-		[2015Äê12ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='12' then u1.FAuxQty END),0),
-		[2014³ö»õÁ¿]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FAuxQty END),0),
-		[2014Äê1ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='1' then u1.FAuxQty END),0),
-		[2014Äê2ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='2' then u1.FAuxQty END),0),
-		[2014Äê3ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='3' then u1.FAuxQty END),0),
-		[2014Äê4ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='4' then u1.FAuxQty END),0),
-		[2014Äê5ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='5' then u1.FAuxQty END),0),
-		[2014Äê6ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='6' then u1.FAuxQty END),0),
-		[2014Äê7ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='7' then u1.FAuxQty END),0),
-		[2014Äê8ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='8' then u1.FAuxQty END),0),
-		[2014Äê9ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='9' then u1.FAuxQty END),0),
-		[2014Äê10ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='10' then u1.FAuxQty END),0),
-		[2014Äê11ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='11' then u1.FAuxQty END),0),
-		[2014Äê12ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='12' then u1.FAuxQty END),0)
-		--[7ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '7' then u1.FAuxQty END),0),
-		--[8ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '8' then u1.FAuxQty END),0),
-		--[9ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '9' then u1.FAuxQty END),0),
-		--[10ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '10' then u1.FAuxQty END),0),
-		--[11ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '11' then u1.FAuxQty END),0),
-		--[12ÔÂ³ö»õÁ¿]=ISNULL(SUM(CASE month(v1.FDate) when '12' then u1.FAuxQty END),0)
+		--[2014é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FConsignAmount END),0),
+		[2017é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FConsignAmount END),0),
+		[2017å¹´1æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='1' THEN u1.FConsignAmount END),0),
+		[2017å¹´2æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='2' THEN u1.FConsignAmount END),0),
+		[2017å¹´3æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='3' THEN u1.FConsignAmount END),0),
+		[2017å¹´4æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='4' THEN u1.FConsignAmount END),0),
+		[2017å¹´5æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='5' THEN u1.FConsignAmount END),0),
+		[2017å¹´6æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='6' THEN u1.FConsignAmount END),0),
+		[2017å¹´7æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='7' THEN u1.FConsignAmount END),0),
+		[2017å¹´8æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='8' THEN u1.FConsignAmount END),0),
+		[2017å¹´9æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='9' THEN u1.FConsignAmount END),0),
+		[2017å¹´10æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='10' THEN u1.FConsignAmount END),0),
+		[2017å¹´11æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='11' THEN u1.FConsignAmount END),0),
+		[2017å¹´12æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='12' THEN u1.FConsignAmount END),0),
+		[2016é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2016' then u1.FConsignAmount END),0),
+		[2016å¹´1æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='1' THEN u1.FConsignAmount END),0),
+		[2016å¹´2æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='2' THEN u1.FConsignAmount END),0),
+		[2016å¹´3æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='3' THEN u1.FConsignAmount END),0),
+		[2016å¹´4æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='4' THEN u1.FConsignAmount END),0),
+		[2016å¹´5æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='5' THEN u1.FConsignAmount END),0),
+		[2016å¹´6æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='6' THEN u1.FConsignAmount END),0),
+		[2016å¹´7æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='7' THEN u1.FConsignAmount END),0),
+		[2016å¹´8æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='8' THEN u1.FConsignAmount END),0),
+		[2016å¹´9æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='9' THEN u1.FConsignAmount END),0),
+		[2016å¹´10æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='10' THEN u1.FConsignAmount END),0),
+		[2016å¹´11æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='11' THEN u1.FConsignAmount END),0),
+		[2016å¹´12æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='12' THEN u1.FConsignAmount END),0),
+		[2015é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2015' then u1.FConsignAmount END),0),
+		[2015å¹´1æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='1' THEN u1.FConsignAmount END),0),
+		[2015å¹´2æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='2' THEN u1.FConsignAmount END),0),
+		[2015å¹´3æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='3' THEN u1.FConsignAmount END),0),
+		[2015å¹´4æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='4' THEN u1.FConsignAmount END),0),
+		[2015å¹´5æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='5' THEN u1.FConsignAmount END),0),
+		[2015å¹´6æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='6' THEN u1.FConsignAmount END),0),
+		[2015å¹´7æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='7' THEN u1.FConsignAmount END),0),
+		[2015å¹´8æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='8' THEN u1.FConsignAmount END),0),
+		[2015å¹´9æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='9' THEN u1.FConsignAmount END),0),
+		[2015å¹´10æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='10' THEN u1.FConsignAmount END),0),
+		[2015å¹´11æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='11' THEN u1.FConsignAmount END),0),
+		[2015å¹´12æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='12' THEN u1.FConsignAmount END),0),
+		[2014é”€å”®é¢]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FConsignAmount END),0),
+		[2014å¹´1æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='1' THEN u1.FConsignAmount END),0),
+		[2014å¹´2æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='2' THEN u1.FConsignAmount END),0),
+		[2014å¹´3æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='3' THEN u1.FConsignAmount END),0),
+		[2014å¹´4æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='4' THEN u1.FConsignAmount END),0),
+		[2014å¹´5æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='5' THEN u1.FConsignAmount END),0),
+		[2014å¹´6æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='6' THEN u1.FConsignAmount END),0),
+		[2014å¹´7æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='7' THEN u1.FConsignAmount END),0),
+		[2014å¹´8æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='8' THEN u1.FConsignAmount END),0),
+		[2014å¹´9æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='9' THEN u1.FConsignAmount END),0),
+		[2014å¹´10æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='10' THEN u1.FConsignAmount END),0),
+		[2014å¹´11æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='11' THEN u1.FConsignAmount END),0),
+		[2014å¹´12æœˆé”€å”®é¢]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='12' THEN u1.FConsignAmount END),0),
+		--[7æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '7' then u1.FConsignAmount END),0),
+		--[8æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '8' then u1.FConsignAmount END),0),
+		--[9æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '9' then u1.FConsignAmount END),0),
+		--[10æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '10' then u1.FConsignAmount END),0),
+		--[11æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '11' then u1.FConsignAmount END),0),
+		--[12æœˆé”€å”®é¢]=ISNULL(SUM(CASE month(v1.FDate) when '12' then u1.FConsignAmount END),0),
+		[2017å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2017' then u1.FAuxQty END),0),
+		[2017å¹´1æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='1' then u1.FAuxQty END),0),
+		[2017å¹´2æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='2' then u1.FAuxQty END),0),
+		[2017å¹´3æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='3' then u1.FAuxQty END),0),
+		[2017å¹´4æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='4' then u1.FAuxQty END),0),
+		[2017å¹´5æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='5' then u1.FAuxQty END),0),
+		[2017å¹´6æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='6' then u1.FAuxQty END),0),
+		[2017å¹´7æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='7' then u1.FAuxQty END),0),
+		[2017å¹´8æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='8' then u1.FAuxQty END),0),
+		[2017å¹´9æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='9' then u1.FAuxQty END),0),
+		[2017å¹´10æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='10' then u1.FAuxQty END),0),
+		[2017å¹´11æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='11' then u1.FAuxQty END),0),
+		[2017å¹´12æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2017' AND Month(v1.FDate)='12' then u1.FAuxQty END),0),
+		[2016å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2016' then u1.FAuxQty END),0),
+		[2016å¹´1æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='1' then u1.FAuxQty END),0),
+		[2016å¹´2æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='2' then u1.FAuxQty END),0),
+		[2016å¹´3æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='3' then u1.FAuxQty END),0),
+		[2016å¹´4æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='4' then u1.FAuxQty END),0),
+		[2016å¹´5æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='5' then u1.FAuxQty END),0),
+		[2016å¹´6æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='6' then u1.FAuxQty END),0),
+		[2016å¹´7æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='7' then u1.FAuxQty END),0),
+		[2016å¹´8æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='8' then u1.FAuxQty END),0),
+		[2016å¹´9æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='9' then u1.FAuxQty END),0),
+		[2016å¹´10æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='10' then u1.FAuxQty END),0),
+		[2016å¹´11æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='11' then u1.FAuxQty END),0),
+		[2016å¹´12æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2016' AND Month(v1.FDate)='12' then u1.FAuxQty END),0),
+		[2015å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2015' then u1.FAuxQty END),0),
+		[2015å¹´1æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='1' then u1.FAuxQty END),0),
+		[2015å¹´2æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='2' then u1.FAuxQty END),0),
+		[2015å¹´3æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='3' then u1.FAuxQty END),0),
+		[2015å¹´4æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='4' then u1.FAuxQty END),0),
+		[2015å¹´5æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='5' then u1.FAuxQty END),0),
+		[2015å¹´6æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='6' then u1.FAuxQty END),0),
+		[2015å¹´7æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='7' then u1.FAuxQty END),0),
+		[2015å¹´8æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='8' then u1.FAuxQty END),0),
+		[2015å¹´9æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='9' then u1.FAuxQty END),0),
+		[2015å¹´10æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='10' then u1.FAuxQty END),0),
+		[2015å¹´11æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='11' then u1.FAuxQty END),0),
+		[2015å¹´12æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2015' AND Month(v1.FDate)='12' then u1.FAuxQty END),0),
+		[2014å‡ºè´§é‡]=ISNULL(SUM(CASE year(v1.FDate) when '2014' then u1.FAuxQty END),0),
+		[2014å¹´1æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='1' then u1.FAuxQty END),0),
+		[2014å¹´2æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='2' then u1.FAuxQty END),0),
+		[2014å¹´3æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='3' then u1.FAuxQty END),0),
+		[2014å¹´4æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='4' then u1.FAuxQty END),0),
+		[2014å¹´5æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='5' then u1.FAuxQty END),0),
+		[2014å¹´6æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='6' then u1.FAuxQty END),0),
+		[2014å¹´7æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='7' then u1.FAuxQty END),0),
+		[2014å¹´8æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='8' then u1.FAuxQty END),0),
+		[2014å¹´9æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='9' then u1.FAuxQty END),0),
+		[2014å¹´10æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='10' then u1.FAuxQty END),0),
+		[2014å¹´11æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='11' then u1.FAuxQty END),0),
+		[2014å¹´12æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE WHEN Year(v1.FDate)='2014' AND Month(v1.FDate)='12' then u1.FAuxQty END),0)
+		--[7æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '7' then u1.FAuxQty END),0),
+		--[8æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '8' then u1.FAuxQty END),0),
+		--[9æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '9' then u1.FAuxQty END),0),
+		--[10æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '10' then u1.FAuxQty END),0),
+		--[11æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '11' then u1.FAuxQty END),0),
+		--[12æœˆå‡ºè´§é‡]=ISNULL(SUM(CASE month(v1.FDate) when '12' then u1.FAuxQty END),0)
 --		sum(u1.FConsignAmount)
     --FROM t_xySaleReporttest
     --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
@@ -982,6 +982,180 @@ LEFT JOIN t_Item v5 ON v4.FParentID=v5.FItemID
 LEFT JOIN t_Item v6 ON v5.FParentID=v6.FItemID
 LEFT JOIN t_SubMessage v7 ON v2.FRegionID=v7.FInterID
 LEFT JOIN t_Emp v8 ON v2.Femployee=v8.FItemID
-where v3.FName='¶Ë×ÓÌ×ÊÂÒµ²¿'
-----where v4.FName='Î¢²¨Â¯'
-order by [FPro],[2017ÏúÊÛ¶î] desc
+where v3.FName='ç«¯å­å¥—äº‹ä¸šéƒ¨'
+----where v4.FName='å¾®æ³¢ç‚‰'
+order by [FPro],[2017é”€å”®é¢] desc
+
+
+
+DECLARE @Period char(4)
+SET @Period='2018' --ç»Ÿè®¡çš„å¹´æœˆ
+
+
+--ç»Ÿè®¡å¤„ç†
+DECLARE 
+	--@Last_Period char(6),
+	@Period_1 char(4),
+	@Period_2 char(4),
+	@Period_3 char(6),
+	@Period_4 char(6),
+	@Period_5 char(6),
+	@Period_6 char(6),
+	@Period_7 char(6),
+
+	@FMonth int,
+	@FIndex int
+SELECT 
+	--@Last_Period=CONVERT(char(6),DATEADD(Year,-1,@Period+'01'),112),
+	--@Period_1=@Period,
+	@Period_2=CONVERT(char(4),DATEADD(Year,1,@Period),112),
+	@Period_3=CONVERT(char(4),DATEADD(Year,2,@Period),112),
+	@Period_4=CONVERT(char(4),DATEADD(Year,3,@Period),112),
+	@Period_5=CONVERT(char(4),DATEADD(Year,4,@Period),112),
+	@Period_6=CONVERT(char(4),DATEADD(Year,5,@Period),112),
+	@Period_7=CONVERT(char(4),DATEADD(Year,6,@Period),112)
+SELECT FDepartment AS äº‹ä¸šéƒ¨,FBigTrade AS è¡Œä¸š,FCust as	å®¢æˆ·,
+	--P_Money AS 'å¹´é”€å”®é¢',
+	--P_AuxQty AS 'å¹´å‡ºè´§é‡',
+	--P_Money_1 AS '2009é”€å”®é¢',
+    P_Money_2 AS '2019é”€å”®é¢',
+    P_Money_3 AS '2020é”€å”®é¢',
+    P_Money_4 AS '2021é”€å”®é¢',
+    P_Money_5 AS '2022é”€å”®é¢',
+    P_Money_6 AS '2023é”€å”®é¢',
+	P_Money_7 AS '2024é”€å”®é¢',
+	--P_AuxQty_1 AS '2009å‡ºè´§é‡',
+    P_AuxQty_2 AS '2019å‡ºè´§é‡',
+    P_AuxQty_3 AS '2020å‡ºè´§é‡',
+    P_AuxQty_4 AS '2021å‡ºè´§é‡',
+    P_AuxQty_5 AS '2022å‡ºè´§é‡',
+    P_AuxQty_6 AS '2023å‡ºè´§é‡',
+	P_AuxQty_7 AS '2024å‡ºè´§é‡'
+FROM(
+    SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<é”€å”®éƒ¨åˆè®¡>' ELSE (v3.FName) END,
+        FBigTrade=CASE WHEN GROUPING(v7.FName)=1 THEN '<äº‹ä¸šéƒ¨åˆè®¡>' ELSE (v7.FName) END,    
+        FCust=CASE WHEN GROUPING(v2.FName)=1 THEN '<åœ°åŒºåˆè®¡>' ELSE (v2.FName) END,  
+		--P_Money=ISNULL(SUM(u1.FConsignAmount),0),
+        --P_AuxQty=ISNULL(SUM(u1.FAuxQty),0),
+        P_Money_1=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_1 THEN v1.FConsignAmount END),0),
+        P_Money_2=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_2 THEN v1.FConsignAmount END),0),
+        P_Money_3=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_3 THEN v1.FConsignAmount END),0),
+        P_Money_4=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_4 THEN v1.FConsignAmount END),0),
+        P_Money_5=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_5 THEN v1.FConsignAmount END),0),
+		P_Money_6=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_6 THEN v1.FConsignAmount END),0),
+		P_Money_7=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_7 THEN v1.FConsignAmount END),0),
+        P_AuxQty_1=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_1 THEN v1.FAuxQty END),0),
+        P_AuxQty_2=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_2 THEN v1.FAuxQty END),0),
+        P_AuxQty_3=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_3 THEN v1.FAuxQty END),0),
+        P_AuxQty_4=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_4 THEN v1.FAuxQty END),0),
+        P_AuxQty_5=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_5 THEN v1.FAuxQty END),0),
+        P_AuxQty_6=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_6 THEN v1.FAuxQty END),0),
+        P_AuxQty_7=ISNULL(SUM(CASE Year(v1.FDate) WHEN @Period_7 THEN v1.FAuxQty END),0)
+   --FROM t_xySaleReporttest
+    --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
+    FROM (
+	select t1.FSupplyID,t1.FDate,t2.FConsignAmount,t2.FAuxQty,t1.FTranType,t1.FCheckerID 
+	from [AIS20130811090352].[dbo].ICStockBill t1 
+	INNER JOIN [AIS20130811090352].[dbo].ICStockBillEntry t2 ON t1.FInterID=t2.FInterID
+	where year(t1.FDate)<='2012'
+	union all
+	select t1.FSupplyID,t1.FDate,t2.FConsignAmount,t2.FAuxQty,t1.FTranType,t1.FCheckerID 
+	from [AIS20140921170539].[dbo].ICStockBill t1 
+	INNER JOIN [AIS20140921170539].[dbo].ICStockBillEntry t2 ON t1.FInterID=t2.FInterID
+	where year(t1.FDate)>='2013') v1
+	LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
+	LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+	--LEFT JOIN t_Item v4 ON v1.FItemID=v4.FItemID
+	left join t_Item v5 ON v2.F_117=v5.FItemID
+	LEFT join t_Item v6 ON v2.FParentID=v6.FItemID
+	LEFT join t_Item v7 ON v6.FParentID=v7.FItemID
+    WHERE v1.FTranType=21 And v1.FCheckerID>0 
+	AND
+		year(v1.FDate) >=@Period
+		and month(v1.FDate)<='12'
+
+    GROUP BY v3.FName,v7.FName,v2.FName  WITH ROLLUP	
+	--ORDER BY u1.FConsignAmount
+    --HAVING GROUPING(FDepartment)=0 AND GROUPING(FbigTrade)=0 
+    )a
+    ORDER BY a.FDepartment,a.FBigTrade,P_Money_7 DESC
+
+
+	SELECT * FROM t_Organization
+
+	select * from t_FieldDescription where fdescription like '%çœ%'
+
+
+	--select * from t_xySaleReporttest
+use AIS20140921170539
+DECLARE @Period char(6)
+DECLARE @Department char(30)
+SET @Period='202410' --ç»Ÿè®¡çš„å¹´æœˆ
+SET @Department='åŒ»ç–—äº‹ä¸šéƒ¨'
+
+--SELECT MONTH(@Period+'01')
+
+--å¹´åº¦ç´¯è®¡é”€å”®é¢
+DECLARE @Last_Year char(6)
+SELECT @Last_Year=CONVERT(char(6),DATEADD(Year,-1,@Period+'01'),112)
+;WITH tongbihuanbi_year
+AS
+(
+    SELECT FDepartment,FBigTrade,FTrade,
+        C_Money,
+        L_Money,
+        CL_Money=C_Money-L_Money,
+        CL_Money_Rate=CASE
+                WHEN L_Money=0 THEN '----'
+                ELSE SUBSTRING('â†“ï¼â†‘',CAST(SIGN(C_Money-L_Money) as int)+2,1)
+                    +CAST(CAST(ABS(C_Money-L_Money)*100/(CASE WHEN L_Money =0 THEN 1 ELSE L_Money END) as decimal(10,2)) as varchar)+'%'
+            END,
+        C_AuxQty,
+        L_AuxQty,
+        CL_AunQty=C_AuxQty-L_AuxQty,
+        CL_AuxQty_Rate=CASE
+                WHEN L_AuxQty=0 THEN '----'
+                ELSE SUBSTRING('â†“ï¼â†‘',CAST(SIGN(C_AuxQty-L_AuxQty) as int)+2,1)
+                    +CAST(CAST(ABS(C_AuxQty-L_AuxQty)*100/(CASE WHEN L_AuxQty =0 THEN 1 ELSE L_AuxQty END) as decimal(10,2)) as varchar)+'%'
+            END
+    --into #tongbihuanbi_year
+    FROM(
+        SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<é”€å”®éƒ¨åˆè®¡>' ELSE (v3.FName) END,
+            FBigTrade=CASE WHEN GROUPING(v2.F_118)=1 THEN '<äº‹ä¸šéƒ¨åˆè®¡>' ELSE (v2.F_118) END,
+            FTrade=convert(varchar(10),min(v2.F_117)),    
+            C_Money=ISNULL(SUM(CASE WHEN year(v1.FDate) =year(@Period+'01') and MONTH(v1.FDate) <=MONTH(@Period+'01') THEN u1.FConsignAmount END),0),
+            L_Money=ISNULL(SUM(CASE WHEN year(v1.FDate) =year(@Last_Year+'01') and MONTH(v1.FDate) <=MONTH(@Last_Year+'01') THEN u1.FConsignAmount END),0),
+            C_AuxQty=ISNULL(SUM(CASE WHEN year(v1.FDate) =year(@Period+'01') and MONTH(v1.FDate) <=MONTH(@Period+'01') THEN u1.FAuxQty END),0),
+            L_AuxQty=ISNULL(SUM(CASE WHEN year(v1.FDate) =year(@Last_Year+'01') and MONTH(v1.FDate) <=MONTH(@Last_Year+'01') THEN u1.FAuxQty END),0)
+        --FROM t_xySaleReporttest
+        --select v1.FDate,v3.FName,v2.F_110,v2.Fname,u1.FAuxQty,u1.FConsignAmount
+        FROM ICStockBill v1 
+        INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
+        LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
+        LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+        LEFT JOIN t_Item v4 ON u1.FItemID=v4.FItemID
+
+        WHERE v1.FTranType=21 
+        GROUP BY v3.FName,v2.F_118  WITH ROLLUP	
+        --ORDER BY u1.FConsignAmount
+        --HAVING GROUPING(FDepartment)=0 AND GROUPING(FbigTrade)=0 
+        )a
+        --ORDER BY a.FDepartment,a.C_Money DESC
+)
+
+select 
+	t1.FDepartment AS äº‹ä¸šéƒ¨,
+	t1.FBigTrade AS æ–¹æ™®è¡Œä¸šç»“æ„,
+	t2.FName AS è¡Œä¸š,
+    C_Money AS æœ¬å¹´åŒæœŸç´¯è®¡é”€å”®é¢,
+    L_Money AS å»å¹´åŒæœŸç´¯è®¡é”€å”®é¢,
+    CL_Money AS ç´¯è®¡é”€å”®é¢åŒæ¯”,
+    CL_Money_Rate AS ç´¯è®¡é”€å”®é¢åŒæ¯”ç™¾åˆ†æ¯”,
+	C_AuxQty AS æœ¬å¹´åŒæœŸç´¯è®¡å‡ºè´§é‡,
+    L_AuxQty AS å»å¹´åŒæœŸç´¯è®¡å‡ºè´§é‡,
+    CL_AunQty AS å‡ºè´§é‡ç´¯è®¡åŒæ¯”,
+    CL_AuxQty_Rate AS ç´¯è®¡å‡ºè´§é‡åŒæ¯”ç™¾åˆ†æ¯”
+from tongbihuanbi_year t1
+left join t_Item t2 ON t1.FTrade=t2.FItemID
+WHERE t1.FDepartment=@Department
+order by t1.FDepartment,C_Money desc

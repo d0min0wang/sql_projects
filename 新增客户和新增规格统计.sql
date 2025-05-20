@@ -2,7 +2,7 @@
 declare @FYear AS int
 DECLARE @FMonth AS int
 SET @FYear=2024
-set @FMonth=6
+set @FMonth=12
 
 
 --新增客户销售额
@@ -62,12 +62,19 @@ AS
 	UNION ALL
 	SELECT * FROM CTE_CustID_LastYear
 	UNION ALL
-	SELECT FItemID,F_123 FROM t_Organization WHERE F_123>'2023-12-31' AND F_123<'2024-07-01'
+	SELECT FItemID,F_123 FROM t_Organization WHERE F_123>'2023-12-31' AND F_123<'2024-12-31'
 ),
 CTE_CustID
 AS
 (
-	SELECT distinct FSupplyID,FDate FROM CTE_CustID_Union
+	SELECT *
+  	FROM (
+                SELECT  FSupplyID,
+						fdate,
+                        ROW_NUMBER() OVER(PARTITION BY FSupplyID ORDER BY FSupplyID DESC) rn
+                    FROM CTE_CustID_Union
+              ) a
+	WHERE rn = 1
 )
 select t5.FName,sum(t3.FConsignAmount) as FConsignAmount FROM CTE_CustID t1
 LEFT JOIN ICStockBill t2 on t1.FSupplyID=t2.FSupplyID AND CAST(DATEDIFF(MONTH, t1.FDate, t2.FDate) AS INT)<12 AND CAST(DATEDIFF(MONTH, t1.FDate, t2.FDate) AS INT)>0
@@ -115,7 +122,14 @@ AS
 CTE_CustID
 AS
 (
-	SELECT distinct FSupplyID,FDate FROM CTE_CustID_Union
+	SELECT *
+  	FROM (
+                SELECT  FSupplyID,
+						fdate,
+                        ROW_NUMBER() OVER(PARTITION BY FSupplyID ORDER BY FSupplyID DESC) rn
+                    FROM CTE_CustID_Union
+              ) a
+	WHERE rn = 1
 )
 select t5.FName,COUNT(t1.FSupplyID) AS FCount FROM CTE_CustID t1
 left join t_Organization t4 on t1.FSupplyID=t4.FItemID
@@ -178,13 +192,20 @@ AS
 	SELECT * FROM CTE_CustID_ThisYear
 	UNION ALL
 	SELECT * FROM CTE_CustID_LastYear
-	--UNION ALL
-	--SELECT FItemID,F_123 FROM t_Organization WHERE F_123>'2023-12-31' AND F_123<'2024-07-01'
+	UNION ALL
+	SELECT FItemID,F_123 FROM t_Organization WHERE F_123>'2023-12-31' AND F_123<'2024-07-01'
 ),
 CTE_CustID
 AS
 (
-	SELECT distinct FSupplyID,FDate FROM CTE_CustID_Union
+	SELECT *
+  	FROM (
+                SELECT  FSupplyID,
+						fdate,
+                        ROW_NUMBER() OVER(PARTITION BY FSupplyID ORDER BY FSupplyID DESC) rn
+                    FROM CTE_CustID_Union
+              ) a
+	WHERE rn = 1
 )
 select t5.FName,sum(t3.FConsignAmount) AS FConsignAmount FROM CTE_CustID t1
 LEFT JOIN ICStockBill t2 on t1.FSupplyID=t2.FSupplyID AND CAST(DATEDIFF(MONTH, t1.FDate, t2.FDate) AS INT)<12 AND CAST(DATEDIFF(MONTH, t1.FDate, t2.FDate) AS INT)>0
@@ -234,9 +255,49 @@ AS
 CTE_CustID
 AS
 (
-	SELECT distinct FSupplyID,FDate FROM CTE_CustID_Union
+	SELECT *
+  	FROM (
+		SELECT  FSupplyID,
+				fdate,
+				ROW_NUMBER() OVER(PARTITION BY FSupplyID ORDER BY FSupplyID DESC) rn
+			FROM CTE_CustID_Union
+		) a
+	WHERE rn = 1
 )
 select t5.FName,COUNT(t1.FSupplyID) as FCount FROM CTE_CustID t1
+left join t_Organization t4 on t1.FSupplyID=t4.FItemID
+left join t_Department t5 on t4.FDepartment=t5.FItemID
+GROUP BY t5.FName 
+ORDER BY t5.FName 
+
+
+--全新开发客户数量（只计算有交易的客户）
+;WITH CTE_CustID_Trade
+AS
+(
+  SELECT T1.FSupplyID, T1.FDate
+		FROM
+			(select
+				v1.FSupplyID AS FSupplyID,
+				min(v1.FDate) as FDate
+			From ICStockBill v1
+				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
+			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear as varchar(4)) AND MONTH(v1.FDate)<=@FMonth
+			GROUP BY v1.FSupplyID) T1
+			LEFT JOIN
+			(select
+				v1.FSupplyID AS FSupplyID,
+				max(v1.FDate) as FDate
+			From ICStockBill v1
+				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
+			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear-1 as varchar(4)) --AND MONTH(v1.FDate)<=@FMonth
+			GROUP BY v1.FSupplyID) T2
+			ON T1.FSupplyID = T2.FSupplyID
+		WHERE (CASE WHEN T2.FDate IS NULL THEN 0 ELSE CAST(DATEDIFF(MONTH, T2.FDate, T1.FDate) AS INT) END) = 0
+
+)
+
+select t5.FName,COUNT(t1.FSupplyID) as FCount FROM CTE_CustID_Trade t1
 left join t_Organization t4 on t1.FSupplyID=t4.FItemID
 left join t_Department t5 on t4.FDepartment=t5.FItemID
 GROUP BY t5.FName 
@@ -248,12 +309,12 @@ ORDER BY t5.FName
 select '累计新增客户销售额(元)' AS fname, 
     t4.FName,
 	[销售额]=ISNULL(SUM(CASE WHEN
-                                (convert(varchar(10),t3.F_123,120)>='2023-01-01' and convert(varchar(10),t3.F_123,120)<'2023-07-01') and
-                                (convert(varchar(10),t1.FDate,120)>='2023-01-01' and convert(varchar(10),t1.FDate,120)<'2023-07-01')
+                                (convert(varchar(10),t3.F_123,120)>='2023-01-01' and convert(varchar(10),t3.F_123,120)<'2024-10-01') and
+                                (convert(varchar(10),t1.FDate,120)>='2023-01-01' and convert(varchar(10),t1.FDate,120)<'2024-10-01')
                                   then t2.FConsignAmount END),0),
     [今年]=ISNULL(SUM(CASE WHEN
-                                (convert(varchar(10),t3.F_123,120)>='2024-01-01' and convert(varchar(10),t3.F_123,120)<'2024-07-01') and
-                                (convert(varchar(10),t1.FDate,120)>='2024-01-01' and convert(varchar(10),t1.FDate,120)<'2024-07-01')
+                                (convert(varchar(10),t3.F_123,120)>='2024-01-01' and convert(varchar(10),t3.F_123,120)<'2025-10-01') and
+                                (convert(varchar(10),t1.FDate,120)>='2024-01-01' and convert(varchar(10),t1.FDate,120)<'2025-10-01')
                                   then t2.FConsignAmount END),0)
 from ICStockBill t1 
 INNER JOIN ICStockBillEntry t2 ON t1.FInterID=t2.FInterID
@@ -270,12 +331,12 @@ GROUP BY t4.fname
 SELECT  '累计新增规格销售额(元)' AS fname,
         t4.fname as fdepartment,
 		[销售额]=ISNULL(SUM(CASE WHEN
-                                (convert(varchar(10),t2.FCreateDate,120)>='2023-01-01' and convert(varchar(10),t2.FCreateDate,120)<'2023-07-01') and
-                                (convert(varchar(10),v1.FDate,120)>='2023-01-01' and convert(varchar(10),v1.FDate,120)<'2023-07-01')
+                                (convert(varchar(10),t2.FCreateDate,120)>='2023-01-01' and convert(varchar(10),t2.FCreateDate,120)<'2024-01-01') and
+                                (convert(varchar(10),v1.FDate,120)>='2023-01-01' and convert(varchar(10),v1.FDate,120)<'2024-01-01')
                                   then u1.FConsignAmount END),0),
         [今年]=ISNULL(SUM(CASE WHEN
-                                (convert(varchar(10),t2.FCreateDate,120)>='2024-01-01' and convert(varchar(10),t2.FCreateDate,120)<'2024-07-01') and
-                                (convert(varchar(10),v1.FDate,120)>='2024-01-01' and convert(varchar(10),v1.FDate,120)<'2024-07-01')
+                                (convert(varchar(10),t2.FCreateDate,120)>='2024-01-01' and convert(varchar(10),t2.FCreateDate,120)<'2025-01-01') and
+                                (convert(varchar(10),v1.FDate,120)>='2024-01-01' and convert(varchar(10),v1.FDate,120)<'2025-01-01')
                                   then u1.FConsignAmount END),0)
 --		sum(u1.FConsignAmount)
     --FROM t_xySaleReporttest

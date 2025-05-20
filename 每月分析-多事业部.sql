@@ -21,8 +21,8 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202407' --统计的年月
-SET @Department='健康事业部'
+SET @Period='202503' --统计的年月
+SET @Department='通信事业部'
 
 --SELECT MONTH(@Period+'01')
 
@@ -195,7 +195,7 @@ SELECT @Last_Period=CONVERT(char(6),DATEADD(Year,-1,@Period+'01'),112),
  ;WITH tongbihuanbi
 AS
 (
-    SELECT FDepartment,FCustName,FTrade,
+    SELECT FDepartment,FCustName,FEmp,FTrade,
         C_Money,
         L_Money,
         CL_Money=C_Money-L_Money,
@@ -230,7 +230,8 @@ AS
     FROM(
         SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<销售部合计>' ELSE (v3.FName) END,
             FCustName=CASE WHEN GROUPING(v2.FName)=1 THEN '<事业部合计>' ELSE (v2.FName) END,
-            FTrade=convert(varchar(10),min(v2.F_117)),    
+            FEmp=CASE WHEN GROUPING(v2.FName)=1 THEN null ELSE convert(varchar(10),min(v2.Femployee)) end,    
+            FTrade=CASE WHEN GROUPING(v2.FName)=1 THEN null ELSE convert(varchar(10),min(v2.F_117)) end,    
             C_Money=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Period THEN u1.FConsignAmount END),0),
             L_Money=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Last_Period THEN u1.FConsignAmount END),0),
             P_Money=ISNULL(SUM(CASE CONVERT(char(6),v1.FDate,112) WHEN @Previous_Period THEN u1.FConsignAmount END),0),
@@ -244,6 +245,7 @@ AS
         LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
         LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
         LEFT JOIN t_Item v4 ON u1.FItemID=v4.FItemID
+        --LEFT join t_Emp v5 ON v2.Femployee=v5.FItemID
 
         WHERE v1.FTranType=21 And
             CONVERT(char(6),v1.FDate,112) IN(@Last_Period,@Previous_Period,@Period)
@@ -257,7 +259,8 @@ AS
 
 select 
 	t1.FDepartment AS 事业部,
-	t1.FCustName AS 方普行业结构,
+	t1.FCustName AS 客户名称,
+    t3.FName as 业务员,
 	t2.FName AS 行业,
     C_Money AS 本年同期销售额,
     L_Money AS 去年同期销售额,
@@ -275,6 +278,7 @@ select
     CP_AuxQty_Rate AS 出货量环比百分比
 from tongbihuanbi t1
 left join t_Item t2 ON t1.FTrade=t2.FItemID
+LEFT JOIN t_Emp t3 ON t1.femp=t3.FItemID
 WHERE t1.FDepartment=@Department
 order by t1.FDepartment,C_Money desc
 
@@ -468,7 +472,7 @@ SELECT @Last_Year=CONVERT(char(6),DATEADD(Year,-1,@Period+'01'),112)
 ;WITH tongbihuanbi_year
 AS
 (
-    SELECT FDepartment,FCustName,FTrade,
+    SELECT FDepartment,FCustName,FEmp,FTrade,
         C_Money,
         L_Money,
         CL_Money=C_Money-L_Money,
@@ -489,7 +493,8 @@ AS
     FROM(
         SELECT FDepartment=CASE WHEN GROUPING(v3.FName)=1 THEN '<销售部合计>' ELSE (v3.FName) END,
             FCustName=CASE WHEN GROUPING(v2.FName)=1 THEN '<事业部合计>' ELSE (v2.FName) END,
-            FTrade=convert(varchar(10),min(v2.F_117)),    
+            FEmp=CASE WHEN GROUPING(v2.FName)=1 THEN null ELSE convert(varchar(10),min(v2.Femployee)) end,    
+            FTrade=CASE WHEN GROUPING(v2.FName)=1 THEN null ELSE convert(varchar(10),min(v2.F_117)) end,    
             C_Money=ISNULL(SUM(CASE WHEN year(v1.FDate) =year(@Period+'01') and MONTH(v1.FDate) <=MONTH(@Period+'01') THEN u1.FConsignAmount END),0),
             L_Money=ISNULL(SUM(CASE WHEN year(v1.FDate) =year(@Last_Year+'01') and MONTH(v1.FDate) <=MONTH(@Last_Year+'01') THEN u1.FConsignAmount END),0),
             C_AuxQty=ISNULL(SUM(CASE WHEN year(v1.FDate) =year(@Period+'01') and MONTH(v1.FDate) <=MONTH(@Period+'01') THEN u1.FAuxQty END),0),
@@ -512,7 +517,8 @@ AS
 
 select 
 	t1.FDepartment AS 事业部,
-	t1.FCustName AS 方普行业结构,
+	t1.FCustName AS 客户名称,
+    t3.FName as 业务员,
 	t2.FName AS 行业,
     C_Money AS 本年同期累计销售额,
     L_Money AS 去年同期累计销售额,
@@ -524,6 +530,7 @@ select
     CL_AuxQty_Rate AS 累计出货量同比百分比
 from tongbihuanbi_year t1
 left join t_Item t2 ON t1.FTrade=t2.FItemID
+LEFT JOIN t_Emp t3 ON t1.femp=t3.FItemID
 WHERE t1.FDepartment=@Department
 order by t1.FDepartment,C_Money desc
 
