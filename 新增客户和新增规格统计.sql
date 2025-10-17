@@ -2,7 +2,7 @@
 declare @FYear AS int
 DECLARE @FMonth AS int
 SET @FYear=2024
-set @FMonth=12
+set @FMonth=7
 
 
 --新增客户销售额
@@ -62,7 +62,7 @@ AS
 	UNION ALL
 	SELECT * FROM CTE_CustID_LastYear
 	UNION ALL
-	SELECT FItemID,F_123 FROM t_Organization WHERE F_123>'2023-12-31' AND F_123<'2024-12-31'
+	SELECT FItemID,F_123 FROM t_Organization WHERE YEAR(F_123)=CAST(@FYear as varchar(4)) AND MONTH(F_123)<=@FMonth
 ),
 CTE_CustID
 AS
@@ -124,10 +124,10 @@ AS
 (
 	SELECT *
   	FROM (
-                SELECT  FSupplyID,
-						fdate,
-                        ROW_NUMBER() OVER(PARTITION BY FSupplyID ORDER BY FSupplyID DESC) rn
-                    FROM CTE_CustID_Union
+		SELECT  FSupplyID,
+				fdate,
+				ROW_NUMBER() OVER(PARTITION BY FSupplyID ORDER BY FSupplyID DESC) rn
+			FROM CTE_CustID_Union
               ) a
 	WHERE rn = 1
 )
@@ -193,17 +193,17 @@ AS
 	UNION ALL
 	SELECT * FROM CTE_CustID_LastYear
 	UNION ALL
-	SELECT FItemID,F_123 FROM t_Organization WHERE F_123>'2023-12-31' AND F_123<'2024-07-01'
+	SELECT FItemID,F_123 FROM t_Organization WHERE YEAR(F_123)=CAST(@FYear as varchar(4)) AND MONTH(F_123)<=@FMonth
 ),
 CTE_CustID
 AS
 (
 	SELECT *
   	FROM (
-                SELECT  FSupplyID,
-						fdate,
-                        ROW_NUMBER() OVER(PARTITION BY FSupplyID ORDER BY FSupplyID DESC) rn
-                    FROM CTE_CustID_Union
+		SELECT  FSupplyID,
+				fdate,
+				ROW_NUMBER() OVER(PARTITION BY FSupplyID ORDER BY FSupplyID DESC) rn
+			FROM CTE_CustID_Union
               ) a
 	WHERE rn = 1
 )
@@ -239,7 +239,7 @@ AS
 				max(v1.FDate) as FDate
 			From ICStockBill v1
 				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
-			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear-1 as varchar(4)) --AND MONTH(v1.FDate)<=@FMonth
+			where v1.FTranType=21 and year(v1.FDate)<=CAST(@FYear-1 as varchar(4)) --AND MONTH(v1.FDate)<=@FMonth
 			GROUP BY v1.FSupplyID) T2
 			ON T1.FSupplyID = T2.FSupplyID
 		WHERE (CASE WHEN T2.FDate IS NULL THEN 0 ELSE CAST(DATEDIFF(MONTH, T2.FDate, T1.FDate) AS INT) END) = 0
@@ -290,7 +290,7 @@ AS
 				max(v1.FDate) as FDate
 			From ICStockBill v1
 				inner join ICStockBillEntry u1 on u1.FInterID=v1.FInterID
-			where v1.FTranType=21 and year(v1.FDate)=CAST(@FYear-1 as varchar(4)) --AND MONTH(v1.FDate)<=@FMonth
+			where v1.FTranType=21 and year(v1.FDate)<=CAST(@FYear-1 as varchar(4)) --AND MONTH(v1.FDate)<=@FMonth
 			GROUP BY v1.FSupplyID) T2
 			ON T1.FSupplyID = T2.FSupplyID
 		WHERE (CASE WHEN T2.FDate IS NULL THEN 0 ELSE CAST(DATEDIFF(MONTH, T2.FDate, T1.FDate) AS INT) END) = 0
@@ -355,3 +355,4 @@ SELECT  '累计新增规格销售额(元)' AS fname,
 	--and month(v1.FDate)<='6'
 	and v1.FTranType=21  AND (v1.FROB=1 AND  v1.FCancellation = 0)
     GROUP BY t4.fname
+

@@ -21,8 +21,8 @@
 use AIS20140921170539
 DECLARE @Period char(6)
 DECLARE @Department char(30)
-SET @Period='202505' --统计的年月
-SET @Department='新能源事业部'
+SET @Period='202508' --统计的年月
+SET @Department='健康事业部'
 
 --SELECT MONTH(@Period+'01')
 
@@ -63,7 +63,8 @@ AS
         FROM ICStockBill v1 
         INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
         LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
-        LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+        LEFT JOIN t_Item v3 ON v1.FDeptID=v3.FItemID
+        --LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
         LEFT JOIN t_Item v4 ON u1.FItemID=v4.FItemID
 
         WHERE v1.FTranType=21 
@@ -148,7 +149,8 @@ AS
         FROM ICStockBill v1 
         INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
         LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
-        LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+        LEFT JOIN t_Item v3 ON v1.FDeptID=v3.FItemID
+        --LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
         LEFT JOIN t_Item v4 ON u1.FItemID=v4.FItemID
 
         WHERE v1.FTranType=21 And
@@ -243,7 +245,8 @@ AS
         FROM ICStockBill v1 
         INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
         LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
-        LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+        LEFT JOIN t_Item v3 ON v1.FDeptID=v3.FItemID
+        --LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
         LEFT JOIN t_Item v4 ON u1.FItemID=v4.FItemID
         --LEFT join t_Emp v5 ON v2.Femployee=v5.FItemID
 
@@ -375,7 +378,8 @@ FROM(
     FROM ICStockBill v1 
 	INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
 	LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
-	LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+	LEFT JOIN t_Item v3 ON v1.FDeptID=v3.FItemID
+        --LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
 	LEFT JOIN t_Item v4 ON u1.FItemID=v4.FItemID
 	left join t_Item v5 ON v2.F_117=v5.FItemID
     WHERE v1.FTranType=21 And v1.FCheckerID>0 AND
@@ -450,7 +454,8 @@ SELECT --v3.FName,
 	group by v1.FSupplyID) t1
 
 LEFT JOIN t_Organization v2 ON t1.FSupplyID=v2.FItemID
-LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+LEFT JOIN t_Item v3 ON v1.FDeptID=v3.FItemID
+        --LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
 LEFT JOIN t_Item v4 ON v2.F_117=v4.FItemID
 LEFT JOIN t_Item v5 ON v4.FParentID=v5.FItemID
 LEFT JOIN t_Item v6 ON v5.FParentID=v6.FItemID
@@ -504,7 +509,8 @@ AS
         FROM ICStockBill v1 
         INNER JOIN ICStockBillEntry u1 ON u1.FInterID=v1.FInterID
         LEFT JOIN t_Organization v2 ON v1.FSupplyID=v2.FItemID
-        LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
+        LEFT JOIN t_Item v3 ON v1.FDeptID=v3.FItemID
+        --LEFT JOIN t_Item v3 ON v2.Fdepartment=v3.FItemID
         LEFT JOIN t_Item v4 ON u1.FItemID=v4.FItemID
 
         WHERE v1.FTranType=21 
@@ -535,5 +541,4 @@ WHERE t1.FDepartment=@Department
 order by t1.FDepartment,C_Money desc
 
 --drop table #tongbihuanbi_year
-
 

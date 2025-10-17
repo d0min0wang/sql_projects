@@ -1,5 +1,5 @@
 use AIS20140921170539
---新增规格，并发生销售额
+--累计新增规格，并发生销售额
 IF OBJECT_ID('tempdb.dbo.#temp1','U') IS NOT NULL DROP TABLE dbo.#temp1;
 IF OBJECT_ID('tempdb.dbo.#temp2','U') IS NOT NULL DROP TABLE dbo.#temp2;
 
@@ -12,6 +12,10 @@ DECLARE @sql AS NVARCHAR(max)
 
 --select @sql
 --SELECT * FROM t_Department WHERE FParentID=75
+ 
+
+--AND (t6.FNumber in ('90','91','92','93') OR t5.FNumber in ('90','91','92','93') OR t4.FNumber in ('90','91','92','93'))
+--AND t3.FName IN ('电气连接国内事业部','电气连接事业部','医疗事业部','食品设备事业部','健康事业部','通信事业部','新能源事业部')
 
 SELECT  
     t1.FName AS fitemname,
@@ -28,9 +32,10 @@ LEFT JOIN t_Organization t3 ON v1.FSupplyID=t3.FItemID
 LEFT JOIN t_Department t4 ON t3.Fdepartment=t4.FItemID
 left join t_Item t5 ON t3.F_117=t5.FItemID
 LEFT JOIN t_Department t6 ON t1.FSource=t6.FItemID
-WHERE YEAR(v1.FDate) ='2025' AND MONTH(v1.FDate)<='02'
+WHERE YEAR(v1.FDate) ='2025' AND MONTH(v1.FDate)<='06'
 and 
-YEAR(t2.FCreateDate) in ('2025') AND MONTH(t2.FCreateDate)<='02'
+YEAR(t2.FCreateDate) in ('2025') AND MONTH(t2.FCreateDate)='06'
+--AND (t6.FNumber in ('90','91','92','93') OR t5.FNumber in ('90','91','92','93') OR t4.FNumber in ('90','91','92','93'))
 --where year(v1.FDate)IN ('2022') 
 --and year(t2.FCreateDate) in ('2022')
 --and month(v1.FDate)<='6'
